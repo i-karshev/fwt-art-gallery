@@ -16,7 +16,17 @@ export const ThemeToggle = () => {
       }`}
       onClick={toggleTheme}
     >
-      {isDarkTheme ? <LightIcon /> : <DarkIcon />}
+      {isDarkTheme ? (
+          <>
+            <div className={styles.themeToggle__icon} ><LightIcon /></div>
+            <span className={styles.themeToggle__text}>Light mode</span>
+          </>
+      ) : (
+          <>
+            <div className={styles.themeToggle__icon} ><DarkIcon /></div>
+            <span className={styles.themeToggle__text}>Dark mode</span>
+          </>
+      )}
     </div>
   );
 };

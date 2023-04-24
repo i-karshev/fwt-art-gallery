@@ -1,20 +1,41 @@
 @import "./../../assets/scss/colors";
 
 .themeToggle {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+  color: $color-primary-dark-gray;
 
-  &_dark {
-    background-color: $color-secondary-black;
-    color: $color-primary-light-gray;
-  }
-  &_light {
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: $color-secondary-white;
-    color: $color-primary-dark-gray;
+  }
+
+  &__text {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    text-decoration: underline;
+
+    @media (min-width: 1280px) {
+      display: none;
+    }
+  }
+
+  &_dark & {
+    &__icon {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+    }
+    &__text {
+      color: $color-primary-light-gray;
+    }
   }
 }
