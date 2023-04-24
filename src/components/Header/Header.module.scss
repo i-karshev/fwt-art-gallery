@@ -1,0 +1,110 @@
+@import "./../../assets/scss/colors";
+@import "./../../assets/scss/mixins";
+
+.header {
+ &__content {
+   height: 80px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   .logo {
+     color: $color-primary-dark-gray;
+     &_dark {
+       color: $color-primary-light-gray;
+     }
+   }
+
+   .menu__btn {
+     z-index: 100;
+   }
+   @media (min-width: 769px) {
+     .menu__btn {
+       display: none;
+     }
+   }
+
+   //&__menu {
+   //  display: none;
+   //}
+
+   &__menu_open {
+     position: fixed;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     width: 100%;
+     background-color: rgba(3, 3, 3, 0.3);
+     display: flex;
+     justify-content: flex-end;
+     z-index: 99;
+
+     @media (min-width: 769px) {
+       position: static;
+       background-color: transparent;
+     }
+
+     .nav {
+       background-color: $color-secondary-white;
+       width: 100%;
+       height: 100%;
+       right: 0;
+       max-width: 252px;
+       display: flex;
+       flex-direction: column-reverse;
+       justify-content: flex-end;
+       padding-top: 200px;
+       padding-left: 47px;
+
+       @media (min-width: 768px) {
+         min-width: 466px;
+       }
+
+       @media (min-width: 769px) {
+         width: 100%;
+         background-color: transparent;
+         flex-direction: row;
+         justify-content: end;
+         align-items: center;
+         padding: 0;
+
+       }
+
+       ul {
+         list-style: none;
+         margin-top: 40px;
+
+         @media (min-width: 769px) {
+           margin-top: 0;
+           margin-right: 60px;
+           display: flex;
+           gap: 20px;
+         }
+
+         li {
+           font-family: 'Cormorant SC', sans-serif;
+           font-style: normal;
+           font-weight: 600;
+           font-size: 32px;
+           line-height: 100%;
+           text-transform: uppercase;
+
+           @media (min-width: 769px) {
+             margin-bottom: 0;
+             font-weight: 700;
+             font-size: 16px;
+             line-height: 128%;
+           }
+
+           &:not(:last-child) {
+             margin-bottom: 32px;
+             @media (min-width: 769px) {
+               margin-bottom: 0;
+             }
+           }
+         }
+       }
+     }
+   }
+ }
+}
