@@ -1,14 +1,17 @@
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {setupListeners} from "@reduxjs/toolkit/query";
-import { artistReducer } from "./reducers/ArtistSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { artistReducer } from './reducers/ArtistSlice';
+import { apiService } from '../api';
 
 const rootReducer = combineReducers({
-    artistReducer,
-})
+  artistReducer,
+  [apiService.reducerPath]: apiService.reducer,
+});
 
 const rootStore = configureStore({
-    reducer: rootReducer
-})
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiService.middleware),
+});
 
 export const setupStore = () => rootStore;
 
