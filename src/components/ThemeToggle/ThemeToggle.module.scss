@@ -8,6 +8,10 @@
     &__icon {
       background-color: $color-secondary-black;
       color: $color-primary-light-gray;
+
+      &:hover {
+        color: $color-primary-white;
+      }
     }
     &__text {
       color: $color-primary-light-gray;
@@ -23,6 +27,10 @@
     justify-content: center;
     background-color: $color-secondary-white;
     color: $color-primary-dark-gray;
+
+    &:hover {
+      color: $color-primary-black;
+    }
   }
 
   &__text {
