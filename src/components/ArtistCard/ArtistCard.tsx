@@ -5,7 +5,7 @@ import { ThemeContext } from '../../context/ThemeProvider';
 import { IArtistStatic } from '../../types/IArtist';
 import { API_BASE_URL } from '../../constans';
 import { ReactComponent as ArrowIcon } from '../../assets/svg/arrow_icon_v2.svg';
-import styles from '../Gallery/Gallery.module.scss';
+import styles from './ArtistCard.module.scss';
 
 const cx = cn.bind(styles);
 
@@ -27,7 +27,12 @@ export const ArtistCard: FC<ArtistCardProps> = ({
 
   return (
     <li className={cx('artist', { artist_dark: isDarkTheme })}>
-      <img loading="lazy" src={`${API_BASE_URL}${mainPainting.image.webp}`} alt={name} />
+      <img
+        className={cx('artist__img')}
+        loading="lazy"
+        src={`${API_BASE_URL}${mainPainting.image.webp}`}
+        alt={name}
+      />
       <div className={cx('artist__info')}>
         <div className={cx('artist__text')}>
           <p className={cx('artist__name')}>{name}</p>

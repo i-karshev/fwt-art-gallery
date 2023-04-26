@@ -19,7 +19,7 @@ export interface IArtistStatic {
   mainPainting: {
     _id: string;
     name: string;
-    yearOfCreation: number;
+    yearOfCreation: string;
     image: IImage;
     artist: string;
   };
