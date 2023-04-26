@@ -1,11 +1,10 @@
-@import "fonts";
-@import 'colors';
-
 html {
   box-sizing: border-box;
 }
 
-*,*::after,*::before {
+*,
+*::after,
+*::before {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
@@ -15,7 +14,6 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -35,4 +33,3 @@ button {
   background-color: $color-primary-white;
   color: $color-primary-dark-gray;
 }
-

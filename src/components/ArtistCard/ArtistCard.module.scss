@@ -1,0 +1,106 @@
+.artist {
+  position: relative;
+  aspect-ratio: 8 / 5;
+
+  &_dark & {
+    &__info {
+      background-color: $color-primary-black;
+    }
+    &__text {
+      border-color: $color-accent-gold;
+    }
+    &__name {
+      color: $color-primary-light-gray;
+    }
+    &__yearsOfLife {
+      color: $color-accent-gold;
+    }
+    &__btn {
+      background-color: $color-accent-gold;
+    }
+  }
+
+  &__info {
+    position: absolute;
+    bottom: 0;
+    background-color: $color-primary-white;
+    width: 260px;
+    display: flex;
+    justify-content: space-between;
+
+    @include md {
+      width: 324px;
+    }
+
+    @include lg {
+      width: 300px;
+    }
+  }
+
+  &__text {
+    margin: 8px 0;
+    padding-left: 12px;
+
+    @include md {
+      margin: 12px 0;
+    }
+    @include lg {
+      border-left: 2px solid;
+      border-color: $color-accent-red;
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+  }
+
+  &__name {
+    font-family: 'Cormorant SC', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: $color-primary-black;
+
+    @include md {
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+
+  &__yearsOfLife {
+    margin-top: 4px;
+    font-weight: 700;
+    font-size: 8px;
+    line-height: 10px;
+    color: $color-accent-red;
+
+    @include md {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+
+  &__btn {
+    height: 45px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    background-color: $color-accent-red;
+    color: $color-primary-light-gray;
+
+    @include md {
+      height: 66px;
+    }
+
+    @include lg {
+      display: none;
+    }
+  }
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}

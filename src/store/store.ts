@@ -1,14 +1,14 @@
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {setupListeners} from "@reduxjs/toolkit/query";
-import { artistReducer } from "./reducers/ArtistSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { artistReducer } from './reducers/ArtistSlice';
 
 const rootReducer = combineReducers({
-    artistReducer,
-})
+  artistReducer,
+});
 
 const rootStore = configureStore({
-    reducer: rootReducer
-})
+  reducer: rootReducer,
+});
 
 export const setupStore = () => rootStore;
 
