@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames/bind';
 
-import { ThemeContext } from '../../context/ThemeProvider';
-import { Container } from '../Container';
-import { ReactComponent as FacebookIcon } from '../../assets/svg/facebook_icon.svg';
-import { ReactComponent as VkIcon } from '../../assets/svg/vk_icon.svg';
-import { ReactComponent as InstagramIcon } from '../../assets/svg/instagram_icon.svg';
+import { ThemeContext } from '@/context/ThemeProvider';
+import { Container } from '@/components/Container';
+import { ReactComponent as FacebookIcon } from '@/assets/svg/facebook_icon.svg';
+import { ReactComponent as VkIcon } from '@/assets/svg/vk_icon.svg';
+import { ReactComponent as InstagramIcon } from '@/assets/svg/instagram_icon.svg';
 import styles from './Footer.module.scss';
 
 const cx = cn.bind(styles);

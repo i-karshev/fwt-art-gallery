@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import cn from 'classnames/bind';
 
-import { ArtistCard } from '../ArtistCard';
-import { IArtistStatic } from '@/src/types/IArtist';
-import { Container } from '../Container';
+import { IArtistStatic } from '@/types/IArtist';
+import { Container } from '@/components/Container';
 
 import styles from './Gallery.module.scss';
+import { ArtistCard } from '@/components/ArtistCard/ArtistCard';
 
 const cx = cn.bind(styles);
 
@@ -17,8 +17,7 @@ export const Gallery: FC<ArtistListProps> = ({ artists }) => (
   <Container>
     <div className={cx('gallery')}>
       <ul className={cx('gallery__list')}>
-        {artists && // eslint-disable-next-line no-underscore-dangle
-          artists.map((artist) => <ArtistCard key={artist._id} artist={artist} />)}
+        {artists && artists.map((artist) => <ArtistCard key={artist._id} artist={artist} />)}
       </ul>
     </div>
   </Container>

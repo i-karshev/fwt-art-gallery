@@ -1,4 +1,4 @@
-.artist {
+.card {
   position: relative;
   aspect-ratio: 8 / 5;
   overflow: hidden;
@@ -6,17 +6,17 @@
   &_dark & {
     &__info {
       background-color: $color-primary-black;
+      &:before {
+        border-color: $color-accent-gold;
+      }
     }
-    &__text {
-      border-color: $color-accent-gold;
-    }
-    &__name {
+    &__title {
       color: $color-primary-light-gray;
     }
-    &__yearsOfLife {
+    &__subtitle {
       color: $color-accent-gold;
     }
-    &__btn {
+    &__arrow {
       background-color: $color-accent-gold;
     }
   }
@@ -24,36 +24,33 @@
   &__info {
     position: absolute;
     bottom: 0;
-    background-color: $color-primary-white;
     width: 260px;
-    display: flex;
-    justify-content: space-between;
+    padding: 8px 0 8px 12px;
+    background-color: $color-primary-white;
+    pointer-events: none;
 
     @include md {
+      padding: 12px 0 12px 12px;
       width: 324px;
     }
 
     @include lg {
+      padding: 20px 0 20px 20px;
       width: 300px;
+
+      &:before {
+        content: '';
+        border-left: 2px solid;
+        border-color: $color-accent-red;
+        position: absolute;
+        height: 42px;
+        left: 0;
+        top: 25%;
+      }
     }
   }
 
-  &__text {
-    margin: 8px 0;
-    padding-left: 12px;
-
-    @include md {
-      margin: 12px 0;
-    }
-    @include lg {
-      border-left: 2px solid;
-      border-color: $color-accent-red;
-      margin: 20px 0;
-      padding-left: 20px;
-    }
-  }
-
-  &__name {
+  &__title {
     font-family: 'Cormorant SC', sans-serif;
     font-weight: 500;
     font-size: 12px;
@@ -67,7 +64,7 @@
     }
   }
 
-  &__yearsOfLife {
+  &__subtitle {
     margin-top: 4px;
     font-weight: 700;
     font-size: 8px;
@@ -81,17 +78,16 @@
     }
   }
 
-  &__btn {
-    height: 45px;
+  &__arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
     width: 24px;
     display: flex;
     align-items: center;
     background-color: $color-accent-red;
     color: $color-primary-light-gray;
-
-    @include md {
-      height: 66px;
-    }
 
     @include lg {
       display: none;
@@ -103,10 +99,15 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: 0.5s ease-out;
 
-    &:hover {
-      transform: scale(1.2);
+    &_scale {
+      transition: 0.5s ease-out;
+
+      @include lg {
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
     }
   }
 }

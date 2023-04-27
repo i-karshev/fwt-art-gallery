@@ -29,7 +29,7 @@
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint --ext .ts,.tsx src --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,scss,md,json}\" --config ./.prettierrc.json"
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss,json}\" --config ./.prettierrc.json"
   },
   "browserslist": {
     "production": [

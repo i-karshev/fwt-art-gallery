@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import cn from 'classnames/bind';
 
-import { ThemeContext } from '../../context/ThemeProvider';
-import { ThemeToggle } from '../ThemeToggle';
-import { Container } from '../Container';
+import { ThemeContext } from '@/context/ThemeProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { Container } from '@/components/Container';
 
-import { ReactComponent as LogoIcon } from '../../assets/svg/logo.svg';
-import { ReactComponent as BurgerIcon } from '../../assets/svg/buger_icon.svg';
-import { ReactComponent as CloseIcon } from '../../assets/svg/close_icon.svg';
+import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
+import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
+import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import styles from './Header.module.scss';
 
 const cx = cn.bind(styles);
