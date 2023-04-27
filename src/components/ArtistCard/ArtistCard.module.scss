@@ -1,6 +1,7 @@
 .artist {
   position: relative;
   aspect-ratio: 8 / 5;
+  overflow: hidden;
 
   &_dark & {
     &__info {
@@ -102,5 +103,10 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: 0.5s ease-out;
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 }
