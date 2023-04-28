@@ -1,0 +1,21 @@
+{
+  "arrowParens": "avoid",
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["*.json"],
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "options": {
+        "arrowParens": "always"
+      }
+    }
+  ]
+}
