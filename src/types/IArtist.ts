@@ -1,5 +1,14 @@
 import { IImage } from './IImage';
 
+export interface Artist {
+  genres: string[];
+  _id: string;
+  name: string;
+  description: string;
+  yearsOfLife: string;
+  avatar?: IImage;
+}
+
 export interface IArtistStatic {
   genres: string[];
   _id: string;
@@ -10,17 +19,8 @@ export interface IArtistStatic {
   mainPainting: {
     _id: string;
     name: string;
-    yearOfCreation: number;
+    yearOfCreation: string;
     image: IImage;
     artist: string;
   };
-}
-
-export interface IArtist {
-  genres: string[];
-  _id: string;
-  name: string;
-  description: string;
-  yearsOfLife: string;
-  avatar?: IImage;
 }

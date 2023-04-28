@@ -1,16 +1,18 @@
 import React from 'react';
+import cn from 'classnames/bind';
 
-import styles from './App.module.scss';
 import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { Gallery } from '../Gallery';
 
+import styles from './App.module.scss';
+
+const cx = cn.bind(styles);
+
 export const App = () => (
-  <div className={styles.AppWrapper}>
-    <div className={styles.AppContainer}>
-      <Header />
-      <Gallery />
-      <Footer />
-    </div>
+  <div className={cx('app-wrapper')}>
+    <Header />
+    <Gallery artists={[]} />
+    <Footer />
   </div>
 );

@@ -1,59 +1,51 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import cn from 'classnames/bind';
 
-import { ThemeContext } from '../../context/ThemeProvider';
-import { ThemeToggle } from '../ThemeToggle';
+import { ThemeContext } from '@/context/ThemeProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { Container } from '@/components/Container';
 
-import { ReactComponent as LogoIcon } from '../../assets/svg/logo.svg';
-import { ReactComponent as BurgerIcon } from '../../assets/svg/buger_icon.svg';
-import { ReactComponent as CloseIcon } from '../../assets/svg/close_icon.svg';
+import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
+import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
+import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import styles from './Header.module.scss';
+
+const cx = cn.bind(styles);
 
 export const Header = () => {
   const { isDarkTheme } = useContext(ThemeContext);
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const [width, setWidth] = useState<number>(0);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
-  const handleToggleMenu = () => {
-    setIsOpenMenu((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (width > 1280 && isOpenMenu) {
-      setIsOpenMenu(false);
-    }
-  }, [width, isOpenMenu]);
+  const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
 
   return (
-    <header className={`${styles.header} ${isDarkTheme ? styles.header_dark : ''}`}>
-      <div className={styles.header__container}>
-        <div className="header__logo">
-          <LogoIcon />
-        </div>
-        <div className={`${styles.header__nav} ${isDarkTheme ? styles.nav_dark : ''}`}>
-          <div role="presentation" onClick={handleToggleMenu} className={styles.openBtn}>
-            <BurgerIcon />
+    <header className={cx('header', { header_dark: isDarkTheme })}>
+      <Container>
+        <div className={cx('header__container')}>
+          <div className="header__logo">
+            <LogoIcon />
           </div>
-          <nav className={`${styles.nav} ${isOpenMenu ? styles.open : ''}`}>
-            <div role="presentation" onClick={handleToggleMenu} className={styles.closeBtn}>
-              <CloseIcon />
+          <div className={cx('header__nav-wrapper')}>
+            <div role="presentation" onClick={handleToggleMenu} className={cx('header__open-btn')}>
+              <BurgerIcon />
             </div>
-            <ThemeToggle />
-            <ul className={styles.nav__list}>
-              <li className={styles.nav__item}>Log In</li>
-              <li className={styles.nav__item}>Sing Up</li>
-            </ul>
-          </nav>
+            <nav className={cx('header__nav', { header__nav_open: isOpenMenu })}>
+              <div
+                role="presentation"
+                onClick={handleToggleMenu}
+                className={cx('header__close-btn')}
+              >
+                <CloseIcon />
+              </div>
+              <ThemeToggle />
+              <ul className={cx('header__list')}>
+                <li className={cx('header__item')}>Log In</li>
+                <li className={cx('header__item')}>Sing Up</li>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
+      </Container>
     </header>
   );
 };

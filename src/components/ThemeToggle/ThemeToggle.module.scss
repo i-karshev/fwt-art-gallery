@@ -1,11 +1,22 @@
-@import "./../../assets/scss/colors";
-
-.themeToggle {
+.theme-toggle {
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: $color-primary-dark-gray;
+
+  &_dark & {
+    &__icon {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+
+      &:hover {
+        color: $color-primary-white;
+      }
+    }
+    &__text {
+      color: $color-primary-light-gray;
+    }
+  }
 
   &__icon {
     width: 40px;
@@ -15,6 +26,11 @@
     align-items: center;
     justify-content: center;
     background-color: $color-secondary-white;
+    color: $color-primary-dark-gray;
+
+    &:hover {
+      color: $color-primary-black;
+    }
   }
 
   &__text {
@@ -23,19 +39,10 @@
     line-height: 15px;
     text-transform: uppercase;
     text-decoration: underline;
+    color: $color-primary-dark-gray;
 
-    @media (min-width: 1280px) {
+    @include lg {
       display: none;
-    }
-  }
-
-  &_dark & {
-    &__icon {
-      background-color: $color-secondary-black;
-      color: $color-primary-light-gray;
-    }
-    &__text {
-      color: $color-primary-light-gray;
     }
   }
 }
