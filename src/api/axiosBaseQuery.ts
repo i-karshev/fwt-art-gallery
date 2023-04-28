@@ -1,7 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosError } from 'axios';
-import { API_BASE_URL } from '../constans';
+import { API_BASE_URL } from '@/constans';
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
