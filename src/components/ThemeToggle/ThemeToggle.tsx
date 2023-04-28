@@ -12,13 +12,13 @@ export const ThemeToggle = () => {
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div
-      role="presentation"
+    <button
+      type="button"
       className={cx('theme-toggle', { 'theme-toggle_dark': isDarkTheme })}
       onClick={toggleTheme}
     >
       <div className={cx('theme-toggle__icon')}>{isDarkTheme ? <LightIcon /> : <DarkIcon />}</div>
       <span className={cx('theme-toggle__text')}>{isDarkTheme ? 'Light mode' : 'Dark mode'}</span>
-    </div>
+    </button>
   );
 };
