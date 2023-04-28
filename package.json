@@ -25,11 +25,12 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json src --fix"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "lint": "eslint --ext .ts,.tsx src --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss,json}\" --config ./.prettierrc.json"
   },
   "browserslist": {
     "production": [
@@ -44,8 +45,12 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@craco/types": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
+    "craco-alias": "^3.0.1",
+    "craco-sass-resources-loader": "^1.1.0",
     "eslint": "^8.38.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",

@@ -4,13 +4,13 @@ import { artistReducer } from './reducers/ArtistSlice';
 import { apiService } from '../api';
 
 const rootReducer = combineReducers({
-  artistReducer,
-  [apiService.reducerPath]: apiService.reducer,
+    artistReducer,
+    [apiService.reducerPath]: apiService.reducer,
 });
 
 const rootStore = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiService.middleware),
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiService.middleware),
 });
 
 export const setupStore = () => rootStore;
