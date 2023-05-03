@@ -1,0 +1,15 @@
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(185px, 1fr));
+  grid-gap: 20px;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    grid-gap: 24px;
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+  }
+}
