@@ -6,11 +6,18 @@ const cx = cn.bind(styles);
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isDarkTheme: boolean;
+  variable: 'default' | 'text' | 'icon' | 'icon-img' | 'top' | 'up-btn';
 }
 
-export const Button: FC<ButtonProps> = ({ isDarkTheme, className, children, ...other }) => (
+export const Button: FC<ButtonProps> = ({
+  variable,
+  isDarkTheme,
+  className,
+  children,
+  ...other
+}) => (
   <button
-    className={cx('button', { button_dark: isDarkTheme }, className)}
+    className={cx('button', `button_${variable}`, { button_dark: isDarkTheme }, className)}
     type="button"
     {...other}
   >

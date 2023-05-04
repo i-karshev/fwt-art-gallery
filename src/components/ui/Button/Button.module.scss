@@ -2,10 +2,7 @@
   cursor: pointer;
   border: none;
   outline: none;
-
-  min-width: 200px;
-  border-radius: 30px;
-  padding: 16px 20px;
+  transition: all .2s ease-out;
 
   text-align: center;
   font-weight: 700;
@@ -13,29 +10,151 @@
   line-height: 15px;
   text-transform: uppercase;
 
-  background-color: $color-primary-black;
-  color: $color-primary-white;
-  transition: all .2s ease-out;
+  &_default {
+    min-width: 200px;
+    border-radius: 30px;
+    padding: 16px 20px;
 
-  &:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  }
-  &:disabled {
-    opacity: 0.5;
-  }
-  &:focus {
-    background-color: #232323;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  }
+    background-color: $color-primary-black;
+    color: $color-primary-white;
 
-  &_dark {
-    background-color: $color-accent-gold;
-    &:hover {
-      box-shadow: 0 4px 10px rgba(171, 137, 86, 0.25);
+    &.button_dark {
+      background-color: $color-accent-gold;
     }
+
+    &:hover, &:focus {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+
+      &.button_dark {
+        box-shadow: 0 4px 10px rgba(171, 137, 86, 0.25);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
     &:focus {
-      background-color: #BA9052;
-      box-shadow: 0 4px 10px rgba(171, 137, 86, 0.25);
+      background-color: #232323;
+
+      &.button_dark {
+        background-color: #BA9052;
+      }
+    }
+  }
+
+  &_text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    color: $color-primary-dark-gray;
+
+    &.button_dark {
+      color: $color-primary-light-gray;
+    }
+
+    &:hover, &:focus {
+      color: $color-primary-black;
+      &.button_dark {
+        color: $color-primary-white;
+      }
+    }
+
+    &:disabled {
+      color: $color-primary-light-gray;
+      &.button_dark {
+        color: $color-secondary-gray;
+      }
+    }
+  }
+
+  &_icon {
+    padding: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+
+    background-color: $color-secondary-white;
+    color: $color-primary-dark-gray;
+
+    &.button_dark {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+    }
+
+    &:hover, &:focus {
+      color: $color-primary-black;
+
+      &.button_dark {
+        color: $color-primary-white;
+      }
+    }
+
+    &:disabled {
+      color: $color-primary-dark-gray;
+    }
+  }
+
+  &_icon-img {
+    padding: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+
+    background-color: transparentize($color-primary-white, 0.1);
+    color: $color-primary-light-gray;
+
+    &.button_dark {
+      background-color: transparentize($color-secondary-black, 0.1);
+      color: $color-primary-light-gray;
+    }
+
+    &:hover, &:focus {
+      background-color: transparentize($color-primary-white, 0.2);
+
+      &.button_dark {
+        background-color: transparentize($color-secondary-black, 0.2);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &_up-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid;
+    border-radius: 100%;
+
+    color: $color-primary-dark-gray;
+    border-color: $color-primary-light-gray;
+    background-color: $color-secondary-white;
+
+    &.button_dark {
+      border-color: transparent;
+      color: $color-primary-light-gray;
+      background-color: $color-secondary-black;
+    }
+
+    &:hover {
+      border-color: $color-primary-light-gray;
+      background-color: $color-primary-white;
+      &.button_dark {
+        border-color: transparent;
+        background-color: #242222;
+      }
     }
   }
 }
