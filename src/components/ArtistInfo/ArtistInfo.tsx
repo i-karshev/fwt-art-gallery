@@ -2,13 +2,12 @@ import React, { FC } from 'react';
 import cn from 'classnames/bind';
 
 import { API_BASE_URL } from '@/constans';
-import { Label } from '@/components/ui/Label';
 import { IArtistDetailStatic } from '@/types/IArtist';
+import { Label } from '@/components/ui/Label';
+import { ArtistAccordion } from '@/components/ArtistAccordion';
 import styles from './ArtistInfo.module.scss';
 
 const cx = cn.bind(styles);
-
-const sliceDescr = (str: string) => `${str.slice(0, 265)}..`;
 
 interface ArtistInfoProps {
   artist: IArtistDetailStatic;
@@ -32,7 +31,7 @@ export const ArtistInfo: FC<ArtistInfoProps> = ({ artist, isDarkTheme }) => (
         </div>
 
         <div className={cx('artist__info-detail')}>
-          <div className={cx('artist__biography')}>{sliceDescr(artist.description)}</div>
+          <ArtistAccordion description={artist.description} isDarkTheme={isDarkTheme} />
           <div className={cx('artist__genres')}>
             {artist.genres.map((genre) => (
               <Label key={genre._id} name={genre.name} isDarkTheme={isDarkTheme} />
