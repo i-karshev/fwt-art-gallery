@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import cn from 'classnames/bind';
 
+import { Link } from 'react-router-dom';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Container } from '@/components/Container';
@@ -23,7 +24,9 @@ export const Header = () => {
       <Container>
         <div className={cx('header__container')}>
           <div className="header__logo">
-            <LogoIcon />
+            <Link to="/" className={cx('header__logo')}>
+              <LogoIcon />
+            </Link>
           </div>
           <div className={cx('header__nav-wrapper')}>
             <div role="presentation" onClick={handleToggleMenu} className={cx('header__open-btn')}>
