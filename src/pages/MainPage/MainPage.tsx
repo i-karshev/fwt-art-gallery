@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames/bind';
 
 import { artistApi } from '@/api/artistApi';
@@ -6,14 +6,17 @@ import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
 import styles from './MianPage.module.scss';
 import { Container } from '@/components/Container';
+import { Preloader } from '@/components/ui/Preloader';
+import { ThemeContext } from '@/context/ThemeProvider';
 
 const cx = cn.bind(styles);
 
 export const MainPage = () => {
+  const { isDarkTheme } = useContext(ThemeContext);
   const { data: artists, isLoading, isFetching } = artistApi.useFetchArtistsStaticQuery(null);
 
   if (isLoading || isFetching) {
-    return <p>Loading..</p>;
+    return <Preloader isDarkTheme={isDarkTheme} />;
   }
 
   return (
@@ -23,6 +26,7 @@ export const MainPage = () => {
           {artists &&
             artists.map((artist) => (
               <ArtistCard
+                key={artist._id}
                 id={artist._id}
                 name={artist.name}
                 yearsOfLife={artist.yearsOfLife}

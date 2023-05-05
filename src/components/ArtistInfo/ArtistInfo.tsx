@@ -23,6 +23,7 @@ export const ArtistInfo: FC<ArtistInfoProps> = ({ artist, isDarkTheme }) => (
             className={cx('artist__img')}
             src={`${API_BASE_URL}${artist.avatar.webp}`}
             alt={artist.name}
+            loading="lazy"
           />
           <div className={cx('artist__info')}>
             <p className={cx('artist__years')}>{artist.yearsOfLife}</p>

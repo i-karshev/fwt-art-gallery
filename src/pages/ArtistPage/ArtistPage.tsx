@@ -7,9 +7,10 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { PaintingCard } from '@/components/PaintingCard';
 import { Container } from '@/components/Container';
+import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
+import { Preloader } from '@/components/ui/Preloader';
 
 import styles from './ArtistPage.module.scss';
-import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
 
 const cx = cn.bind(styles);
 
@@ -19,7 +20,7 @@ export const ArtistPage = () => {
   const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistStaticByIdQuery(id);
 
   if (isLoading || isFetching) {
-    return <p>Loading..</p>;
+    return <Preloader isDarkTheme={isDarkTheme} />;
   }
 
   return (
@@ -27,7 +28,6 @@ export const ArtistPage = () => {
       {artist && (
         <>
           <ArtistInfo artist={artist} isDarkTheme={isDarkTheme} />
-
           <Container>
             <div className={cx('artist-page__artworks')}>
               <p className={cx('artist-page__artworks-heading')}>Artworks</p>

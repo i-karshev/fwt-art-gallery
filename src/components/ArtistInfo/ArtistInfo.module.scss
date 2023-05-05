@@ -113,7 +113,7 @@
     color: $color-accent-red;
     margin-top: 8px;
 
-    @include  md {
+    @include md {
       font-weight: 500;
       font-size: 48px;
       line-height: 100%;
@@ -143,7 +143,7 @@
 
   &__info-detail {
     background-color: $color-primary-white;
-    padding:  20px;
+    padding: 20px;
 
     @include md {
       padding: 40px 20px 20px 20px;
