@@ -4,10 +4,11 @@ import cn from 'classnames/bind';
 import { artistApi } from '@/api/artistApi';
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
-import styles from './MianPage.module.scss';
 import { Container } from '@/components/Container';
 import { Preloader } from '@/components/ui/Preloader';
 import { ThemeContext } from '@/context/ThemeProvider';
+
+import styles from './MianPage.module.scss';
 
 const cx = cn.bind(styles);
 

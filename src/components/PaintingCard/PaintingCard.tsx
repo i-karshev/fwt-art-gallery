@@ -10,6 +10,7 @@ interface PaintingCardProps {
   yearOfCreation: string;
   imgUrl: string;
   artist: string;
+  onClick: () => void;
 }
 
 export const PaintingCard: FC<PaintingCardProps> = ({
@@ -18,11 +19,13 @@ export const PaintingCard: FC<PaintingCardProps> = ({
   yearOfCreation,
   imgUrl,
   artist,
+  onClick,
 }) => {
   const { isDarkTheme } = useContext(ThemeContext);
 
   return (
-    <li>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+    <li onClick={onClick}>
       <Card
         title={name}
         subtitle={convertDateToYears(yearOfCreation)}
