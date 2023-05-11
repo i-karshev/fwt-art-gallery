@@ -12,7 +12,6 @@ import { Preloader } from '@/components/ui/Preloader';
 
 import styles from './ArtistPage.module.scss';
 import { Slider } from '@/components/Slider';
-import { Modal } from '@/components/ui/Modal/Modal';
 
 const cx = cn.bind(styles);
 
@@ -62,17 +61,13 @@ export const ArtistPage = () => {
             </div>
           </Container>
 
-          <Modal
+          <Slider
+            paintings={artist.paintings}
+            currentIndex={currentIndex}
             isDarkTheme={isDarkTheme}
-            isShowModal={isShowSlider}
-            onCloseModal={handleCloseSlider}
-          >
-            <Slider
-              paintings={artist.paintings}
-              currentIndex={currentIndex}
-              isDarkTheme={isDarkTheme}
-            />
-          </Modal>
+            isShowSlider={isShowSlider}
+            onCloseSlider={handleCloseSlider}
+          />
         </>
       )}
     </main>

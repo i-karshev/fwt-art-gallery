@@ -1,7 +1,10 @@
 .slider {
-  position: relative;
+  position: fixed;
+  top: 0;
+  z-index: 100;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
   background-color: $color-secondary-white;
 
   &_dark {
@@ -21,6 +24,14 @@
     &__img-subtitle {
       color: $color-accent-gold;
     }
+  }
+
+  &__content {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
   }
 
   &__container {
@@ -70,11 +81,13 @@
     padding: 16px 12px 24px 12px;
     margin-left: -20px;
     background-color: $color-secondary-white;
+    margin-bottom: 62px;
 
     @include md {
       min-width: 498px;
       padding: 40px 20px;
       margin-left: 0;
+      margin-bottom: 0;
 
       &:before {
         content: '';
@@ -156,6 +169,9 @@
 
   &__prev-btn,
   &__next-btn {
+    background-color: transparent;
+    outline: none;
+    border: none;
     color: $color-primary-white;
     cursor: pointer;
     display: flex;
@@ -172,5 +188,61 @@
 
   &__prev-btn {
     transform: rotate(-180deg);
+  }
+
+  &__img-control {
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    bottom: -60px;
+
+    @include md {
+      top: 20px;
+      right: 20px;
+      bottom: auto;
+    }
+  }
+
+  &__cover-btn {
+    position: absolute;
+    top: 20px;
+
+    @include md {
+      top: 40px;
+    }
+    @include lg {
+      top: 60px;
+    }
+  }
+
+  &__close-btn-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding: 20px;
+
+    @include md {
+      padding: 40px 40px 60px 40px;
+    }
+    @include lg {
+      padding: 60px 20px 100px 20px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: $color-primary-light-gray;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-primary-white;
+    }
   }
 }
