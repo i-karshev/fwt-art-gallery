@@ -17,19 +17,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-button {
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
-
-.dark-theme {
-  background-color: $color-primary-black;
-  color: $color-primary-light-gray;
-}
-
-.light-theme {
-  background-color: $color-primary-white;
-  color: $color-primary-dark-gray;
-}

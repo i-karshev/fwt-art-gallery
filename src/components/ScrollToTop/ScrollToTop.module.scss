@@ -1,0 +1,32 @@
+.button {
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid;
+  border-radius: 100%;
+
+  color: $color-primary-dark-gray;
+  border-color: $color-primary-light-gray;
+  background-color: $color-secondary-white;
+
+  &:hover {
+    border-color: $color-primary-light-gray;
+    background-color: $color-primary-white;
+  }
+
+  &_dark {
+    border-color: transparent;
+    color: $color-primary-light-gray;
+    background-color: $color-secondary-black;
+    &:hover {
+      border-color: transparent;
+      background-color: #242222;
+    }
+  }
+}

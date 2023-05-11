@@ -3,4 +3,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  background-color: $color-primary-white;
+  color: $color-primary-dark-gray;
+
+  &_dark {
+    background-color: $color-primary-black;
+    color: $color-primary-light-gray;
+  }
 }
