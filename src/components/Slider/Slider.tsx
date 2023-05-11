@@ -40,7 +40,7 @@ export const Slider: FC<SliderProps> = ({
     const slideWidth = slides?.children[0].clientWidth;
 
     if (slideWidth) {
-      slides?.scrollTo(slideWidth * currentSlide, 0);
+      slides?.scrollTo(slideWidth * currentIndex, 0);
     }
 
     if (isShowSlider) {
