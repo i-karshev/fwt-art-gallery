@@ -32,7 +32,7 @@ export const Slider: FC<SliderProps> = ({
 }) => {
   const bodyRef = useRef(document.body);
   const sliderRef = useRef<HTMLDivElement | null>(null);
-  const [currentSlide, setCurrentSlide] = useState(currentIndex);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const sliderLength = paintings.length;
 
   useEffect(() => {
@@ -41,6 +41,7 @@ export const Slider: FC<SliderProps> = ({
 
     if (slideWidth) {
       slides?.scrollTo(slideWidth * currentIndex, 0);
+      setCurrentSlide(currentIndex);
     }
 
     if (isShowSlider) {
