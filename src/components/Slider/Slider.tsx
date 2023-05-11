@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import cn from 'classnames/bind';
 
 import { API_BASE_URL } from '@/constans';
@@ -18,15 +18,39 @@ export const Slider: FC<SliderProps> = ({ paintings, currentIndex, isDarkTheme }
   const [currentSlide, setCurrentSlide] = useState(currentIndex);
   const sliderLength = paintings.length;
 
-  const handleNextSlide = () => {
+  const swipeRef = useRef<HTMLDivElement | null>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const slides = sliderRef.current;
+    const slideWidth = slides?.children[0].clientWidth;
+
+    if (slideWidth) {
+      slides?.scrollTo(slides.scrollLeft + slideWidth * currentIndex, 0);
+    }
+  }, [setCurrentSlide]);
+
+  const handleScrollToNextSlide = () => {
+    const slides = sliderRef.current;
+    const slideWidth = slides?.children[0].clientWidth;
+
+    if (slideWidth) {
+      slides?.scrollTo(slides.scrollLeft + slideWidth, 0);
+    }
+
     setCurrentSlide(currentSlide + 1);
   };
 
-  const handlePrevSlide = () => {
+  const handleScrollToPrevSlide = () => {
+    const slides = sliderRef.current;
+    const slideWidth = slides?.children[0].clientWidth;
+
+    if (slideWidth) {
+      slides?.scrollTo(slides.scrollLeft - slideWidth, 0);
+    }
+
     setCurrentSlide(currentSlide - 1);
   };
-
-  const swipeRef = useRef<HTMLDivElement | null>(null);
 
   let xDown: number | null = null;
 
@@ -40,7 +64,6 @@ export const Slider: FC<SliderProps> = ({ paintings, currentIndex, isDarkTheme }
     }
 
     const xUp = event.touches[0].clientX;
-
     const xDiff = xDown - xUp;
 
     if (xDiff > 0) {
@@ -54,42 +77,40 @@ export const Slider: FC<SliderProps> = ({ paintings, currentIndex, isDarkTheme }
 
   return (
     <div className={cx('slider', { slider_dark: isDarkTheme })}>
-      {paintings &&
-        paintings.map(
-          (painting, index) =>
-            index === currentSlide && (
-              <div
-                ref={swipeRef}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                className={cx('slider__slide')}
-                key={painting._id}
-              >
-                <img
-                  className={cx('slider__img')}
-                  src={`${API_BASE_URL}${painting.image.webp2x}`}
-                  alt={painting.name}
-                  loading="lazy"
-                />
-                <div className={cx('slider__container')}>
-                  <div className={cx('slider__img-info')}>
-                    <div className={cx('slider__img-subtitle')}>{painting.yearOfCreation}</div>
-                    <div className={cx('slider__img-title')}>{painting.name}</div>
-                  </div>
+      <div ref={sliderRef} className={cx('slider__slides')}>
+        {paintings &&
+          paintings.map((painting) => (
+            <div
+              className={cx('slider__slide')}
+              ref={swipeRef}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              key={painting._id}
+            >
+              <img
+                className={cx('slider__img')}
+                src={`${API_BASE_URL}${painting.image.webp2x}`}
+                alt={painting.name}
+                loading="lazy"
+              />
 
-                  <div className={cx('slider__counter')}>{`${
-                    currentSlide + 1
-                  }/${sliderLength}`}</div>
+              <div className={cx('slider__container')}>
+                <div className={cx('slider__img-info')}>
+                  <div className={cx('slider__img-subtitle')}>{painting.yearOfCreation}</div>
+                  <div className={cx('slider__img-title')}>{painting.name}</div>
                 </div>
+
+                <div className={cx('slider__counter')}>{`${currentSlide + 1}/${sliderLength}`}</div>
               </div>
-            )
-        )}
+            </div>
+          ))}
+      </div>
 
       <div className={cx('slider__control')}>
         <button
           type="button"
           className={cx('slider__prev-btn')}
-          onClick={handlePrevSlide}
+          onClick={handleScrollToPrevSlide}
           disabled={currentSlide === 0}
         >
           <ArrowIcon />
@@ -97,7 +118,7 @@ export const Slider: FC<SliderProps> = ({ paintings, currentIndex, isDarkTheme }
         <button
           type="button"
           className={cx('slider__next-btn')}
-          onClick={handleNextSlide}
+          onClick={handleScrollToNextSlide}
           disabled={currentSlide === sliderLength - 1}
         >
           <ArrowIcon />
