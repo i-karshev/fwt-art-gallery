@@ -20,9 +20,10 @@ export const Input: FC<InputProps> = ({
   placeholder,
   onChange,
   errorMessage,
+  className,
   ...other
 }) => (
-  <div className={cx('input', { input_dark: isDarkTheme })}>
+  <div className={cx('input', { input_dark: isDarkTheme }, className)}>
     {!!label && <p className={cx('input__label')}>{label}</p>}
     <input
       className={cx('input__area', { input__area_error: !!errorMessage })}
