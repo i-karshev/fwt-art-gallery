@@ -9,33 +9,17 @@ const cx = cn.bind(styles);
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isDarkTheme: boolean;
   label?: string;
-  placeholder?: string;
-  onChange: () => void;
-  errorMessage?: string;
+  error?: string;
 }
 
-export const Input: FC<InputProps> = ({
-  isDarkTheme,
-  label,
-  placeholder,
-  onChange,
-  errorMessage,
-  className,
-  ...other
-}) => (
+export const Input: FC<InputProps> = ({ isDarkTheme, label, error, className, ...other }) => (
   <div className={cx('input', { input_dark: isDarkTheme }, className)}>
     {!!label && <p className={cx('input__label')}>{label}</p>}
-    <input
-      className={cx('input__area', { input__area_error: !!errorMessage })}
-      type="text"
-      placeholder={placeholder}
-      onChange={onChange}
-      {...other}
-    />
-    {!!errorMessage && (
+    <input className={cx('input__area', { input__area_error: !!error })} type="text" {...other} />
+    {!!error && (
       <div className={cx('input__error-message')}>
         <ErrorIcon />
-        <span>{errorMessage}</span>
+        <span>{error}</span>
       </div>
     )}
   </div>
