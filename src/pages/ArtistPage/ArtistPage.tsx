@@ -45,18 +45,23 @@ export const ArtistPage = () => {
             <div className={cx('artist-page__artworks')}>
               <p className={cx('artist-page__artworks-heading')}>Artworks</p>
               <CardGrid>
-                {artist.paintings.map((painting, index) => (
-                  <PaintingCard
-                    key={painting._id}
-                    id={painting._id}
-                    name={painting.name}
-                    yearOfCreation={painting.yearOfCreation}
-                    imgUrl={painting.image.webp}
-                    artist={painting.artist}
-                    data-index={index}
-                    onClick={() => handleShowSlider(index)}
-                  />
-                ))}
+                {artist.paintings.map(
+                  (
+                    { _id: paintingId, name, yearOfCreation, image, artist: paintingArtist },
+                    index
+                  ) => (
+                    <PaintingCard
+                      key={paintingId}
+                      id={paintingId}
+                      name={name}
+                      yearOfCreation={yearOfCreation}
+                      imgUrl={image.webp}
+                      artist={paintingArtist}
+                      data-index={index}
+                      onClick={() => handleShowSlider(index)}
+                    />
+                  )
+                )}
               </CardGrid>
             </div>
           </Container>

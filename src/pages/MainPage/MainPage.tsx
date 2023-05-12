@@ -25,13 +25,13 @@ export const MainPage = () => {
       <Container>
         <CardGrid>
           {artists &&
-            artists.map((artist) => (
+            artists.map(({ _id: id, name, yearsOfLife, mainPainting }) => (
               <ArtistCard
-                key={artist._id}
-                id={artist._id}
-                name={artist.name}
-                yearsOfLife={artist.yearsOfLife}
-                imgUrl={artist.mainPainting.image.webp}
+                key={id}
+                id={id}
+                name={name}
+                yearsOfLife={yearsOfLife}
+                imgUrl={mainPainting.image.webp}
               />
             ))}
         </CardGrid>

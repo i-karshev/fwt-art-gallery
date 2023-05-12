@@ -14,28 +14,31 @@ interface ArtistInfoProps {
   isDarkTheme: boolean;
 }
 
-export const ArtistInfo: FC<ArtistInfoProps> = ({ artist, isDarkTheme }) => (
+export const ArtistInfo: FC<ArtistInfoProps> = ({
+  isDarkTheme,
+  artist: { name, avatar, description, genres, yearsOfLife },
+}) => (
   <div className={cx('artist', { artist_dark: isDarkTheme })}>
     <div className={cx('artist__container')}>
       <div className={cx('artist__content')}>
         <div className={cx('artist__info-wrapper')}>
           <img
             className={cx('artist__img')}
-            src={`${API_BASE_URL}${artist.avatar.webp}`}
-            alt={artist.name}
+            src={`${API_BASE_URL}${avatar.webp}`}
+            alt={name}
             loading="lazy"
           />
           <div className={cx('artist__info')}>
-            <p className={cx('artist__years')}>{artist.yearsOfLife}</p>
-            <p className={cx('artist__name')}>{artist.name}</p>
+            <p className={cx('artist__years')}>{yearsOfLife}</p>
+            <p className={cx('artist__name')}>{name}</p>
           </div>
         </div>
 
         <div className={cx('artist__info-detail')}>
-          <ArtistAccordion description={artist.description} isDarkTheme={isDarkTheme} />
+          <ArtistAccordion description={description} isDarkTheme={isDarkTheme} />
           <div className={cx('artist__genres')}>
-            {artist.genres.map((genre) => (
-              <Label key={genre._id} name={genre.name} isDarkTheme={isDarkTheme} />
+            {genres.map(({ _id: genreId, name: genreName }) => (
+              <Label key={genreId} name={genreName} isDarkTheme={isDarkTheme} />
             ))}
           </div>
         </div>

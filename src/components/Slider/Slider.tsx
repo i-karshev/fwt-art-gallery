@@ -9,7 +9,6 @@ import { ReactComponent as EditIcon } from '@/assets/svg/edit_icon.svg';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
 import { ReactComponent as PicIcon } from '@/assets/svg/change-pic_icon.svg';
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
-
 import { Button } from '@/components/ui/Button';
 import style from './Slider.module.scss';
 
@@ -57,23 +56,13 @@ export const Slider: FC<SliderProps> = ({
     return null;
   }
 
-  const handleScrollToNextSlide = () => {
+  const handleScrollSlide = (offset: 1 | -1) => {
     const slides = sliderRef.current;
     const slideWidth = slides?.children[0].clientWidth;
 
     if (slideWidth) {
-      slides?.scrollTo(slides.scrollLeft + slideWidth, 0);
-      setCurrentSlide(Math.round(slides.scrollLeft / slideWidth + 1));
-    }
-  };
-
-  const handleScrollToPrevSlide = () => {
-    const slides = sliderRef.current;
-    const slideWidth = slides?.children[0].clientWidth;
-
-    if (slideWidth) {
-      slides?.scrollTo(slides.scrollLeft - slideWidth, 0);
-      setCurrentSlide(Math.round(slides.scrollLeft / slideWidth - 1));
+      slides?.scrollTo(slides.scrollLeft + slideWidth * offset, 0);
+      setCurrentSlide(Math.round(slides.scrollLeft / slideWidth + offset));
     }
   };
 
@@ -82,12 +71,12 @@ export const Slider: FC<SliderProps> = ({
       <div className={cx('slider__content')}>
         <div ref={sliderRef} className={cx('slider__slides')}>
           {paintings &&
-            paintings.map((painting, index) => (
-              <div className={cx('slider__slide')} key={painting._id}>
+            paintings.map(({ _id: id, name, yearOfCreation, image }, index) => (
+              <div className={cx('slider__slide')} key={id}>
                 <img
                   className={cx('slider__img')}
-                  src={`${API_BASE_URL}${painting.image.webp2x}`}
-                  alt={painting.name}
+                  src={`${API_BASE_URL}${image.webp2x}`}
+                  alt={name}
                   loading="lazy"
                 />
 
@@ -98,8 +87,8 @@ export const Slider: FC<SliderProps> = ({
                   </Button>
 
                   <div className={cx('slider__img-info')}>
-                    <div className={cx('slider__img-subtitle')}>{painting.yearOfCreation}</div>
-                    <div className={cx('slider__img-title')}>{painting.name}</div>
+                    <div className={cx('slider__img-subtitle')}>{yearOfCreation}</div>
+                    <div className={cx('slider__img-title')}>{name}</div>
                     <div className={cx('slider__img-control')}>
                       <Button isDarkTheme={isDarkTheme} variant="icon">
                         <EditIcon />
@@ -120,7 +109,7 @@ export const Slider: FC<SliderProps> = ({
           <button
             type="button"
             className={cx('slider__prev-btn')}
-            onClick={handleScrollToPrevSlide}
+            onClick={() => handleScrollSlide(-1)}
             disabled={currentSlide === 0}
           >
             <ArrowIcon />
@@ -128,7 +117,7 @@ export const Slider: FC<SliderProps> = ({
           <button
             type="button"
             className={cx('slider__next-btn')}
-            onClick={handleScrollToNextSlide}
+            onClick={() => handleScrollSlide(1)}
             disabled={currentSlide === sliderLength - 1}
           >
             <ArrowIcon />
