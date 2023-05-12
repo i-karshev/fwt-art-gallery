@@ -10,14 +10,20 @@ import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
 import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import styles from './Header.module.scss';
+import { LoginModal } from '@/components/LoginModal';
+import { RegisterModal } from '@/components/RegisterModal';
 
 const cx = cn.bind(styles);
 
 export const Header = () => {
   const { isDarkTheme } = useContext(ThemeContext);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isShowLoginModal, setIsShowLoginModal] = useState(false);
+  const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
 
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
+  const handleToggleLoginModal = () => setIsShowLoginModal((prev) => !prev);
+  const handleToggleRegisterModal = () => setIsShowRegisterModal((prev) => !prev);
 
   return (
     <header className={cx('header', { header_dark: isDarkTheme })}>
@@ -42,13 +48,35 @@ export const Header = () => {
               </div>
               <ThemeToggle />
               <ul className={cx('header__list')}>
-                <li className={cx('header__item')}>Log In</li>
-                <li className={cx('header__item')}>Sing Up</li>
+                <li
+                  role="presentation"
+                  className={cx('header__item')}
+                  onClick={handleToggleLoginModal}
+                >
+                  Log In
+                </li>
+                <li
+                  role="presentation"
+                  className={cx('header__item')}
+                  onClick={handleToggleRegisterModal}
+                >
+                  Sing Up
+                </li>
               </ul>
             </nav>
           </div>
         </div>
       </Container>
+      <LoginModal
+        isDarkTheme={isDarkTheme}
+        isShowModal={isShowLoginModal}
+        onCloseModal={handleToggleLoginModal}
+      />
+      <RegisterModal
+        isDarkTheme={isDarkTheme}
+        isShowModal={isShowRegisterModal}
+        onCloseModal={handleToggleRegisterModal}
+      />
     </header>
   );
 };

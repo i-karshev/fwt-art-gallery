@@ -10,10 +10,9 @@ interface ModalProps {
   children: ReactNode;
   isDarkTheme: boolean;
   isShowModal: boolean;
-  onCloseModal: () => void;
 }
 
-export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal, onCloseModal }) => {
+export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal }) => {
   const bodyRef = useRef(document.body);
 
   useEffect(() => {
@@ -33,9 +32,6 @@ export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal, onCl
   return createPortal(
     <div className={cx('modal', { modal_dark: isDarkTheme })}>
       <div className={cx('modal__content')}>{children}</div>
-      <button type="button" className={cx('modal__close-btn')} onClick={onCloseModal}>
-        X
-      </button>
     </div>,
     bodyRef.current
   );

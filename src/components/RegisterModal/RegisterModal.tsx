@@ -2,22 +2,26 @@ import React, { ChangeEvent, FC, FormEvent, useCallback, useRef, useState } from
 import cn from 'classnames/bind';
 
 import { Link } from 'react-router-dom';
-import styles from './LoginModal.module.scss';
+import styles from './RegisterModal.module.scss';
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
-import loginImage from '@/assets/img/login-img.jpg';
+import registerImage from '@/assets/img/register-img.jpg';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 
 const cx = cn.bind(styles);
 
-interface LoginModalProps {
+interface RegisterModalProps {
   isDarkTheme: boolean;
   isShowModal: boolean;
   onCloseModal: () => void;
 }
 
-export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCloseModal }) => {
+export const RegisterModal: FC<RegisterModalProps> = ({
+  isDarkTheme,
+  isShowModal,
+  onCloseModal,
+}) => {
   const modalRef = useRef(null);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -40,27 +44,32 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
 
   return (
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
-      <div ref={modalRef} className={cx('login-modal', { 'login-modal_dark': isDarkTheme })}>
-        <img className={cx('login-modal__img')} src={loginImage} alt="login" loading="lazy" />
-        <div className={cx('login-modal__content')}>
-          <p className={cx('login-modal__title')}>Welcome back</p>
-          <form className={cx('login-modal__form')} onSubmit={handleSubmit}>
+      <div ref={modalRef} className={cx('register-modal', { 'register-modal_dark': isDarkTheme })}>
+        <img
+          className={cx('register-modal__img')}
+          src={registerImage}
+          alt="register"
+          loading="lazy"
+        />
+        <div className={cx('register-modal__content')}>
+          <p className={cx('register-modal__title')}>Create your profile</p>
+          <form className={cx('register-modal__form')} onSubmit={handleSubmit}>
             <input type="text" onChange={handleChangeLogin} value={login} />
             <input type="text" onChange={handleChangePassword} value={password} />
             <Button
-              className={cx('login-modal__form-btn')}
+              className={cx('register-modal__form-btn')}
               isDarkTheme={isDarkTheme}
               variant="default"
               type="submit"
             >
-              Log In
+              Sign up
             </Button>
           </form>
-          <p className={cx('login-modal__sing-up')}>
-            If you don&apos;t have an account yet, please <Link to="/">sign up</Link>
+          <p className={cx('register-modal__log-in')}>
+            If you already have an account, please <Link to="/">log in</Link>
           </p>
         </div>
-        <button type="button" className={cx('login-modal__close-btn')} onClick={onCloseModal}>
+        <button type="button" className={cx('register-modal__close-btn')} onClick={onCloseModal}>
           <CloseIcon />
         </button>
       </div>
