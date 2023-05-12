@@ -1,25 +1,27 @@
 import React, { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { IArtistStatic } from '@/types/IArtist';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { Card } from '@/components/ui/Card';
 import { convertDateToYears } from '@/utils/convertDateToYears';
 
 interface ArtistCardProps {
-  artist: IArtistStatic;
+  id: string;
+  name: string;
+  yearsOfLife: string;
+  imgUrl: string;
 }
 
-export const ArtistCard: FC<ArtistCardProps> = ({ artist }) => {
+export const ArtistCard: FC<ArtistCardProps> = ({ id, name, yearsOfLife, imgUrl }) => {
   const { isDarkTheme } = useContext(ThemeContext);
 
   return (
     <li>
-      <Link to={`/artists/${artist._id}`}>
+      <Link to={`/artists/${id}`}>
         <Card
-          title={artist.name}
-          subtitle={convertDateToYears(artist.yearsOfLife)}
-          imgUrl={artist.mainPainting.image.webp}
+          title={name}
+          subtitle={convertDateToYears(yearsOfLife)}
+          imgUrl={imgUrl}
           isDarkTheme={isDarkTheme}
           isScaleImageOnHover
         />
