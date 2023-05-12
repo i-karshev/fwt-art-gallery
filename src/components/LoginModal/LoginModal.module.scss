@@ -34,6 +34,7 @@
 
   &__img {
     display: none;
+    width: 498px;
 
     @include lg {
       display: block;
