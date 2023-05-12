@@ -1,5 +1,10 @@
 .input {
+  width: 100%;
+
   &_dark & {
+    &__label {
+      color: $color-primary-white;
+    }
     &__area {
       background: $color-secondary-black;
       border-color: transparent;
