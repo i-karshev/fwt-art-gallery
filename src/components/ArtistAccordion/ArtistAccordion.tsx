@@ -3,6 +3,8 @@ import cn from 'classnames/bind';
 
 import { sliceDescription } from '@/utils/sliceDescription';
 import styles from './ArtistAccordion.module.scss';
+import { Button } from '@/components/ui/Button';
+import { ReactComponent as ArrowIcon } from '@/assets/svg/expand_icon.svg';
 
 const cx = cn.bind(styles);
 
@@ -29,9 +31,10 @@ export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkT
 
       {isShowAccordion && (
         <div className={cx('artist-accordion__button')}>
-          <button type="button" onClick={handleToggleAccordion}>
-            open
-          </button>
+          <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleToggleAccordion}>
+            <p>{isOpenAccordion ? 'Read Less' : 'Read More'}</p>
+            <ArrowIcon className={cx({ 'artist-accordion__button-icon': isOpenAccordion })} />
+          </Button>
         </div>
       )}
     </div>
