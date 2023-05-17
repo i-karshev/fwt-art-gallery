@@ -1,32 +1,44 @@
 import React, { FC } from 'react';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
-import { IArtistDetailStatic } from '@/types/IArtist';
+import { IImage } from '@/types/IImage';
+import { IGenre } from '@/types/IGenre';
+import { Image } from '@/components/ui/Image';
 import { Label } from '@/components/ui/Label';
 import { ArtistAccordion } from '@/components/ArtistAccordion';
+
 import styles from './ArtistInfo.module.scss';
 
 const cx = cn.bind(styles);
 
 interface ArtistInfoProps {
-  artist: IArtistDetailStatic;
+  name: string;
+  description: string;
+  yearsOfLife: string;
+  genres: IGenre[];
+  avatar: IImage;
   isDarkTheme: boolean;
 }
 
 export const ArtistInfo: FC<ArtistInfoProps> = ({
+  name,
+  description,
+  yearsOfLife,
+  genres,
+  avatar,
   isDarkTheme,
-  artist: { name, avatar, description, genres, yearsOfLife },
 }) => (
   <div className={cx('artist', { artist_dark: isDarkTheme })}>
     <div className={cx('artist__container')}>
       <div className={cx('artist__content')}>
         <div className={cx('artist__info-wrapper')}>
-          <img
+          <Image
             className={cx('artist__img')}
-            src={`${API_BASE_URL}${avatar.webp}`}
+            src={avatar.src}
+            src2x={avatar.src2x}
+            webp={avatar.webp}
+            webp2x={avatar.webp2x}
             alt={name}
-            loading="lazy"
           />
           <div className={cx('artist__info')}>
             <p className={cx('artist__years')}>{yearsOfLife}</p>

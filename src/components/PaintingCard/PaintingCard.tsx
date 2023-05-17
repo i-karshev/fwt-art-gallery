@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 
+import { IImage } from '@/types/IImage';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { Card } from '@/components/ui/Card';
 import { convertDateToYears } from '@/utils/convertDateToYears';
@@ -8,7 +9,7 @@ interface PaintingCardProps {
   id: string;
   name: string;
   yearOfCreation: string;
-  imgUrl: string;
+  image: IImage;
   artist: string;
   onClick: () => void;
 }
@@ -17,7 +18,7 @@ export const PaintingCard: FC<PaintingCardProps> = ({
   id,
   name,
   yearOfCreation,
-  imgUrl,
+  image,
   artist,
   onClick,
 }) => {
@@ -28,7 +29,7 @@ export const PaintingCard: FC<PaintingCardProps> = ({
       <Card
         title={name}
         subtitle={convertDateToYears(yearOfCreation)}
-        imgUrl={imgUrl}
+        image={image}
         isDarkTheme={isDarkTheme}
       />
     </li>

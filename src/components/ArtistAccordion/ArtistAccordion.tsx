@@ -16,6 +16,7 @@ interface ArtistAccordionProps {
 export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkTheme }) => {
   const [isShowAccordion] = useState(description.length > 265);
   const [isOpenAccordion, setIsOpenAccordion] = useState(false);
+  const isShowFullDescription = !isShowAccordion || isOpenAccordion;
 
   const handleToggleAccordion = () => setIsOpenAccordion(!isOpenAccordion);
 
@@ -23,10 +24,10 @@ export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkT
     <div className={cx('artist-accordion', { 'artist-accordion_dark': isDarkTheme })}>
       <p
         className={cx('artist-accordion__text', {
-          'artist-accordion__text_full': !isShowAccordion || isOpenAccordion,
+          'artist-accordion__text_full': isShowFullDescription,
         })}
       >
-        {!isShowAccordion || isOpenAccordion ? description : sliceDescription(description)}
+        {isShowFullDescription ? description : sliceDescription(description)}
       </p>
 
       {isShowAccordion && (

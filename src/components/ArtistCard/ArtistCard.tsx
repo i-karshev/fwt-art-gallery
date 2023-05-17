@@ -1,6 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { IImage } from '@/types/IImage';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { Card } from '@/components/ui/Card';
 import { convertDateToYears } from '@/utils/convertDateToYears';
@@ -9,10 +10,10 @@ interface ArtistCardProps {
   id: string;
   name: string;
   yearsOfLife: string;
-  imgUrl: string;
+  image: IImage;
 }
 
-export const ArtistCard: FC<ArtistCardProps> = ({ id, name, yearsOfLife, imgUrl }) => {
+export const ArtistCard: FC<ArtistCardProps> = ({ id, name, yearsOfLife, image }) => {
   const { isDarkTheme } = useContext(ThemeContext);
 
   return (
@@ -21,7 +22,7 @@ export const ArtistCard: FC<ArtistCardProps> = ({ id, name, yearsOfLife, imgUrl 
         <Card
           title={name}
           subtitle={convertDateToYears(yearsOfLife)}
-          imgUrl={imgUrl}
+          image={image}
           isDarkTheme={isDarkTheme}
           isScaleImageOnHover
         />
