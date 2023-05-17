@@ -6,16 +6,32 @@ import styles from './Input.module.scss';
 
 const cx = cn.bind(styles);
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isDarkTheme: boolean;
   label?: string;
   error?: string;
 }
 
-export const Input: FC<InputProps> = ({ isDarkTheme, label, error, className, ...other }) => (
+export const Input: FC<InputProps> = ({
+  isDarkTheme,
+  label,
+  error,
+  className,
+  name = 'input',
+  ...other
+}) => (
   <div className={cx('input', { input_dark: isDarkTheme }, className)}>
-    {!!label && <p className={cx('input__label')}>{label}</p>}
-    <input className={cx('input__area', { input__area_error: !!error })} type="text" {...other} />
+    {!!label && (
+      <label htmlFor={name} className={cx('input__label')}>
+        {label}
+      </label>
+    )}
+    <input
+      name={name}
+      className={cx('input__area', { input__area_error: !!error })}
+      type="text"
+      {...other}
+    />
     {!!error && (
       <div className={cx('input__error-message')}>
         <ErrorIcon />

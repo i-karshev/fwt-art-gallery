@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import cn from 'classnames/bind';
 
 import { Link } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import styles from './Header.module.scss';
 import { LoginModal } from '@/components/LoginModal';
 import { RegisterModal } from '@/components/RegisterModal';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { authActions } from '@/store/reducers/AuthSlice';
 
 const cx = cn.bind(styles);
 
@@ -21,9 +23,13 @@ export const Header = () => {
   const [isShowLoginModal, setIsShowLoginModal] = useState(false);
   const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
 
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
   const handleToggleLoginModal = () => setIsShowLoginModal((prev) => !prev);
   const handleToggleRegisterModal = () => setIsShowRegisterModal((prev) => !prev);
+  const handleLogout = useCallback(() => dispatch(authActions.logout()), [dispatch]);
 
   return (
     <header className={cx('header', { header_dark: isDarkTheme })}>
@@ -47,21 +53,30 @@ export const Header = () => {
                 <CloseIcon />
               </div>
               <ThemeToggle />
+
               <ul className={cx('header__list')}>
-                <li
-                  role="presentation"
-                  className={cx('header__item')}
-                  onClick={handleToggleLoginModal}
-                >
-                  Log In
-                </li>
-                <li
-                  role="presentation"
-                  className={cx('header__item')}
-                  onClick={handleToggleRegisterModal}
-                >
-                  Sing Up
-                </li>
+                {isLoggedIn ? (
+                  <li role="presentation" className={cx('header__item')} onClick={handleLogout}>
+                    Log Out
+                  </li>
+                ) : (
+                  <>
+                    <li
+                      role="presentation"
+                      className={cx('header__item')}
+                      onClick={handleToggleLoginModal}
+                    >
+                      Log In
+                    </li>
+                    <li
+                      role="presentation"
+                      className={cx('header__item')}
+                      onClick={handleToggleRegisterModal}
+                    >
+                      Sing Up
+                    </li>
+                  </>
+                )}
               </ul>
             </nav>
           </div>
