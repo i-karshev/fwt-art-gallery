@@ -1,7 +1,8 @@
 import React, { FC, ReactNode, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import cn from 'classnames/bind';
 
-import { createPortal } from 'react-dom';
+import { useScrollWidth } from '@/hooks/useScrollWidth';
 import styles from './Modal.module.scss';
 
 const cx = cn.bind(styles);
@@ -14,14 +15,21 @@ interface ModalProps {
 
 export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal }) => {
   const bodyRef = useRef(document.body);
+  const scrollWidth = useScrollWidth();
 
   useEffect(() => {
+    const body = bodyRef.current;
+
     if (isShowModal) {
-      bodyRef.current.style.overflow = 'hidden';
+      body.style.overflowY = 'hidden';
+      body.style.paddingRight = `${scrollWidth}px`;
+      body.style.backgroundColor = isDarkTheme ? '#121212' : '#ffffff';
     }
 
     return () => {
-      bodyRef.current.style.overflow = 'auto';
+      body.style.overflowY = 'scroll';
+      body.style.paddingRight = '';
+      body.style.backgroundColor = '';
     };
   }, [isShowModal]);
 
