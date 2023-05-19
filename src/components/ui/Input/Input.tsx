@@ -1,4 +1,4 @@
-import React, { FC, InputHTMLAttributes } from 'react';
+import React, { FC, forwardRef, InputHTMLAttributes } from 'react';
 import cn from 'classnames/bind';
 
 import { ReactComponent as ErrorIcon } from '@/assets/svg/error_icon.svg';
@@ -12,31 +12,27 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export const Input: FC<InputProps> = ({
-  isDarkTheme,
-  label,
-  error,
-  className,
-  name = 'input',
-  ...other
-}) => (
-  <div className={cx('input', { input_dark: isDarkTheme }, className)}>
-    {!!label && (
-      <label htmlFor={name} className={cx('input__label')}>
-        {label}
-      </label>
-    )}
-    <input
-      name={name}
-      className={cx('input__area', { input__area_error: !!error })}
-      type="text"
-      {...other}
-    />
-    {!!error && (
-      <div className={cx('input__error-message')}>
-        <ErrorIcon />
-        <span>{error}</span>
-      </div>
-    )}
-  </div>
+export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
+  ({ isDarkTheme, label, error, className, name = 'input', ...other }, ref) => (
+    <div className={cx('input', { input_dark: isDarkTheme }, className)}>
+      {!!label && (
+        <label htmlFor={name} className={cx('input__label')}>
+          {label}
+        </label>
+      )}
+      <input
+        ref={ref}
+        name={name}
+        className={cx('input__area', { input__area_error: !!error })}
+        type="text"
+        {...other}
+      />
+      {!!error && (
+        <div className={cx('input__error-message')}>
+          <ErrorIcon />
+          <span>{error}</span>
+        </div>
+      )}
+    </div>
+  )
 );

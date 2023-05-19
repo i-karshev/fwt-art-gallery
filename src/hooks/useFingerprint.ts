@@ -10,8 +10,7 @@ export const useFingerprint = () => {
       const { visitorId } = await fp.get();
       setFingerprintHash(visitorId);
     };
-    // eslint-disable-next-line no-void
-    void setFingerprint();
+    setFingerprint();
   }, []);
 
   return fingerprintHash;

@@ -2,13 +2,30 @@ import { IImage } from '@/types/IImage';
 import { IPainting } from '@/types/IPainting';
 import { IGenre } from '@/types/IGenre';
 
-export interface Artist {
+export interface IArtist {
   genres: IGenre[];
   _id: string;
   name: string;
   description: string;
   yearsOfLife: string;
-  avatar?: IImage;
+  avatar: IImage;
+}
+export interface IArtistParams {
+  sortBy?: string;
+  name?: string;
+  orderBy?: 'asc' | 'desc';
+  perPage?: number;
+  genres?: string[];
+  pageNumber?: number;
+}
+
+export interface IArtistResponse {
+  data: IArtist[];
+  meta: {
+    count: number;
+    pageNumber: number;
+    perPage: number;
+  };
 }
 
 export interface IArtistStatic {

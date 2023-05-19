@@ -1,19 +1,22 @@
-import React, { ChangeEvent, FC, useEffect, useRef } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useRef } from 'react';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { authApi } from '@/api/authApi';
+import { useFingerprint } from '@/hooks/useFingerprint';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
-import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Input } from '@/components/ui/Input';
-import { Link } from '@/components/ui/Link';
 import { InputPassword } from '@/components/ui/InputPassword';
-import { useFingerprint } from '@/hooks/useFingerprint';
+import { Link } from '@/components/ui/Link';
+
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import registerImage from '@/assets/img/register-img.jpg';
+
 import styles from './RegisterModal.module.scss';
 
 const cx = cn.bind(styles);
@@ -53,7 +56,7 @@ export const RegisterModal: FC<RegisterModalProps> = ({
 
   const registerModalRef = useRef(null);
   const fingerprint = useFingerprint();
-  const [handleRegister, { isSuccess }] = authApi.useRegisterMutation();
+  const [registerUser, { isSuccess }] = authApi.useRegisterMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -62,23 +65,16 @@ export const RegisterModal: FC<RegisterModalProps> = ({
     }
   }, [isSuccess]);
 
-  useEffect(() => {
-    register('username');
-    register('password');
-  }, []);
-
   useOutsideClick(registerModalRef, onCloseModal);
 
-  const onSubmit = handleSubmit((data) => {
-    const { username, password } = data;
-    // eslint-disable-next-line no-void, @typescript-eslint/no-unsafe-assignment
-    void handleRegister({ username, password, fingerprint });
-  });
+  const onSubmit = handleSubmit(({ username, password }) =>
+    registerUser({ username, password, fingerprint })
+  );
 
-  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name as 'username' | 'password';
     setValue(name, event.target.value, { shouldValidate: true });
-  };
+  }, []);
 
   return (
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
@@ -94,18 +90,17 @@ export const RegisterModal: FC<RegisterModalProps> = ({
         />
         <div className={cx('register-modal__content')}>
           <p className={cx('register-modal__title')}>Create your profile</p>
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <form className={cx('register-modal__form')} onSubmit={onSubmit}>
             <Input
               isDarkTheme={isDarkTheme}
-              name="username"
+              {...register('username')}
               label="Email"
               onChange={handleChangeInput}
               error={errors.username?.message?.toString()}
             />
             <InputPassword
               isDarkTheme={isDarkTheme}
-              name="password"
+              {...register('password')}
               label="Password"
               onChange={handleChangeInput}
               error={errors.password?.message?.toString()}

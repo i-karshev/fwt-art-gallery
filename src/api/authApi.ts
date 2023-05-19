@@ -11,9 +11,15 @@ interface RefreshTokenDto {
   fingerprint?: string;
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface AuthErrorResponse {
+  error: string;
+  message: string;
+  statusCode: number;
 }
 
 export const authApi = apiService.injectEndpoints({

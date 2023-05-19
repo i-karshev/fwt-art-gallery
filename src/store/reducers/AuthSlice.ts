@@ -1,16 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from '@/api/authApi';
+import { authLocalStorage } from '@/utils/authLocalStorage';
 
 interface AuthSliceState {
-  isLoggedIn: boolean;
-  accessToken: string;
-  refreshToken: string;
+  isAuth: boolean;
 }
 
 const initialState: AuthSliceState = {
-  isLoggedIn: false,
-  accessToken: '',
-  refreshToken: '',
+  isAuth: !!localStorage.getItem('jwt-access'),
 };
 
 const AuthSlice = createSlice({
@@ -18,25 +15,21 @@ const AuthSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.isLoggedIn = false;
-      state.accessToken = '';
-      state.refreshToken = '';
+      state.isAuth = false;
+      authLocalStorage.remove();
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-      state.isLoggedIn = true;
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
+      state.isAuth = true;
+      authLocalStorage.set(payload);
     });
     builder.addMatcher(authApi.endpoints.register.matchFulfilled, (state, { payload }) => {
-      state.isLoggedIn = true;
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
+      state.isAuth = true;
+      authLocalStorage.set(payload);
     });
     builder.addMatcher(authApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
+      authLocalStorage.set(payload);
     });
   },
 });

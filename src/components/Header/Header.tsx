@@ -1,35 +1,39 @@
 import React, { useCallback, useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import cn from 'classnames/bind';
 
-import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { authActions } from '@/store/reducers/AuthSlice';
 import { ThemeContext } from '@/context/ThemeProvider';
+
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Container } from '@/components/Container';
+import { LoginModal } from '@/components/LoginModal';
+import { RegisterModal } from '@/components/RegisterModal';
 
 import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
 import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
+
 import styles from './Header.module.scss';
-import { LoginModal } from '@/components/LoginModal';
-import { RegisterModal } from '@/components/RegisterModal';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { authActions } from '@/store/reducers/AuthSlice';
 
 const cx = cn.bind(styles);
 
 export const Header = () => {
+  const dispatch = useAppDispatch();
   const { isDarkTheme } = useContext(ThemeContext);
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isShowLoginModal, setIsShowLoginModal] = useState(false);
   const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
 
-  const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
-
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
   const handleToggleLoginModal = () => setIsShowLoginModal((prev) => !prev);
   const handleToggleRegisterModal = () => setIsShowRegisterModal((prev) => !prev);
-  const handleLogout = useCallback(() => dispatch(authActions.logout()), [dispatch]);
+  const handleLogout = useCallback(() => {
+    dispatch(authActions.logout());
+  }, [dispatch]);
 
   return (
     <header className={cx('header', { header_dark: isDarkTheme })}>
@@ -55,7 +59,7 @@ export const Header = () => {
               <ThemeToggle />
 
               <ul className={cx('header__list')}>
-                {isLoggedIn ? (
+                {isAuth ? (
                   <li role="presentation" className={cx('header__item')} onClick={handleLogout}>
                     Log Out
                   </li>

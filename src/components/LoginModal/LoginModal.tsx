@@ -7,11 +7,13 @@ import * as yup from 'yup';
 import { authApi } from '@/api/authApi';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useFingerprint } from '@/hooks/useFingerprint';
+
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Link } from '@/components/ui/Link';
 import { InputPassword } from '@/components/ui/InputPassword';
+import { Link } from '@/components/ui/Link';
+
 import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import loginImage from '@/assets/img/login-img.jpg';
 
@@ -50,7 +52,7 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
 
   const loginModalRef = useRef(null);
   const fingerprint = useFingerprint();
-  const [handleLogin, { isSuccess }] = authApi.useLoginMutation();
+  const [login, { isSuccess }] = authApi.useLoginMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -59,16 +61,10 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
     }
   }, [isSuccess]);
 
-  useEffect(() => {
-    register('username');
-    register('password');
-  }, []);
-
   useOutsideClick(loginModalRef, onCloseModal);
 
   const onSubmit = handleSubmit(({ username, password }) => {
-    // eslint-disable-next-line no-void
-    void handleLogin({ username, password, fingerprint });
+    login({ username, password, fingerprint });
   });
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -82,18 +78,17 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
         <img className={cx('login-modal__img')} src={loginImage} alt="login" loading="lazy" />
         <div className={cx('login-modal__content')}>
           <p className={cx('login-modal__title')}>Welcome back</p>
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <form className={cx('login-modal__form')} onSubmit={onSubmit}>
             <Input
               isDarkTheme={isDarkTheme}
-              name="username"
+              {...register('username')}
               label="Email"
               onChange={handleChangeInput}
               error={errors.username?.message?.toString()}
             />
             <InputPassword
               isDarkTheme={isDarkTheme}
-              name="password"
+              {...register('password')}
               label="Password"
               onChange={handleChangeInput}
               error={errors.password?.message?.toString()}
