@@ -4,7 +4,7 @@ import {
   IArtistResponse,
   IArtistStatic,
 } from '@/types/IArtist';
-import { apiService } from './index';
+import { apiService } from '@/api';
 
 export const artistApi = apiService.injectEndpoints({
   endpoints: (build) => ({
