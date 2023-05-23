@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import cn from 'classnames/bind';
 
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -8,8 +8,7 @@ import { ThemeContext } from '@/context/ThemeProvider';
 
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Container } from '@/components/Container';
-import { LoginModal } from '@/components/LoginModal';
-import { RegisterModal } from '@/components/RegisterModal';
+import { Link } from '@/components/ui/Link';
 
 import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
 import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
@@ -20,17 +19,14 @@ import styles from './Header.module.scss';
 const cx = cn.bind(styles);
 
 export const Header = () => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { isDarkTheme } = useContext(ThemeContext);
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const [isShowLoginModal, setIsShowLoginModal] = useState(false);
-  const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
 
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
-  const handleToggleLoginModal = () => setIsShowLoginModal((prev) => !prev);
-  const handleToggleRegisterModal = () => setIsShowRegisterModal((prev) => !prev);
   const handleLogout = useCallback(() => {
     dispatch(authActions.logout());
   }, [dispatch]);
@@ -40,7 +36,7 @@ export const Header = () => {
       <Container>
         <div className={cx('header__container')}>
           <div className="header__logo">
-            <Link to="/" className={cx('header__logo')}>
+            <Link to="/" className={cx('header__logo')} isDarkTheme={isDarkTheme}>
               <LogoIcon />
             </Link>
           </div>
@@ -65,20 +61,23 @@ export const Header = () => {
                   </li>
                 ) : (
                   <>
-                    <li
-                      role="presentation"
+                    <Link
                       className={cx('header__item')}
-                      onClick={handleToggleLoginModal}
+                      isDarkTheme={isDarkTheme}
+                      to="/login"
+                      state={{ background: location }}
                     >
                       Log In
-                    </li>
-                    <li
-                      role="presentation"
+                    </Link>
+
+                    <Link
                       className={cx('header__item')}
-                      onClick={handleToggleRegisterModal}
+                      isDarkTheme={isDarkTheme}
+                      to="/login"
+                      state={{ background: location }}
                     >
                       Sing Up
-                    </li>
+                    </Link>
                   </>
                 )}
               </ul>
@@ -86,16 +85,6 @@ export const Header = () => {
           </div>
         </div>
       </Container>
-      <LoginModal
-        isDarkTheme={isDarkTheme}
-        isShowModal={isShowLoginModal}
-        onCloseModal={handleToggleLoginModal}
-      />
-      <RegisterModal
-        isDarkTheme={isDarkTheme}
-        isShowModal={isShowRegisterModal}
-        onCloseModal={handleToggleRegisterModal}
-      />
     </header>
   );
 };

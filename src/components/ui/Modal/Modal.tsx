@@ -10,10 +10,10 @@ const cx = cn.bind(styles);
 interface ModalProps {
   children: ReactNode;
   isDarkTheme: boolean;
-  isShowModal: boolean;
+  isShowModal?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal }) => {
+export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal = true }) => {
   const bodyRef = useRef(document.body);
   const scrollWidth = useScrollWidth();
 

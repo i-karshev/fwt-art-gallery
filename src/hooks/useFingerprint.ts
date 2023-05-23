@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { getFingerprint } from '@/utils/auth';
 
 export const useFingerprint = () => {
   const [fingerprintHash, setFingerprintHash] = useState('');
 
   useEffect(() => {
     const setFingerprint = async () => {
-      const fp = await FingerprintJS.load();
-      const { visitorId } = await fp.get();
-      setFingerprintHash(visitorId);
+      setFingerprintHash(await getFingerprint());
     };
     setFingerprint();
   }, []);

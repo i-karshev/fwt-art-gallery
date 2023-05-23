@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import cn from 'classnames/bind';
 
 import { IArtist, IArtistResponse, IArtistStatic } from '@/types/IArtist';
-import { artistApi } from '@/api/artistApi';
+import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { useAppSelector } from '@/hooks/redux';
 

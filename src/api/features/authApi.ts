@@ -1,4 +1,4 @@
-import { apiService } from '@/api/index';
+import { apiService } from '@/api';
 
 interface AuthDto {
   username: string;

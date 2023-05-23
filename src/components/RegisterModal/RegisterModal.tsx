@@ -1,10 +1,11 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { authApi } from '@/api/authApi';
+import { authApi } from '@/api/features/authApi';
 import { useFingerprint } from '@/hooks/useFingerprint';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 
@@ -18,6 +19,7 @@ import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import registerImage from '@/assets/img/register-img.jpg';
 
 import styles from './RegisterModal.module.scss';
+import { useAppSelector } from '@/hooks/redux';
 
 const cx = cn.bind(styles);
 
@@ -37,15 +39,9 @@ type FormData = yup.InferType<typeof schema>;
 
 interface RegisterModalProps {
   isDarkTheme: boolean;
-  isShowModal: boolean;
-  onCloseModal: () => void;
 }
 
-export const RegisterModal: FC<RegisterModalProps> = ({
-  isDarkTheme,
-  isShowModal,
-  onCloseModal,
-}) => {
+export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
   const {
     register,
     handleSubmit,
@@ -54,18 +50,15 @@ export const RegisterModal: FC<RegisterModalProps> = ({
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const registerModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [registerUser, { isSuccess }] = authApi.useRegisterMutation();
 
-  useEffect(() => {
-    if (isSuccess) {
-      onCloseModal();
-      reset();
-    }
-  }, [isSuccess]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useOutsideClick(registerModalRef, onCloseModal);
+  const handleCloseModal = () => navigate(-1);
 
   const onSubmit = handleSubmit(({ username, password }) =>
     registerUser({ username, password, fingerprint })
@@ -76,8 +69,21 @@ export const RegisterModal: FC<RegisterModalProps> = ({
     setValue(name, event.target.value, { shouldValidate: true });
   }, []);
 
+  useOutsideClick(registerModalRef, handleCloseModal);
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+      handleCloseModal();
+    }
+
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isSuccess, isAuth]);
+
   return (
-    <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
+    <Modal isDarkTheme={isDarkTheme}>
       <div
         ref={registerModalRef}
         className={cx('register-modal', { 'register-modal_dark': isDarkTheme })}
@@ -117,12 +123,16 @@ export const RegisterModal: FC<RegisterModalProps> = ({
           </form>
           <p className={cx('register-modal__log-in')}>
             If you already have an account, please{' '}
-            <Link isDarkTheme={isDarkTheme} to="/">
+            <Link isDarkTheme={isDarkTheme} to="/login" state={{ background: location }}>
               log in
             </Link>
           </p>
         </div>
-        <button type="button" className={cx('register-modal__close-btn')} onClick={onCloseModal}>
+        <button
+          type="button"
+          className={cx('register-modal__close-btn')}
+          onClick={handleCloseModal}
+        >
           <CloseIcon />
         </button>
       </div>

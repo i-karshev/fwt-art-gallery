@@ -1,10 +1,12 @@
 import React, { ChangeEvent, FC, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { authApi } from '@/api/authApi';
+import { authApi } from '@/api/features/authApi';
+import { useAppSelector } from '@/hooks/redux';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useFingerprint } from '@/hooks/useFingerprint';
 
@@ -37,11 +39,9 @@ type FormData = yup.InferType<typeof schema>;
 
 interface LoginModalProps {
   isDarkTheme: boolean;
-  isShowModal: boolean;
-  onCloseModal: () => void;
 }
 
-export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCloseModal }) => {
+export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
   const {
     register,
     handleSubmit,
@@ -50,18 +50,15 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const loginModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [login, { isSuccess }] = authApi.useLoginMutation();
 
-  useEffect(() => {
-    if (isSuccess) {
-      onCloseModal();
-      reset();
-    }
-  }, [isSuccess]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useOutsideClick(loginModalRef, onCloseModal);
+  const handleCloseModal = () => navigate(-1);
 
   const onSubmit = handleSubmit(({ username, password }) => {
     login({ username, password, fingerprint });
@@ -72,8 +69,21 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
     setValue(name, event.target.value, { shouldValidate: true });
   };
 
+  useOutsideClick(loginModalRef, handleCloseModal);
+
+  useEffect(() => {
+    if (isSuccess) {
+      handleCloseModal();
+      reset();
+    }
+
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isSuccess, isAuth]);
+
   return (
-    <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
+    <Modal isDarkTheme={isDarkTheme}>
       <div ref={loginModalRef} className={cx('login-modal', { 'login-modal_dark': isDarkTheme })}>
         <img className={cx('login-modal__img')} src={loginImage} alt="login" loading="lazy" />
         <div className={cx('login-modal__content')}>
@@ -105,12 +115,12 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme, isShowModal, onCl
           </form>
           <p className={cx('login-modal__sing-up')}>
             If you don&apos;t have an account yet, please{' '}
-            <Link isDarkTheme={isDarkTheme} to="/">
+            <Link isDarkTheme={isDarkTheme} to="/register" state={{ background: location }}>
               sign up
             </Link>
           </p>
         </div>
-        <button type="button" className={cx('login-modal__close-btn')} onClick={onCloseModal}>
+        <button type="button" className={cx('login-modal__close-btn')} onClick={handleCloseModal}>
           <CloseIcon />
         </button>
       </div>

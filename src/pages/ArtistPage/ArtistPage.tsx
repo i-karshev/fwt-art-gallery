@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
-import { artistApi } from '@/api/artistApi';
+import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { useAppSelector } from '@/hooks/redux';
 
