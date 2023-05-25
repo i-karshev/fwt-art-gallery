@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import cn from 'classnames/bind';
 
 import styles from './Preloader.module.scss';
@@ -9,7 +9,7 @@ interface PreloaderProps {
   isDarkTheme: boolean;
 }
 
-export const Preloader: FC<PreloaderProps> = ({ isDarkTheme }) => (
+export const Preloader: FC<PreloaderProps> = memo(({ isDarkTheme }) => (
   <div className={cx('preloader', { preloader_dark: isDarkTheme })}>
     <svg
       className={cx('preloader__spinner')}
@@ -58,4 +58,4 @@ export const Preloader: FC<PreloaderProps> = ({ isDarkTheme }) => (
       />
     </svg>
   </div>
-);
+));

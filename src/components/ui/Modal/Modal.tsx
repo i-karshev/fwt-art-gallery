@@ -1,8 +1,9 @@
-import React, { FC, ReactNode, useEffect, useRef } from 'react';
+import React, { FC, ReactNode, memo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import cn from 'classnames/bind';
 
 import { useScrollWidth } from '@/hooks/useScrollWidth';
+
 import styles from './Modal.module.scss';
 
 const cx = cn.bind(styles);
@@ -13,7 +14,7 @@ interface ModalProps {
   isShowModal?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal = true }) => {
+export const Modal: FC<ModalProps> = memo(({ children, isDarkTheme, isShowModal }) => {
   const bodyRef = useRef(document.body);
   const scrollWidth = useScrollWidth();
 
@@ -43,4 +44,4 @@ export const Modal: FC<ModalProps> = ({ children, isDarkTheme, isShowModal = tru
     </div>,
     bodyRef.current
   );
-};
+});

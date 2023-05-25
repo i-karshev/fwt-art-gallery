@@ -6,12 +6,14 @@
       background-color: $color-primary-black;
       color: $color-secondary-gray;
     }
+
     &__name {
       color: $color-accent-gold;
       &:before {
         border-color: $color-accent-gold;
       }
     }
+
     &__info-detail {
       background-color: $color-primary-black;
     }
@@ -24,7 +26,6 @@
     margin: 0 auto;
 
     @include lg {
-      height: auto;
       min-height: 1000px;
       padding: 0 20px;
     }

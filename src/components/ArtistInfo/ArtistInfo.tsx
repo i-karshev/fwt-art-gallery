@@ -1,41 +1,56 @@
 import React, { FC } from 'react';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
-import { IArtistDetailStatic } from '@/types/IArtist';
+import { IImage } from '@/types/IImage';
+import { IGenre } from '@/types/IGenre';
+import { Image } from '@/components/ui/Image';
 import { Label } from '@/components/ui/Label';
 import { ArtistAccordion } from '@/components/ArtistAccordion';
+
 import styles from './ArtistInfo.module.scss';
 
 const cx = cn.bind(styles);
 
 interface ArtistInfoProps {
-  artist: IArtistDetailStatic;
+  name: string;
+  description: string;
+  yearsOfLife: string;
+  genres: IGenre[];
+  avatar: IImage;
   isDarkTheme: boolean;
 }
 
-export const ArtistInfo: FC<ArtistInfoProps> = ({ artist, isDarkTheme }) => (
+export const ArtistInfo: FC<ArtistInfoProps> = ({
+  name,
+  description,
+  yearsOfLife,
+  genres,
+  avatar,
+  isDarkTheme,
+}) => (
   <div className={cx('artist', { artist_dark: isDarkTheme })}>
     <div className={cx('artist__container')}>
       <div className={cx('artist__content')}>
         <div className={cx('artist__info-wrapper')}>
-          <img
+          <Image
             className={cx('artist__img')}
-            src={`${API_BASE_URL}${artist.avatar.webp}`}
-            alt={artist.name}
-            loading="lazy"
+            src={avatar.src}
+            src2x={avatar.src2x}
+            webp={avatar.webp}
+            webp2x={avatar.webp2x}
+            alt={name}
           />
           <div className={cx('artist__info')}>
-            <p className={cx('artist__years')}>{artist.yearsOfLife}</p>
-            <p className={cx('artist__name')}>{artist.name}</p>
+            <p className={cx('artist__years')}>{yearsOfLife}</p>
+            <p className={cx('artist__name')}>{name}</p>
           </div>
         </div>
 
         <div className={cx('artist__info-detail')}>
-          <ArtistAccordion description={artist.description} isDarkTheme={isDarkTheme} />
+          <ArtistAccordion description={description} isDarkTheme={isDarkTheme} />
           <div className={cx('artist__genres')}>
-            {artist.genres.map((genre) => (
-              <Label key={genre._id} name={genre.name} isDarkTheme={isDarkTheme} />
+            {genres.map(({ _id: genreId, name: genreName }) => (
+              <Label key={genreId} name={genreName} isDarkTheme={isDarkTheme} />
             ))}
           </div>
         </div>
