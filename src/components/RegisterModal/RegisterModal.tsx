@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useRef } from 'react';
+import React, { ChangeEvent, FC, useCallback, useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { authApi } from '@/api/features/authApi';
 import { useFingerprint } from '@/hooks/useFingerprint';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { AuthContext } from '@/context/AuthProvider';
 
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
@@ -19,7 +20,6 @@ import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
 import registerImage from '@/assets/img/register-img.jpg';
 
 import styles from './RegisterModal.module.scss';
-import { useAppSelector } from '@/hooks/redux';
 
 const cx = cn.bind(styles);
 
@@ -50,11 +50,10 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
-  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const registerModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [registerUser, { isSuccess }] = authApi.useRegisterMutation();
-
+  const { isAuth, onLogin } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -73,12 +72,12 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
 
   useEffect(() => {
     if (isSuccess) {
+      onLogin();
       reset();
-      handleCloseModal();
     }
 
     if (isAuth) {
-      navigate('/');
+      handleCloseModal();
     }
   }, [isSuccess, isAuth]);
 

@@ -1,9 +1,8 @@
 import jwt from 'jwt-decode';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
-import { authApi, AuthResponse } from '@/api/features/authApi';
-import { store } from '@/index';
-import { authActions } from '@/store/reducers/AuthSlice';
+import { AuthResponse } from '@/api/features/authApi';
+import { instance } from '@/api/instance';
 
 interface Auth {
   get: () => {
@@ -60,13 +59,12 @@ export const refreshTokenRequest = async () => {
     if (refreshToken) {
       if (isExpiredToken(refreshToken)) {
         authLocalStorage.remove();
-        store.dispatch(authActions.logout());
 
         return;
       }
 
       const fingerprint = await getFingerprint();
-      await store.dispatch(authApi.endpoints.refresh.initiate({ refreshToken, fingerprint }));
+      await instance.post('auth/refresh', { refreshToken, fingerprint });
     }
   }
 };

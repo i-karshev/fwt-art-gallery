@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/context/ThemeProvider';
 import { App } from '@/components/App';
 
 import '@/assets/scss/main.scss';
+import { AuthProvider } from '@/context/AuthProvider';
 
 const rootElement = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(rootElement);
@@ -17,9 +18,11 @@ root.render(
   <React.StrictMode>
     <ThemeProvider>
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useRef } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -6,9 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { authApi } from '@/api/features/authApi';
-import { useAppSelector } from '@/hooks/redux';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useFingerprint } from '@/hooks/useFingerprint';
+import { AuthContext } from '@/context/AuthProvider';
 
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
@@ -50,11 +50,10 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
-  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const loginModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [login, { isSuccess }] = authApi.useLoginMutation();
-
+  const { isAuth, onLogin } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -73,12 +72,12 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleCloseModal();
+      onLogin();
       reset();
     }
 
     if (isAuth) {
-      navigate('/');
+      handleCloseModal();
     }
   }, [isSuccess, isAuth]);
 

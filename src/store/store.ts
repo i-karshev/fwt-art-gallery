@@ -1,12 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { artistReducer } from '@/store/reducers/ArtistSlice';
-import { authReducer } from '@/store/reducers/AuthSlice';
 import { apiService } from '@/api';
 
 const rootReducer = combineReducers({
   artistReducer,
-  authReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 

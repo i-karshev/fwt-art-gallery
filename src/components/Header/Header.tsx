@@ -2,9 +2,8 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames/bind';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { authActions } from '@/store/reducers/AuthSlice';
 import { ThemeContext } from '@/context/ThemeProvider';
+import { AuthContext } from '@/context/AuthProvider';
 
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Container } from '@/components/Container';
@@ -20,16 +19,13 @@ const cx = cn.bind(styles);
 
 export const Header = () => {
   const location = useLocation();
-  const dispatch = useAppDispatch();
   const { isDarkTheme } = useContext(ThemeContext);
-  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const { isAuth, onLogout } = useContext(AuthContext);
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
-  const handleLogout = useCallback(() => {
-    dispatch(authActions.logout());
-  }, [dispatch]);
+  const handleLogout = useCallback(() => onLogout(), []);
 
   return (
     <header className={cx('header', { header_dark: isDarkTheme })}>

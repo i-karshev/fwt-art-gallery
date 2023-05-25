@@ -13,6 +13,7 @@ export interface CardProps {
   imgUrl: string;
   isDarkTheme: boolean;
   isScaleImageOnHover?: boolean;
+  onClick?: () => void;
 }
 
 export const Card: FC<CardProps> = ({
@@ -21,8 +22,9 @@ export const Card: FC<CardProps> = ({
   imgUrl,
   isDarkTheme,
   isScaleImageOnHover,
+  onClick,
 }) => (
-  <div className={cx('card', { card_dark: isDarkTheme })}>
+  <div className={cx('card', { card_dark: isDarkTheme })} onClick={onClick} role="presentation">
     <img
       className={cx('card__img', { card__img_scale: isScaleImageOnHover })}
       loading="lazy"

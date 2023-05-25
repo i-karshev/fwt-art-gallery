@@ -5,6 +5,7 @@ import { API_BASE_URL } from '@/constans';
 import { IArtistDetailStatic } from '@/types/IArtist';
 import { Label } from '@/components/ui/Label';
 import { ArtistAccordion } from '@/components/ArtistAccordion';
+
 import styles from './ArtistInfo.module.scss';
 
 const cx = cn.bind(styles);

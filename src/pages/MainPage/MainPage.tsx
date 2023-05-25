@@ -4,7 +4,6 @@ import cn from 'classnames/bind';
 import { IArtist, IArtistResponse, IArtistStatic } from '@/types/IArtist';
 import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
-import { useAppSelector } from '@/hooks/redux';
 
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
@@ -12,16 +11,19 @@ import { Container } from '@/components/Container';
 import { Preloader } from '@/components/ui/Preloader';
 
 import styles from './MianPage.module.scss';
+import { AuthContext } from '@/context/AuthProvider';
 
 const cx = cn.bind(styles);
 
 export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
-  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const { isAuth } = useContext(AuthContext);
 
-  const fetchArtists = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
-  const fetchArtistsStatic = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
-  const { data = [], isLoading, isFetching } = isAuth ? fetchArtists : fetchArtistsStatic;
+  const fetchArtistsQuery = isAuth
+    ? artistApi.useFetchArtistsQuery({})
+    : artistApi.useFetchArtistsStaticQuery(null);
+
+  const { data = [] } = fetchArtistsQuery;
 
   const transformData = useMemo(
     () => (artists: (IArtist | IArtistStatic)[]) =>
@@ -29,7 +31,7 @@ export const MainPage = () => {
         id: artist._id,
         name: artist.name,
         yearsOfLife: artist.yearsOfLife,
-        image: (artist as IArtist).avatar || (artist as IArtistStatic).mainPainting.image,
+        image: (artist as IArtist).avatar || (artist as IArtistStatic).mainPainting?.image,
       })),
     [data]
   );
@@ -38,7 +40,7 @@ export const MainPage = () => {
     ? transformData((data as IArtistResponse).data)
     : transformData(data as IArtistStatic[]);
 
-  if (isLoading || isFetching) {
+  if (!artists) {
     return <Preloader isDarkTheme={isDarkTheme} />;
   }
 
@@ -46,16 +48,15 @@ export const MainPage = () => {
     <main className={cx('content-wrapper')}>
       <Container>
         <CardGrid>
-          {artists &&
-            artists.map((artist) => (
-              <ArtistCard
-                key={artist.id}
-                id={artist.id}
-                name={artist.name}
-                yearsOfLife={artist.yearsOfLife}
-                imgUrl={artist.image.webp}
-              />
-            ))}
+          {artists?.map((artist) => (
+            <ArtistCard
+              key={artist.id}
+              id={artist.id}
+              name={artist.name}
+              yearsOfLife={artist.yearsOfLife}
+              imgUrl={artist.image?.webp}
+            />
+          ))}
         </CardGrid>
       </Container>
     </main>

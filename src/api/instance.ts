@@ -3,6 +3,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { API_BASE_URL } from '@/constans';
 import { authLocalStorage, isExpiredToken, refreshTokenRequest } from '@/utils/auth';
+import { AuthResponse } from '@/api/features/authApi';
 
 export const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -30,7 +31,13 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response.config.url?.includes('auth')) {
+      authLocalStorage.set(response.data as AuthResponse);
+    }
+
+    return response;
+  },
 
   async (error: AxiosError<unknown, AxiosRequestConfig>) => {
     if (error.response && error.response.status === 401) {
