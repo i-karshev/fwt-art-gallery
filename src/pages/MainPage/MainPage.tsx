@@ -4,6 +4,7 @@ import cn from 'classnames/bind';
 import { IArtist, IArtistResponse, IArtistStatic } from '@/types/IArtist';
 import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
+import { AuthContext } from '@/context/AuthProvider';
 
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
@@ -11,7 +12,6 @@ import { Container } from '@/components/Container';
 import { Preloader } from '@/components/ui/Preloader';
 
 import styles from './MianPage.module.scss';
-import { AuthContext } from '@/context/AuthProvider';
 
 const cx = cn.bind(styles);
 
@@ -19,11 +19,9 @@ export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
   const { isAuth } = useContext(AuthContext);
 
-  const fetchArtistsQuery = isAuth
-    ? artistApi.useFetchArtistsQuery({})
-    : artistApi.useFetchArtistsStaticQuery(null);
-
-  const { data = [] } = fetchArtistsQuery;
+  const fetchArtistsQuery = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
+  const fetchArtistsStaticQuery = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
+  const { data = [] } = isAuth ? fetchArtistsQuery : fetchArtistsStaticQuery;
 
   const transformData = useMemo(
     () => (artists: (IArtist | IArtistStatic)[]) =>

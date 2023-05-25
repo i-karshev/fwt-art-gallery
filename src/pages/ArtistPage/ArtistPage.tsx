@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
@@ -28,11 +28,9 @@ export const ArtistPage = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
 
-  const fetchArtistQuery = isAuth
-    ? artistApi.useFetchArtistByIdQuery(id)
-    : artistApi.useFetchArtistStaticByIdQuery(id);
-
-  const { data: artist } = fetchArtistQuery;
+  const fetchArtistQuery = artistApi.useFetchArtistByIdQuery(id, { skip: !isAuth });
+  const fetchArtistStaticQuery = artistApi.useFetchArtistStaticByIdQuery(id, { skip: isAuth });
+  const { data: artist } = isAuth ? fetchArtistQuery : fetchArtistStaticQuery;
 
   const [isShowSlider, setIsShowSlider] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
