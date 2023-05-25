@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IArtistStatic } from '@/types/IArtist';
 
-const initialState = {
+interface IArtistSliceState {
+  artists: IArtistStatic[];
+}
+
+const initialState: IArtistSliceState = {
   artists: [],
 };
 

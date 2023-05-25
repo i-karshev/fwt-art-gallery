@@ -27,5 +27,6 @@ module.exports = {
       2,
       { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
     ],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
   },
 };

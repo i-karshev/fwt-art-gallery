@@ -17,7 +17,16 @@ export const Gallery: FC<ArtistListProps> = ({ artists }) => (
   <Container>
     <div className={cx('gallery')}>
       <ul className={cx('gallery__list')}>
-        {artists && artists.map((artist) => <ArtistCard key={artist._id} artist={artist} />)}
+        {artists &&
+          artists.map((artist) => (
+            <ArtistCard
+              key={artist._id}
+              id={artist._id}
+              name={artist.name}
+              yearsOfLife={artist.yearsOfLife}
+              imgUrl={artist.mainPainting.image.webp}
+            />
+          ))}
       </ul>
     </div>
   </Container>

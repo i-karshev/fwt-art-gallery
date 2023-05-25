@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, FC, ReactNode, useCallback, useMemo, useState } from 'react';
 
 interface IThemeContext {
   isDarkTheme: boolean;
@@ -16,10 +16,6 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const toggleTheme = useCallback(() => {
     setIsDarkTheme((prev) => !prev);
   }, []);
-
-  useEffect(() => {
-    document.body.className = isDarkTheme ? 'dark-theme' : 'light-theme';
-  }, [isDarkTheme]);
 
   const themeContextProviderValue = useMemo(
     () => ({

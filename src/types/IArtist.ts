@@ -1,7 +1,9 @@
-import { IImage } from './IImage';
+import { IImage } from '@/types/IImage';
+import { IPainting } from '@/types/IPainting';
+import { IGenre } from '@/types/IGenre';
 
 export interface Artist {
-  genres: string[];
+  genres: IGenre[];
   _id: string;
   name: string;
   description: string;
@@ -10,17 +12,22 @@ export interface Artist {
 }
 
 export interface IArtistStatic {
-  genres: string[];
+  genres: IGenre[];
   _id: string;
   name: string;
   description: string;
   yearsOfLife: string;
   __v?: number;
-  mainPainting: {
-    _id: string;
-    name: string;
-    yearOfCreation: string;
-    image: IImage;
-    artist: string;
-  };
+  mainPainting: IPainting;
+}
+
+export interface IArtistDetailStatic {
+  paintings: IPainting[];
+  genres: IGenre[];
+  _id: string;
+  name: string;
+  yearsOfLife: string;
+  description: string;
+  avatar: IImage;
+  mainPainting: IPainting;
 }

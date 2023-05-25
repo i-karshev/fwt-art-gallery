@@ -2,6 +2,7 @@
   position: relative;
   aspect-ratio: 8 / 5;
   overflow: hidden;
+  cursor: pointer;
 
   &_dark & {
     &__info {

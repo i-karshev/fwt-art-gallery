@@ -1,0 +1,46 @@
+.artist-page {
+  position: relative;
+  margin: 12px 0 80px 0;
+
+  @include md {
+    margin: 32px 0 100px 0;
+  }
+
+  &_dark & {
+    &__artworks-heading {
+      color: $color-accent-gold;
+    }
+  }
+
+  &__artworks {
+    margin-top: 60px;
+
+    @include md {
+      margin-top: 98px;
+    }
+    @include lg {
+      margin-top: 160px;
+    }
+  }
+
+  &__artworks-heading {
+    font-family: 'Cormorant SC', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    margin-bottom: 60px;
+    color: $color-accent-red;
+
+    @include md {
+      font-weight: 500;
+      font-size: 60px;
+      line-height: 73px;
+    }
+
+    @include lg {
+      font-size: 60px;
+      line-height: 73px;
+      margin-left: 80px;
+    }
+  }
+}

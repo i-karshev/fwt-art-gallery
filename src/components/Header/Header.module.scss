@@ -42,6 +42,10 @@
     display: flex;
   }
 
+  &__logo {
+    color: inherit;
+  }
+
   &__nav {
     position: fixed;
     display: flex;

@@ -1,0 +1,36 @@
+.label {
+  padding: 8px 16px;
+  border-radius: 30px;
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(18, 18, 18, 0.05);
+  color: $color-primary-dark-gray;
+
+  &__text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    line-height: 140%;
+
+    @include md {
+      font-size: 12px;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &_dark {
+    color: $color-primary-light-gray;
+    background: rgba(205, 205, 205, 0.05);
+    border: 1px solid $color-primary-white;
+  }
+}
