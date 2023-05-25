@@ -5,10 +5,10 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(3, 3, 3, 0.3);
+  background-color: rgba($color-modal-bg, 0.3);
 
-  &__dark {
-    background-color: rgba(3, 3, 3, 0.6);
+  &_dark {
+    background-color: rgba($color-modal-bg, 0.6);
   }
 
   &__content {
