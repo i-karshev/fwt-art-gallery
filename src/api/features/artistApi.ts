@@ -34,5 +34,28 @@ export const artistApi = apiService
         }),
         invalidatesTags: ['Artist'],
       }),
+      createArtistPainting: build.mutation<null, { artistId: string; data: FormData }>({
+        query: ({ artistId, data }) => ({
+          method: 'POST',
+          url: `/artists/${artistId}/paintings`,
+          data,
+        }),
+      }),
+      editArtistPainting: build.mutation<
+        null,
+        { artistId: string; paintingId: string; data: FormData }
+      >({
+        query: ({ artistId, paintingId, data }) => ({
+          method: 'PUT',
+          url: `/artists/${artistId}/paintings/${paintingId}`,
+          data,
+        }),
+      }),
+      deleteArtistPainting: build.mutation<null, { artistId: string; paintingId: string }>({
+        query: ({ artistId, paintingId }) => ({
+          method: 'DELETE',
+          url: `/artists/${artistId}/paintings/${paintingId}`,
+        }),
+      }),
     }),
   });

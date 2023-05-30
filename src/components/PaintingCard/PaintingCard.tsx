@@ -11,6 +11,7 @@ import { convertDateToYears } from '@/utils/convertDateToYears';
 import { Card } from '@/components/ui/Card';
 import { Popover } from '@/components/ui/Popover';
 import { Button } from '@/components/ui/Button';
+import { PaintingModal } from '@/components/PaintingModal';
 
 import { ReactComponent as GearIcon } from '@/assets/svg/gear_icon.svg';
 
@@ -33,9 +34,11 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
     const { isAuth } = useContext(AuthContext);
     const [isShowPopover, setIsShowPopover] = useState(false);
     const popoverRef = useRef<HTMLDivElement | null>(null);
+    const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
 
     const { id: artist = '' } = useParams();
     const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
+    const [deletePainting] = artistApi.useDeleteArtistPaintingMutation();
 
     const handleEditMainPainting = (artistId: string, paintingId: string) => () => {
       editMainPainting({ artistId, paintingId });
@@ -45,6 +48,18 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
     const handleClosePopover = useCallback(() => setIsShowPopover(false), []);
 
     useOutsideClick(popoverRef, handleClosePopover);
+
+    const handleTogglePaintingModal = useCallback(
+      () => setIsShowPaintingModal((prev) => !prev),
+      [isShowPaintingModal]
+    );
+
+    const handleDeletePainting = useCallback(
+      (artistId: string, paintingId: string) => async () => {
+        await deletePainting({ artistId, paintingId });
+      },
+      []
+    );
 
     return (
       <li
@@ -72,12 +87,37 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
                 >
                   {isMainPainting ? 'Remove the cover' : 'Make the cover'}
                 </li>
-                <li className={cx('artist-card__popover-menu-item')}>Edit</li>
-                <li className={cx('artist-card__popover-menu-item')}>Delete</li>
+                <li
+                  className={cx('artist-card__popover-menu-item')}
+                  role="presentation"
+                  onClick={handleTogglePaintingModal}
+                >
+                  Edit
+                </li>
+                <li
+                  className={cx('artist-card__popover-menu-item')}
+                  role="presentation"
+                  onClick={handleDeletePainting(artist, id)}
+                >
+                  Delete
+                </li>
               </ul>
             </Popover>
           </div>
         )}
+
+        <PaintingModal
+          artistId={artist}
+          paintingId={id}
+          defaultValues={{
+            name,
+            yearOfCreation,
+            image: imgUrl,
+          }}
+          isDarkTheme={isDarkTheme}
+          isShowModal={isShowPaintingModal}
+          onCloseModal={handleTogglePaintingModal}
+        />
       </li>
     );
   }

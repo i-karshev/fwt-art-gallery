@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
@@ -13,10 +13,12 @@ import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
 import { Preloader } from '@/components/ui/Preloader';
 import { Slider } from '@/components/Slider';
 import { Button } from '@/components/ui/Button';
+import { PaintingModal } from '@/components/PaintingModal';
 
 import { ReactComponent as ArrowIcon } from '@/assets/svg/arrow_icon_v2.svg';
 import { ReactComponent as EditIcon } from '@/assets/svg/edit_icon.svg';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
+import { ReactComponent as PlusIcon } from '@/assets/svg/plus_icon.svg';
 
 import styles from './ArtistPage.module.scss';
 
@@ -33,18 +35,25 @@ export const ArtistPage = () => {
   const { data: artist } = isAuth ? fetchArtistQuery : fetchArtistStaticQuery;
 
   const [isShowSlider, setIsShowSlider] = useState(false);
+  const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleCloseSlider = () => {
-    setIsShowSlider(false);
-  };
+  const handleCloseSlider = useCallback(() => setIsShowSlider(false), []);
 
-  const handleShowSlider = (index: number) => {
-    setCurrentIndex(index);
-    setIsShowSlider(true);
-  };
+  const handleShowSlider = useCallback(
+    (index: number) => () => {
+      setCurrentIndex(index);
+      setIsShowSlider(true);
+    },
+    [setCurrentIndex]
+  );
 
   const handleBackButton = () => navigate(-1);
+
+  const handleTogglePaintingModal = useCallback(
+    () => setIsShowPaintingModal((prev) => !prev),
+    [isShowPaintingModal]
+  );
 
   if (!artist) {
     return <Preloader isDarkTheme={isDarkTheme} />;
@@ -77,6 +86,16 @@ export const ArtistPage = () => {
       <Container>
         <div className={cx('artist-page__artworks')}>
           <p className={cx('artist-page__artworks-heading')}>Artworks</p>
+
+          {isAuth && (
+            <div className={cx('artist-page__artworks-action-bar')}>
+              <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleTogglePaintingModal}>
+                <PlusIcon />
+                <p>Add picture</p>
+              </Button>
+            </div>
+          )}
+
           <CardGrid>
             {artist.paintings?.map((painting, index) => (
               <PaintingCard
@@ -85,7 +104,7 @@ export const ArtistPage = () => {
                 name={painting.name}
                 yearOfCreation={painting.yearOfCreation}
                 imgUrl={painting.image.webp}
-                onClick={() => handleShowSlider(index)}
+                onClick={handleShowSlider(index)}
                 isMainPainting={artist.mainPainting?._id === painting._id}
               />
             ))}
@@ -100,6 +119,12 @@ export const ArtistPage = () => {
         isShowSlider={isShowSlider}
         onCloseSlider={handleCloseSlider}
         mainPainting={artist.mainPainting?._id}
+      />
+      <PaintingModal
+        isDarkTheme={isDarkTheme}
+        artistId={id}
+        isShowModal={isShowPaintingModal}
+        onCloseModal={handleTogglePaintingModal}
       />
     </main>
   );
