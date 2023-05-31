@@ -9,6 +9,7 @@ import { authApi } from '@/api/features/authApi';
 import { useAppSelector } from '@/hooks/redux';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useFingerprint } from '@/hooks/useFingerprint';
+import { schema } from '@/schemas/authSchema';
 
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
@@ -22,18 +23,6 @@ import loginImage from '@/assets/img/login-img.jpg';
 import styles from './LoginModal.module.scss';
 
 const cx = cn.bind(styles);
-
-const schema = yup.object({
-  username: yup
-    .string()
-    .required('This field is required.')
-    .min(4, 'Email length must be at least 4 characters.')
-    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email address.'),
-  password: yup
-    .string()
-    .required('This field is required.')
-    .min(8, 'Password length must be at least 8 characters.'),
-});
 
 type FormData = yup.InferType<typeof schema>;
 
@@ -98,7 +87,7 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
             />
             <InputPassword
               isDarkTheme={isDarkTheme}
-              {...register('password')}
+              register={register('password')}
               label="Password"
               onChange={handleChangeInput}
               error={errors.password?.message?.toString()}

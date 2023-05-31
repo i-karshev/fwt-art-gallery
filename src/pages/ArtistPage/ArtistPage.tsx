@@ -22,9 +22,7 @@ export const ArtistPage = () => {
   const { id = '' } = useParams();
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
-  const fetchArtist = artistApi.useFetchArtistByIdQuery(id, { skip: !isAuth });
-  const fetchArtistStatic = artistApi.useFetchArtistStaticByIdQuery(id, { skip: isAuth });
-  const { data: artist, isLoading, isFetching } = isAuth ? fetchArtist : fetchArtistStatic;
+  const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistByIdQuery({ id, isAuth });
 
   const [isShowSlider, setIsShowSlider] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);

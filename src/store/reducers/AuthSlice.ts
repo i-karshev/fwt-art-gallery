@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { authApi } from '@/api/features/authApi';
-import { authLocalStorage } from '@/utils/auth';
+import { authLocalStorage } from '@/utils/auth/authLocalStorage';
 
 interface AuthSliceState {
   isAuth: boolean;

@@ -21,11 +21,7 @@ export interface IArtistParams {
 
 export interface IArtistResponse {
   data: IArtist[];
-  meta: {
-    count: number;
-    pageNumber: number;
-    perPage: number;
-  };
+  meta: IArtistMetaResponse;
 }
 
 export interface IArtistStatic {
@@ -38,7 +34,7 @@ export interface IArtistStatic {
   mainPainting: IPainting;
 }
 
-export interface IArtistDetailStatic {
+export interface IArtistDetail {
   paintings: IPainting[];
   genres: IGenre[];
   _id: string;
@@ -47,4 +43,24 @@ export interface IArtistDetailStatic {
   description: string;
   avatar: IImage;
   mainPainting: IPainting;
+}
+
+export interface IArtistDataResponse {
+  genres: IGenre[];
+  id: string;
+  name: string;
+  description: string;
+  yearsOfLife: string;
+  image: IImage;
+}
+
+export interface IArtistMetaResponse {
+  count: number;
+  pageNumber: number;
+  perPage: number;
+}
+
+export interface IArtistMainResponse {
+  data: IArtistDataResponse[];
+  meta?: IArtistMetaResponse;
 }

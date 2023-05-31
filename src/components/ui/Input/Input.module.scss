@@ -1,5 +1,6 @@
 .input {
   width: 100%;
+  position: relative;
 
   &_dark & {
     &__label {
@@ -44,7 +45,8 @@
     border-color: $color-primary-light-gray;
     color: $color-primary-dark-gray;
 
-    &::placeholder, &::-webkit-input-placeholder {
+    &::placeholder,
+    &::-webkit-input-placeholder {
       color: $color-secondary-gray;
     }
     &:hover {

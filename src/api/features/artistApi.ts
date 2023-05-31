@@ -1,6 +1,7 @@
 import {
-  IArtistDetailStatic,
+  IArtistDetail,
   IArtistParams,
+  IArtistMainResponse,
   IArtistResponse,
   IArtistStatic,
 } from '@/types/IArtist';
@@ -8,17 +9,38 @@ import { apiService } from '@/api';
 
 export const artistApi = apiService.injectEndpoints({
   endpoints: (build) => ({
-    fetchArtistsStatic: build.query<IArtistStatic[], null>({
+    fetchArtistsStatic: build.query<IArtistMainResponse, null>({
       query: () => ({ method: 'GET', url: '/artists/static' }),
+      transformResponse: (response: IArtistStatic[]): IArtistMainResponse => ({
+        data: response.map(({ genres, _id, name, description, yearsOfLife, mainPainting }) => ({
+          genres,
+          id: _id,
+          name,
+          description,
+          yearsOfLife,
+          image: mainPainting.image,
+        })),
+      }),
     }),
-    fetchArtistStaticById: build.query<IArtistDetailStatic, string>({
-      query: (id) => ({ method: 'GET', url: `/artists/static/${id}` }),
+    fetchArtistById: build.query<IArtistDetail, { id: string; isAuth: boolean }>({
+      query: ({ id, isAuth }) => ({
+        method: 'GET',
+        url: `/artists/${!isAuth ? 'static/' : ''}${id}`,
+      }),
     }),
-    fetchArtists: build.query<IArtistResponse, IArtistParams>({
+    fetchArtists: build.query<IArtistMainResponse, IArtistParams>({
       query: () => ({ method: 'GET', url: '/artists' }),
-    }),
-    fetchArtistById: build.query<IArtistDetailStatic, string>({
-      query: (id) => ({ method: 'GET', url: `/artists/${id}` }),
+      transformResponse: ({ data, meta }: IArtistResponse): IArtistMainResponse => ({
+        data: data.map(({ genres, _id, name, description, yearsOfLife, avatar }) => ({
+          genres,
+          id: _id,
+          name,
+          description,
+          yearsOfLife,
+          image: avatar,
+        })),
+        meta,
+      }),
     }),
   }),
 });

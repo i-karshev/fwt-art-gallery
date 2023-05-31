@@ -6,9 +6,10 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import { MainLayout } from '@/layouts';
 import { MainPage } from '@/pages/MainPage';
 import { ArtistPage } from '@/pages/ArtistPage/ArtistPage';
-import styles from './App.module.scss';
 import { RegisterModal } from '@/components/RegisterModal';
 import { LoginModal } from '@/components/LoginModal';
+
+import styles from './App.module.scss';
 
 const cx = cn.bind(styles);
 

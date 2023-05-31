@@ -2,7 +2,7 @@ import React, { FC, ReactNode, memo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import cn from 'classnames/bind';
 
-import { useScrollWidth } from '@/hooks/useScrollWidth';
+import { setStyleIsToggleModal } from '@/utils/setStyleIsToggleModal';
 
 import styles from './Modal.module.scss';
 
@@ -14,23 +14,17 @@ interface ModalProps {
   isShowModal?: boolean;
 }
 
-export const Modal: FC<ModalProps> = memo(({ children, isDarkTheme, isShowModal }) => {
+export const Modal: FC<ModalProps> = memo(({ children, isDarkTheme, isShowModal = true }) => {
   const bodyRef = useRef(document.body);
-  const scrollWidth = useScrollWidth();
 
   useEffect(() => {
-    const body = bodyRef.current;
-
     if (isShowModal) {
-      body.style.overflowY = 'hidden';
-      body.style.paddingRight = `${scrollWidth}px`;
-      body.style.backgroundColor = isDarkTheme ? '#121212' : '#ffffff';
+      const scrollWidth = window.innerWidth - document.documentElement.offsetWidth;
+      setStyleIsToggleModal(bodyRef, 'hidden', `${scrollWidth}px`, isDarkTheme);
     }
 
     return () => {
-      body.style.overflowY = 'scroll';
-      body.style.paddingRight = '';
-      body.style.backgroundColor = '';
+      setStyleIsToggleModal(bodyRef, 'scroll', '', isDarkTheme);
     };
   }, [isShowModal]);
 
