@@ -3,6 +3,10 @@
   width: 100%;
   height: 100vh;
 
+  &_dark {
+    background-color: $color-primary-black;
+  }
+
   @include md {
     width: 693px;
     height: auto;

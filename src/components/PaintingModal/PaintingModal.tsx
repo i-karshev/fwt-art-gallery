@@ -91,7 +91,7 @@ export const PaintingModal: FC<IPaintingModalState> = ({
 
   return (
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
-      <div className={cx('painting-modal')}>
+      <div className={cx('painting-modal', { 'painting-modal_dark': isDarkTheme })}>
         <div className={cx('painting-modal__content')}>
           <form className={cx('painting-modal__from')} onSubmit={onSubmit}>
             <div className={cx('painting-modal__input-wrapper')}>
