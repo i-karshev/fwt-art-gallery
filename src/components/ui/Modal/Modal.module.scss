@@ -13,12 +13,9 @@
 
   &__content {
     position: static;
-  }
-
-  &__close-btn {
-    position: absolute;
-    cursor: pointer;
-    top: 24px;
-    right: 24px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

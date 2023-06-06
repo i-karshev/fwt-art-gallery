@@ -1,0 +1,143 @@
+.login-modal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  background-color: $color-primary-white;
+
+  &_dark {
+    background-color: $color-primary-black;
+  }
+
+  &_dark & {
+    &__title {
+      color: $color-primary-white;
+    }
+    &__sing-up {
+      color: $color-primary-white;
+    }
+    &__close-btn {
+      color: $color-primary-light-gray;
+    }
+  }
+
+  @include md {
+    align-items: center;
+  }
+
+  @include lg {
+    width: 1028px;
+    height: 700px;
+  }
+
+  &__img {
+    display: none;
+    width: 498px;
+
+    @include lg {
+      display: block;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    padding: 110px 26px 0 26px;
+
+    @include md {
+      padding: 0;
+      gap: 40px;
+    }
+
+    @include lg {
+      flex-grow: 1;
+      gap: 20px;
+    }
+  }
+
+  &__title {
+    font-family: 'Cormorant SC', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    text-align: center;
+
+    color: $color-primary-black;
+
+    @include md {
+      font-weight: 500;
+      font-size: 60px;
+      line-height: 73px;
+    }
+    @include lg {
+      font-size: 48px;
+      line-height: 100%;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 240px;
+
+    @include md {
+      order: 1;
+      gap: 40px;
+      width: 340px;
+      margin-top: 20px;
+    }
+
+    @include lg {
+      margin-top: 40px;
+    }
+  }
+
+  &__form-btn {
+    width: 200px;
+    margin-top: 8px;
+
+    @include md {
+      margin-top: 20px;
+    }
+  }
+
+  &__sing-up {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 140%;
+    text-align: center;
+
+    color: $color-primary-dark-gray;
+
+    @include md {
+      font-size: 16px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+
+    top: 24px;
+    right: 24px;
+
+    @include md {
+      top: 36px;
+    }
+
+    @include lg {
+      right: 36px;
+    }
+  }
+}
