@@ -12,6 +12,8 @@ import { useController, FieldValues, Control } from 'react-hook-form';
 import cn from 'classnames/bind';
 
 import { API_BASE_URL } from '@/constans';
+import { getBase64 } from '@/utils/getBase64';
+
 import { Button } from '@/components/ui/Button';
 import { ReactComponent as ProfileIcon } from '@/assets/svg/profile_icon.svg';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
