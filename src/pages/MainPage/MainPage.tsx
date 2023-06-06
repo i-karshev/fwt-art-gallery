@@ -1,7 +1,6 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames/bind';
 
-import { IArtist, IArtistResponse, IArtistStatic } from '@/types/IArtist';
 import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { AuthContext } from '@/context/AuthProvider';
@@ -19,24 +18,9 @@ export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
   const { isAuth } = useContext(AuthContext);
 
-  const fetchArtistsQuery = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
-  const fetchArtistsStaticQuery = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
-  const { data = [] } = isAuth ? fetchArtistsQuery : fetchArtistsStaticQuery;
-
-  const transformData = useMemo(
-    () => (artists: (IArtist | IArtistStatic)[]) =>
-      artists?.map((artist) => ({
-        id: artist._id,
-        name: artist.name,
-        yearsOfLife: artist.yearsOfLife,
-        image: (artist as IArtist).avatar || (artist as IArtistStatic).mainPainting?.image,
-      })),
-    [data]
-  );
-
-  const artists = isAuth
-    ? transformData((data as IArtistResponse).data)
-    : transformData(data as IArtistStatic[]);
+  const fetchArtists = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
+  const fetchArtistsStatic = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
+  const { data: { data: artists } = {} } = isAuth ? fetchArtists : fetchArtistsStatic;
 
   if (!artists) {
     return <Preloader isDarkTheme={isDarkTheme} />;
@@ -46,14 +30,8 @@ export const MainPage = () => {
     <main className={cx('content-wrapper')}>
       <Container>
         <CardGrid>
-          {artists?.map((artist) => (
-            <ArtistCard
-              key={artist.id}
-              id={artist.id}
-              name={artist.name}
-              yearsOfLife={artist.yearsOfLife}
-              imgUrl={artist.image?.webp}
-            />
+          {artists.map(({ _id: id, name, yearsOfLife, mainPainting: { image } }) => (
+            <ArtistCard key={id} id={id} name={name} yearsOfLife={yearsOfLife} image={image} />
           ))}
         </CardGrid>
       </Container>

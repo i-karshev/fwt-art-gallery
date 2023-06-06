@@ -10,12 +10,13 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isDarkTheme: boolean;
   label?: string;
   error?: string;
+  renderAddon?: JSX.Element;
 }
 
 export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
-  ({ isDarkTheme, label, error, className, name = 'input', ...other }, ref) => (
+  ({ isDarkTheme, label, error, className, name = 'input', renderAddon, ...other }, ref) => (
     <div className={cx('input', { input_dark: isDarkTheme }, className)}>
-      {!!label && (
+      {label && (
         <label htmlFor={name} className={cx('input__label')}>
           {label}
         </label>
@@ -23,16 +24,17 @@ export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         name={name}
-        className={cx('input__area', { input__area_error: !!error })}
+        className={cx('input__area', { input__area_error: error })}
         type="text"
         {...other}
       />
-      {!!error && (
+      {error && (
         <div className={cx('input__error-message')}>
           <ErrorIcon />
           <span>{error}</span>
         </div>
       )}
+      {renderAddon && renderAddon}
     </div>
   )
 );

@@ -9,6 +9,7 @@ import { authApi } from '@/api/features/authApi';
 import { useFingerprint } from '@/hooks/useFingerprint';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { AuthContext } from '@/context/AuthProvider';
+import { schema } from '@/schemas/authSchema';
 
 import { Modal } from '@/components/ui/Modal/Modal';
 import { Button } from '@/components/ui/Button';
@@ -23,18 +24,6 @@ import styles from './RegisterModal.module.scss';
 
 const cx = cn.bind(styles);
 
-const schema = yup.object({
-  username: yup
-    .string()
-    .required('This field is required.')
-    .min(4, 'Email length must be at least 4 characters.')
-    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email address'),
-  password: yup
-    .string()
-    .required('This field is required.')
-    .min(8, 'Password length must be at least 8 characters.'),
-});
-
 type FormData = yup.InferType<typeof schema>;
 
 interface RegisterModalProps {
@@ -45,7 +34,6 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
@@ -62,11 +50,6 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
   const onSubmit = handleSubmit(({ username, password }) =>
     registerUser({ username, password, fingerprint })
   );
-
-  const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name as 'username' | 'password';
-    setValue(name, event.target.value, { shouldValidate: true });
-  }, []);
 
   useOutsideClick(registerModalRef, handleCloseModal);
 
@@ -100,14 +83,12 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
               isDarkTheme={isDarkTheme}
               {...register('username')}
               label="Email"
-              onChange={handleChangeInput}
               error={errors.username?.message?.toString()}
             />
             <InputPassword
               isDarkTheme={isDarkTheme}
-              {...register('password')}
+              register={register('password')}
               label="Password"
-              onChange={handleChangeInput}
               error={errors.password?.message?.toString()}
             />
             <Button

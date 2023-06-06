@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
 import { artistApi } from '@/api/features/artistApi';
@@ -11,7 +11,7 @@ import { PaintingCard } from '@/components/PaintingCard';
 import { Container } from '@/components/Container';
 import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
 import { Preloader } from '@/components/ui/Preloader';
-import { Slider } from '@/components/Slider';
+import { Slider } from '@/components/ui/Slider';
 import { Button } from '@/components/ui/Button';
 import { PaintingModal } from '@/components/PaintingModal';
 
@@ -30,9 +30,7 @@ export const ArtistPage = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
 
-  const fetchArtistQuery = artistApi.useFetchArtistByIdQuery(id, { skip: !isAuth });
-  const fetchArtistStaticQuery = artistApi.useFetchArtistStaticByIdQuery(id, { skip: isAuth });
-  const { data: artist } = isAuth ? fetchArtistQuery : fetchArtistStaticQuery;
+  const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistByIdQuery({ id, isAuth });
 
   const [isShowSlider, setIsShowSlider] = useState(false);
   const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
@@ -45,7 +43,7 @@ export const ArtistPage = () => {
       setCurrentIndex(index);
       setIsShowSlider(true);
     },
-    [setCurrentIndex]
+    [setCurrentIndex, setIsShowSlider]
   );
 
   const handleBackButton = () => navigate(-1);
@@ -81,7 +79,14 @@ export const ArtistPage = () => {
         </div>
       </Container>
 
-      <ArtistInfo artist={artist} isDarkTheme={isDarkTheme} />
+      <ArtistInfo
+        name={artist.name}
+        description={artist.description}
+        yearsOfLife={artist.yearsOfLife}
+        genres={artist.genres}
+        avatar={artist.avatar}
+        isDarkTheme={isDarkTheme}
+      />
 
       <Container>
         <div className={cx('artist-page__artworks')}>
@@ -97,17 +102,23 @@ export const ArtistPage = () => {
           )}
 
           <CardGrid>
-            {artist.paintings?.map((painting, index) => (
-              <PaintingCard
-                key={painting._id}
-                id={painting._id}
-                name={painting.name}
-                yearOfCreation={painting.yearOfCreation}
-                imgUrl={painting.image.webp}
-                onClick={handleShowSlider(index)}
-                isMainPainting={artist.mainPainting?._id === painting._id}
-              />
-            ))}
+            {artist.paintings.map(
+              (
+                { _id: paintingId, name, yearOfCreation, image, artist: paintingArtist },
+                index
+              ) => (
+                <PaintingCard
+                  key={paintingId}
+                  id={paintingId}
+                  name={name}
+                  yearOfCreation={yearOfCreation}
+                  image={image}
+                  artist={paintingArtist}
+                  data-index={index}
+                  onClick={handleShowSlider(index)}
+                />
+              )
+            )}
           </CardGrid>
         </div>
       </Container>

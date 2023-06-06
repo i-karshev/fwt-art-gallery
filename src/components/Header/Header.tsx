@@ -69,7 +69,7 @@ export const Header = () => {
                     <Link
                       className={cx('header__item')}
                       isDarkTheme={isDarkTheme}
-                      to="/login"
+                      to="/register"
                       state={{ background: location }}
                     >
                       Sing Up

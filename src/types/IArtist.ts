@@ -8,7 +8,7 @@ export interface IArtist {
   name: string;
   description: string;
   yearsOfLife: string;
-  avatar: IImage;
+  mainPainting: IPainting;
 }
 export interface IArtistParams {
   sortBy?: string;
@@ -21,24 +21,10 @@ export interface IArtistParams {
 
 export interface IArtistResponse {
   data: IArtist[];
-  meta: {
-    count: number;
-    pageNumber: number;
-    perPage: number;
-  };
+  meta?: IArtistMetaResponse;
 }
 
-export interface IArtistStatic {
-  genres: IGenre[];
-  _id: string;
-  name: string;
-  description: string;
-  yearsOfLife: string;
-  __v?: number;
-  mainPainting: IPainting;
-}
-
-export interface IArtistDetailStatic {
+export interface IArtistDetail {
   paintings: IPainting[];
   genres: IGenre[];
   _id: string;
@@ -47,4 +33,10 @@ export interface IArtistDetailStatic {
   description: string;
   avatar: IImage;
   mainPainting: IPainting;
+}
+
+export interface IArtistMetaResponse {
+  count: number;
+  pageNumber: number;
+  perPage: number;
 }

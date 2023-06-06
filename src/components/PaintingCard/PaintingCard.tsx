@@ -1,7 +1,8 @@
-import React, { FC, memo, useCallback, useContext, useRef, useState } from 'react';
+import React, { FC, useContext, memo, useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
+import { IImage } from '@/types/IImage';
 import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { AuthContext } from '@/context/AuthProvider';
@@ -23,13 +24,14 @@ interface PaintingCardProps {
   id: string;
   name: string;
   yearOfCreation: string;
-  imgUrl: string;
+  image: IImage;
+  artist: string;
   onClick: () => void;
   isMainPainting: boolean;
 }
 
 export const PaintingCard: FC<PaintingCardProps> = memo(
-  ({ id, name, yearOfCreation, imgUrl, onClick, isMainPainting }) => {
+  ({ id, name, yearOfCreation, image, onClick, isMainPainting }) => {
     const { isDarkTheme } = useContext(ThemeContext);
     const { isAuth } = useContext(AuthContext);
     const [isShowPopover, setIsShowPopover] = useState(false);
@@ -69,7 +71,7 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
         <Card
           title={name}
           subtitle={convertDateToYears(yearOfCreation)}
-          imgUrl={imgUrl}
+          image={image}
           isDarkTheme={isDarkTheme}
           onClick={onClick}
         />
