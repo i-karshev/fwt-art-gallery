@@ -50,12 +50,14 @@ export const artistApi = apiService
           url: `/artists/${artistId}/paintings/${paintingId}`,
           data,
         }),
+        invalidatesTags: ['Artist'],
       }),
       deleteArtistPainting: build.mutation<null, { artistId: string; paintingId: string }>({
         query: ({ artistId, paintingId }) => ({
           method: 'DELETE',
           url: `/artists/${artistId}/paintings/${paintingId}`,
         }),
+        invalidatesTags: ['Artist'],
       }),
     }),
   });

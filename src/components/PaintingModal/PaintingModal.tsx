@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import cn from 'classnames/bind';
@@ -22,7 +22,7 @@ const schema = yup.object({
   image: yup.mixed(),
 });
 
-type FormData = yup.InferType<typeof schema>;
+export type PaintingFormData = yup.InferType<typeof schema>;
 
 type TDefaultValues = {
   name: string;
@@ -54,19 +54,22 @@ export const PaintingModal: FC<IPaintingModalState> = ({
     artistApi.useCreateArtistPaintingMutation();
   const isSuccess = isEditSuccess || isCreateSuccess;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({
+  const methods = useForm<PaintingFormData>({
     criteriaMode: 'all',
     mode: 'all',
     resolver: yupResolver(schema),
     defaultValues: { ...defaultValues, image: currentImage },
   });
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = methods;
+
   const onSubmit = handleSubmit(async ({ name, yearOfCreation, image }) => {
-    const curImage = (image as FileList)[0];
+    const curImage = image as File;
 
     const data = new FormData();
     data.append('name', name);
@@ -93,39 +96,42 @@ export const PaintingModal: FC<IPaintingModalState> = ({
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
       <div className={cx('painting-modal', { 'painting-modal_dark': isDarkTheme })}>
         <div className={cx('painting-modal__content')}>
-          <form className={cx('painting-modal__from')} onSubmit={onSubmit}>
-            <div className={cx('painting-modal__input-wrapper')}>
-              <Input
+          <FormProvider {...methods}>
+            <form className={cx('painting-modal__from')} onSubmit={onSubmit}>
+              <div className={cx('painting-modal__input-wrapper')}>
+                <Input
+                  isDarkTheme={isDarkTheme}
+                  className={cx('painting-modal__input-name')}
+                  label="The name of the picture"
+                  {...register('name')}
+                  error={errors.name?.message?.toString()}
+                />
+
+                <Input
+                  isDarkTheme={isDarkTheme}
+                  className={cx('painting-modal__input-age')}
+                  label="Year of creation"
+                  type="number"
+                  maxLength={4}
+                  {...register('yearOfCreation')}
+                  error={errors.yearOfCreation?.message?.toString()}
+                />
+              </div>
+
+              <InputImage
                 isDarkTheme={isDarkTheme}
-                className={cx('painting-modal__input-name')}
-                label="The name of the picture"
-                {...register('name')}
-                error={errors.name?.message?.toString()}
+                className={cx('painting-modal__input-image')}
+                accept=".jpg,.png"
+                name="image"
+                control={control}
+                currentImage={currentImage}
               />
 
-              <Input
-                isDarkTheme={isDarkTheme}
-                className={cx('painting-modal__input-age')}
-                label="Year of creation"
-                type="number"
-                maxLength={4}
-                {...register('yearOfCreation')}
-                error={errors.yearOfCreation?.message?.toString()}
-              />
-            </div>
-
-            <InputImage
-              isDarkTheme={isDarkTheme}
-              className={cx('painting-modal__input-image')}
-              accept=".jpg,.png"
-              {...register('image')}
-              currentImage={currentImage}
-            />
-
-            <Button isDarkTheme={isDarkTheme} variant="default" type="submit" disabled={!isValid}>
-              Save
-            </Button>
-          </form>
+              <Button isDarkTheme={isDarkTheme} variant="default" type="submit" disabled={!isValid}>
+                Save
+              </Button>
+            </form>
+          </FormProvider>
 
           <button type="button" className={cx('painting-modal__close-btn')} onClick={onCloseModal}>
             <CloseIcon />
