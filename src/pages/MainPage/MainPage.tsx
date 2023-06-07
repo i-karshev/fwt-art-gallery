@@ -18,9 +18,7 @@ export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
   const { isAuth } = useContext(AuthContext);
 
-  const fetchArtists = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
-  const fetchArtistsStatic = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
-  const { data: { data: artists } = {} } = isAuth ? fetchArtists : fetchArtistsStatic;
+  const { data: { data: artists } = {} } = artistApi.useFetchArtistsQuery({ isAuth, params: {} });
 
   if (!artists) {
     return <Preloader isDarkTheme={isDarkTheme} />;

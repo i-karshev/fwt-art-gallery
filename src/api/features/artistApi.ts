@@ -7,19 +7,24 @@ export const artistApi = apiService
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      fetchArtistsStatic: build.query<IArtistResponse, null>({
-        query: () => ({ method: 'GET', url: '/artists/static' }),
-        transformResponse: (response: IArtist[]): IArtistResponse => ({ data: response }),
+      fetchArtists: build.query<IArtistResponse, { isAuth: boolean; params: IArtistParams }>({
+        query: ({ isAuth, params }) => ({
+          method: 'GET',
+          url: isAuth ? '/artists' : '/artists/static',
+          params,
+        }),
+        transformResponse: (
+          response: IArtist[] | IArtistResponse,
+          meta,
+          { isAuth }
+        ): IArtistResponse =>
+          isAuth ? (response as IArtistResponse) : ({ data: response } as IArtistResponse),
       }),
       fetchArtistById: build.query<IArtistDetail, { id: string; isAuth: boolean }>({
         query: ({ id, isAuth }) => ({
           method: 'GET',
           url: isAuth ? `/artists/${id}` : `/artists/static/${id}`,
         }),
-        providesTags: ['Artist'],
-      }),
-      fetchArtists: build.query<IArtistResponse, IArtistParams>({
-        query: (params) => ({ method: 'GET', url: '/artists', params }),
         providesTags: ['Artist'],
       }),
       editArtistMainPainting: build.mutation<null, { artistId: string; paintingId: string }>({
