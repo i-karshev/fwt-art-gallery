@@ -80,31 +80,33 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
             <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleTogglePopover}>
               <GearIcon />
             </Button>
-            <Popover isDarkTheme={isDarkTheme} isShow={isShowPopover}>
-              <ul className={cx('artist-card__popover-menu')}>
-                <li
-                  className={cx('artist-card__popover-menu-item')}
-                  onClick={handleEditMainPainting(artist, id)}
-                  role="presentation"
-                >
-                  {isMainPainting ? 'Remove the cover' : 'Make the cover'}
-                </li>
-                <li
-                  className={cx('artist-card__popover-menu-item')}
-                  role="presentation"
-                  onClick={handleTogglePaintingModal}
-                >
-                  Edit
-                </li>
-                <li
-                  className={cx('artist-card__popover-menu-item')}
-                  role="presentation"
-                  onClick={handleDeletePainting(artist, id)}
-                >
-                  Delete
-                </li>
-              </ul>
-            </Popover>
+            {isShowPopover && (
+              <Popover isDarkTheme={isDarkTheme}>
+                <ul className={cx('artist-card__popover-menu')}>
+                  <li
+                    className={cx('artist-card__popover-menu-item')}
+                    onClick={handleEditMainPainting(artist, id)}
+                    role="presentation"
+                  >
+                    {isMainPainting ? 'Remove the cover' : 'Make the cover'}
+                  </li>
+                  <li
+                    className={cx('artist-card__popover-menu-item')}
+                    role="presentation"
+                    onClick={handleTogglePaintingModal}
+                  >
+                    Edit
+                  </li>
+                  <li
+                    className={cx('artist-card__popover-menu-item')}
+                    role="presentation"
+                    onClick={handleDeletePainting(artist, id)}
+                  >
+                    Delete
+                  </li>
+                </ul>
+              </Popover>
+            )}
           </div>
         )}
 
