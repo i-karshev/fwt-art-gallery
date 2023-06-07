@@ -23,6 +23,8 @@ module.exports = {
     'import/prefer-default-export': [0],
     'no-underscore-dangle': [0],
     'react/require-default-props': [0],
+    '@typescript-eslint/no-floating-promises': [0],
+    '@typescript-eslint/no-misused-promises': [0],
     'jsx-a11y/no-noninteractive-tabindex': [0],
     'react/function-component-definition': [
       2,

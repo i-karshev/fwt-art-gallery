@@ -2,23 +2,27 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import cn from 'classnames/bind';
 
-import { artistApi } from '@/api/artistApi';
+import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
+import { useAppSelector } from '@/hooks/redux';
+
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { PaintingCard } from '@/components/PaintingCard';
 import { Container } from '@/components/Container';
 import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
 import { Preloader } from '@/components/ui/Preloader';
+import { Slider } from '@/components/ui/Slider';
 
 import styles from './ArtistPage.module.scss';
-import { Slider } from '@/components/ui/Slider';
 
 const cx = cn.bind(styles);
 
 export const ArtistPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
   const { id = '' } = useParams();
-  const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistStaticByIdQuery(id);
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+
+  const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistByIdQuery({ id, isAuth });
 
   const [isShowSlider, setIsShowSlider] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);

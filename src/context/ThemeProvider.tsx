@@ -4,6 +4,7 @@ interface IThemeContext {
   isDarkTheme: boolean;
   toggleTheme: () => void;
 }
+
 interface ThemeProviderProps {
   children: ReactNode;
 }

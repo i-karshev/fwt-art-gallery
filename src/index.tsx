@@ -11,7 +11,7 @@ import '@/assets/scss/main.scss';
 
 const rootElement = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(rootElement);
-const store = setupStore();
+export const store = setupStore();
 
 root.render(
   <React.StrictMode>

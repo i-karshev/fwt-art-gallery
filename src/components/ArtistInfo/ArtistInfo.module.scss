@@ -99,10 +99,13 @@
 
     @include lg {
       position: absolute;
-      left: 340px;
+      left: 278px;
       top: -60px;
       min-height: 1000px;
       width: 1000px;
+    }
+    @include xl {
+      left: 340px;
     }
   }
 

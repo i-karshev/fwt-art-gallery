@@ -1,0 +1,21 @@
+.link {
+  font-weight: 500;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  color: $color-primary-dark-gray;
+
+  &_dark {
+    color: $color-primary-light-gray;
+  }
+
+  &:hover {
+    color: $color-primary-black;
+
+    &.link_dark {
+      color: $color-primary-white;
+    }
+  }
+}

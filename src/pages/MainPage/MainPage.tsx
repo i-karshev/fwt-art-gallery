@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import cn from 'classnames/bind';
 
-import { artistApi } from '@/api/artistApi';
+import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
+import { useAppSelector } from '@/hooks/redux';
+
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
 import { Container } from '@/components/Container';
@@ -14,9 +16,13 @@ const cx = cn.bind(styles);
 
 export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
-  const { data: artists, isLoading, isFetching } = artistApi.useFetchArtistsStaticQuery(null);
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
-  if (isLoading || isFetching) {
+  const fetchArtists = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
+  const fetchArtistsStatic = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
+  const { data: { data: artists } = {} } = isAuth ? fetchArtists : fetchArtistsStatic;
+
+  if (!artists) {
     return <Preloader isDarkTheme={isDarkTheme} />;
   }
 
@@ -24,16 +30,9 @@ export const MainPage = () => {
     <main className={cx('content-wrapper')}>
       <Container>
         <CardGrid>
-          {artists &&
-            artists.map(({ _id: id, name, yearsOfLife, mainPainting }) => (
-              <ArtistCard
-                key={id}
-                id={id}
-                name={name}
-                yearsOfLife={yearsOfLife}
-                image={mainPainting.image}
-              />
-            ))}
+          {artists.map(({ _id: id, name, yearsOfLife, mainPainting: { image } }) => (
+            <ArtistCard key={id} id={id} name={name} yearsOfLife={yearsOfLife} image={image} />
+          ))}
         </CardGrid>
       </Container>
     </main>
