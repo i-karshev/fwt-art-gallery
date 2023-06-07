@@ -64,7 +64,7 @@ export const Slider: FC<SliderProps> = ({
     editMainPainting({ artistId, paintingId });
   };
 
-  const handleScrollSlide = (offset: 1 | -1) => () => {
+  const handleScrollSlide = (offset: 1 | -1) => {
     const slides = sliderRef.current;
     const slideWidth = slides?.children[0].clientWidth;
 
@@ -142,7 +142,7 @@ export const Slider: FC<SliderProps> = ({
             <button
               type="button"
               className={cx('slider__prev-btn')}
-              onClick={handleScrollSlide(-1)}
+              onClick={() => handleScrollSlide(-1)}
               disabled={currentSlide === 0}
             >
               <ArrowIcon />
@@ -150,7 +150,7 @@ export const Slider: FC<SliderProps> = ({
             <button
               type="button"
               className={cx('slider__next-btn')}
-              onClick={handleScrollSlide(1)}
+              onClick={() => handleScrollSlide(1)}
               disabled={currentSlide === sliderLength - 1}
             >
               <ArrowIcon />
