@@ -18,10 +18,10 @@ type TOption = {
 interface SelectProps {
   isDarkTheme: boolean;
   label?: string;
-  className: string;
+  className?: string;
   options?: TOption[];
   selected?: TOption[];
-  onChange: (selected: TOption[]) => void;
+  onChange?: (selected: TOption[]) => void;
 }
 
 export const MultiSelect: FC<SelectProps> = memo(
@@ -40,7 +40,10 @@ export const MultiSelect: FC<SelectProps> = memo(
           : selectedItems.concat(option);
 
         setSelectedItems(newSelectedItems);
-        onChange(newSelectedItems);
+
+        if (onChange) {
+          onChange(newSelectedItems);
+        }
       },
       [setSelectedItems, selectedItems]
     );

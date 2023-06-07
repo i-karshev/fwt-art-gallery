@@ -76,7 +76,7 @@ export const PaintingModal: FC<IPaintingModalState> = ({
     data.append('name', name);
     data.append('yearOfCreation', yearOfCreation);
 
-    if (curImage.name) {
+    if (curImage?.name) {
       data.append('image', curImage);
     }
 
@@ -96,8 +96,8 @@ export const PaintingModal: FC<IPaintingModalState> = ({
   useEffect(() => {
     if (defaultValues) {
       const { name, yearOfCreation } = defaultValues;
-      setValue('name', name);
-      setValue('yearOfCreation', yearOfCreation);
+      setValue('name', name, { shouldValidate: true });
+      setValue('yearOfCreation', yearOfCreation, { shouldValidate: true });
     }
   }, [defaultValues]);
 
