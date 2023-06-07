@@ -1,5 +1,5 @@
 import { createContext, FC, ReactNode, useCallback, useMemo, useState } from 'react';
-import { authLocalStorage } from '@/utils/auth';
+import { authLocalStorage } from '@/utils/auth/authLocalStorage';
 
 interface IAuthContext {
   isAuth: boolean;
@@ -25,7 +25,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     setIsAuth(false);
   }, []);
 
-  const themeContextProviderValue = useMemo(
+  const authContextProviderValue = useMemo(
     () => ({
       isAuth,
       onLogin,
@@ -34,5 +34,5 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     [isAuth, onLogin, onLogout]
   );
 
-  return <AuthContext.Provider value={themeContextProviderValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={authContextProviderValue}>{children}</AuthContext.Provider>;
 };

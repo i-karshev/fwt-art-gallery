@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import cn from 'classnames/bind';
 
 import { artistApi } from '@/api/features/artistApi';
-import { Modal } from '@/components/ui/Modal/Modal';
+import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { InputImage } from '@/components/ui/InputImage';
 import { Button } from '@/components/ui/Button';
@@ -24,7 +24,8 @@ const schema = yup.object({
 
 export type PaintingFormData = yup.InferType<typeof schema>;
 
-type TDefaultValues = {
+export type TDefaultValues = {
+  id: string;
   name: string;
   yearOfCreation: string;
   image: string;
@@ -32,7 +33,6 @@ type TDefaultValues = {
 
 export interface IPaintingModalState {
   artistId: string;
-  paintingId?: string;
   defaultValues?: TDefaultValues;
   isDarkTheme: boolean;
   isShowModal: boolean;
@@ -41,13 +41,13 @@ export interface IPaintingModalState {
 
 export const PaintingModal: FC<IPaintingModalState> = ({
   artistId,
-  paintingId,
   defaultValues,
   isDarkTheme,
   isShowModal,
   onCloseModal,
 }) => {
   const currentImage = defaultValues?.image as string;
+  const paintingId = defaultValues?.id as string;
 
   const [editPainting, { isSuccess: isEditSuccess }] = artistApi.useEditArtistPaintingMutation();
   const [createPainting, { isSuccess: isCreateSuccess }] =
@@ -58,13 +58,14 @@ export const PaintingModal: FC<IPaintingModalState> = ({
     criteriaMode: 'all',
     mode: 'all',
     resolver: yupResolver(schema),
-    defaultValues: { ...defaultValues, image: currentImage },
+    defaultValues,
   });
 
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isValid },
   } = methods;
 
@@ -91,6 +92,14 @@ export const PaintingModal: FC<IPaintingModalState> = ({
       onCloseModal();
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (defaultValues) {
+      const { name, yearOfCreation } = defaultValues;
+      setValue('name', name);
+      setValue('yearOfCreation', yearOfCreation);
+    }
+  }, [defaultValues]);
 
   return (
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>

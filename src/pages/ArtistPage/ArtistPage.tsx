@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 
 import { artistApi } from '@/api/features/artistApi';
@@ -30,7 +30,7 @@ export const ArtistPage = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
 
-  const { data: artist, isLoading, isFetching } = artistApi.useFetchArtistByIdQuery({ id, isAuth });
+  const { data: artist } = artistApi.useFetchArtistByIdQuery({ id, isAuth });
 
   const [isShowSlider, setIsShowSlider] = useState(false);
   const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
@@ -103,10 +103,7 @@ export const ArtistPage = () => {
 
           <CardGrid>
             {artist.paintings.map(
-              (
-                { _id: paintingId, name, yearOfCreation, image, artist: paintingArtist },
-                index
-              ) => (
+              ({ _id: paintingId, name, yearOfCreation, image, artist: paintingArtist }, index) => (
                 <PaintingCard
                   key={paintingId}
                   id={paintingId}
@@ -116,6 +113,7 @@ export const ArtistPage = () => {
                   artist={paintingArtist}
                   data-index={index}
                   onClick={handleShowSlider(index)}
+                  isMainPainting={artist.mainPainting?._id === paintingId}
                 />
               )
             )}

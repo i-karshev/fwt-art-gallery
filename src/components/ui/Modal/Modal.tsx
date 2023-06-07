@@ -20,13 +20,15 @@ export const Modal: FC<ModalProps> = memo(({ children, isDarkTheme, isShowModal 
   useEffect(() => {
     if (isShowModal) {
       const scrollWidth = window.innerWidth - document.documentElement.offsetWidth;
-      setStyleIsToggleModal(bodyRef, 'hidden', `${scrollWidth}px`, isDarkTheme);
+      setStyleIsToggleModal(bodyRef.current, 'hidden', `${scrollWidth}px`, isDarkTheme);
     }
 
     return () => {
-      setStyleIsToggleModal(bodyRef, 'scroll', '', isDarkTheme);
+      if (isShowModal) {
+        setStyleIsToggleModal(bodyRef.current, 'scroll', '', isDarkTheme);
+      }
     };
-  }, [isShowModal]);
+  });
 
   if (!isShowModal) {
     return null;

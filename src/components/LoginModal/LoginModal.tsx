@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ import { useFingerprint } from '@/hooks/useFingerprint';
 import { AuthContext } from '@/context/AuthProvider';
 import { schema } from '@/schemas/authSchema';
 
-import { Modal } from '@/components/ui/Modal/Modal';
+import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { InputPassword } from '@/components/ui/InputPassword';
@@ -34,7 +34,6 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
@@ -51,11 +50,6 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
   const onSubmit = handleSubmit(({ username, password }) => {
     login({ username, password, fingerprint });
   });
-
-  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name as 'username' | 'password';
-    setValue(name, event.target.value, { shouldValidate: true });
-  };
 
   useOutsideClick(loginModalRef, handleCloseModal);
 
@@ -81,14 +75,12 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
               isDarkTheme={isDarkTheme}
               {...register('username')}
               label="Email"
-              onChange={handleChangeInput}
               error={errors.username?.message?.toString()}
             />
             <InputPassword
               isDarkTheme={isDarkTheme}
               register={register('password')}
               label="Password"
-              onChange={handleChangeInput}
               error={errors.password?.message?.toString()}
             />
             <Button

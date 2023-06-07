@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useContext, useEffect, useRef } from 'react';
+import React, { FC, useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { AuthContext } from '@/context/AuthProvider';
 import { schema } from '@/schemas/authSchema';
 
-import { Modal } from '@/components/ui/Modal/Modal';
+import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { InputPassword } from '@/components/ui/InputPassword';

@@ -1,10 +1,16 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import cn from 'classnames/bind';
+import { useParams } from 'react-router-dom';
 
 import { IPainting } from '@/types/IPainting';
+import { artistApi } from '@/api/features/artistApi';
+import { AuthContext } from '@/context/AuthProvider';
+
+import { PaintingModal, TDefaultValues } from '@/components/PaintingModal';
 import { Button } from '@/components/ui/Button';
-import { Modal } from '@/components/ui/Modal/Modal';
+import { Modal } from '@/components/ui/Modal';
 import { Image } from '@/components/ui/Image';
+
 import { ReactComponent as ArrowIcon } from '@/assets/svg/arrow_icon.svg';
 import { ReactComponent as EditIcon } from '@/assets/svg/edit_icon.svg';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
@@ -20,6 +26,7 @@ interface SliderProps {
   currentIndex?: number;
   isDarkTheme: boolean;
   isShowSlider: boolean;
+  mainPainting: string;
   onCloseSlider: () => void;
 }
 
@@ -29,10 +36,19 @@ export const Slider: FC<SliderProps> = ({
   isDarkTheme,
   isShowSlider,
   onCloseSlider,
+  mainPainting,
 }) => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(currentIndex);
+  const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
+  const [paintingDefaultValue, setPaintingDefaultValue] = useState<TDefaultValues>(
+    {} as TDefaultValues
+  );
   const sliderLength = paintings.length;
+
+  const { id: artist = '' } = useParams();
+  const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
+  const { isAuth } = useContext(AuthContext);
 
   useEffect(() => {
     const slides = sliderRef.current;
@@ -44,7 +60,11 @@ export const Slider: FC<SliderProps> = ({
     }
   }, [isShowSlider]);
 
-  const handleScrollSlide = (offset: 1 | -1) => {
+  const handleEditMainPainting = (artistId: string, paintingId: string) => () => {
+    editMainPainting({ artistId, paintingId });
+  };
+
+  const handleScrollSlide = (offset: 1 | -1) => () => {
     const slides = sliderRef.current;
     const slideWidth = slides?.children[0].clientWidth;
 
@@ -54,6 +74,16 @@ export const Slider: FC<SliderProps> = ({
     }
   };
 
+  const handleClosePaintingModal = useCallback(() => setIsShowPaintingModal(false), []);
+
+  const handleShowPaintingModal = useCallback(
+    (painting: TDefaultValues) => () => {
+      setPaintingDefaultValue(painting);
+      setIsShowPaintingModal(true);
+    },
+    []
+  );
+
   return (
     <Modal isDarkTheme={isDarkTheme} isShowModal={isShowSlider}>
       <div className={cx('slider', { slider_dark: isDarkTheme })}>
@@ -62,25 +92,44 @@ export const Slider: FC<SliderProps> = ({
             {paintings &&
               paintings.map(({ _id: id, name, yearOfCreation, image }, index) => (
                 <div className={cx('slider__slide')} key={id}>
-                  <Image className={cx('slider__img')} alt={name} src={image.original} />
+                  <Image className={cx('slider__img')} src={image.original} alt={name} />
 
                   <div className={cx('slider__container')}>
-                    <Button isDarkTheme variant="text" className={cx('slider__cover-btn')}>
-                      <PicIcon />
-                      <span>Make the cover</span>
-                    </Button>
+                    {isAuth && (
+                      <Button
+                        isDarkTheme
+                        variant="text"
+                        className={cx('slider__cover-btn')}
+                        onClick={handleEditMainPainting(artist, id)}
+                      >
+                        <PicIcon />
+                        <span>{mainPainting === id ? 'Remove the cover' : 'Make the cover'}</span>
+                      </Button>
+                    )}
 
                     <div className={cx('slider__img-info')}>
                       <div className={cx('slider__img-subtitle')}>{yearOfCreation}</div>
                       <div className={cx('slider__img-title')}>{name}</div>
-                      <div className={cx('slider__img-control')}>
-                        <Button isDarkTheme={isDarkTheme} variant="icon">
-                          <EditIcon />
-                        </Button>
-                        <Button isDarkTheme={isDarkTheme} variant="icon">
-                          <DeleteIcon />
-                        </Button>
-                      </div>
+
+                      {isAuth && (
+                        <div className={cx('slider__img-control')}>
+                          <Button
+                            isDarkTheme={isDarkTheme}
+                            variant="icon"
+                            onClick={handleShowPaintingModal({
+                              id,
+                              name,
+                              yearOfCreation,
+                              image: image.webp,
+                            })}
+                          >
+                            <EditIcon />
+                          </Button>
+                          <Button isDarkTheme={isDarkTheme} variant="icon">
+                            <DeleteIcon />
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
                     <div className={cx('slider__counter')}>{`${index + 1}/${sliderLength}`}</div>
@@ -93,7 +142,7 @@ export const Slider: FC<SliderProps> = ({
             <button
               type="button"
               className={cx('slider__prev-btn')}
-              onClick={() => handleScrollSlide(-1)}
+              onClick={handleScrollSlide(-1)}
               disabled={currentSlide === 0}
             >
               <ArrowIcon />
@@ -101,7 +150,7 @@ export const Slider: FC<SliderProps> = ({
             <button
               type="button"
               className={cx('slider__next-btn')}
-              onClick={() => handleScrollSlide(1)}
+              onClick={handleScrollSlide(1)}
               disabled={currentSlide === sliderLength - 1}
             >
               <ArrowIcon />
@@ -115,6 +164,14 @@ export const Slider: FC<SliderProps> = ({
           </button>
         </div>
       </div>
+
+      <PaintingModal
+        artistId={artist}
+        isDarkTheme={isDarkTheme}
+        isShowModal={isShowPaintingModal}
+        onCloseModal={handleClosePaintingModal}
+        defaultValues={paintingDefaultValue}
+      />
     </Modal>
   );
 };

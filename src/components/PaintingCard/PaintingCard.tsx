@@ -110,11 +110,11 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
 
         <PaintingModal
           artistId={artist}
-          paintingId={id}
           defaultValues={{
+            id,
             name,
             yearOfCreation,
-            image: imgUrl,
+            image: image.webp,
           }}
           isDarkTheme={isDarkTheme}
           isShowModal={isShowPaintingModal}
