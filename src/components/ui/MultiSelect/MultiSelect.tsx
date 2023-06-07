@@ -34,7 +34,7 @@ export const MultiSelect: FC<SelectProps> = memo(
     const handleCloseDropdown = () => setIsOpenDropdown(false);
 
     const handleToggleSelectedItem = useCallback(
-      (option: TOption) => () => {
+      (option: TOption) => {
         const newSelectedItems = selectedItems.includes(option)
           ? selectedItems.filter((item) => item.id !== option.id)
           : selectedItems.concat(option);
@@ -68,7 +68,7 @@ export const MultiSelect: FC<SelectProps> = memo(
                 key={item.id}
                 name={item.name}
                 className={cx('multi-select__selected-label')}
-                onClose={handleToggleSelectedItem(item)}
+                onClose={() => handleToggleSelectedItem(item)}
               />
             ))}
           </div>
@@ -87,7 +87,7 @@ export const MultiSelect: FC<SelectProps> = memo(
                 className={cx('multi-select__option')}
                 key={option.id}
                 role="presentation"
-                onClick={handleToggleSelectedItem(option)}
+                onClick={() => handleToggleSelectedItem(option)}
               >
                 <label htmlFor={option.id} className={cx('multi-select__option-checkbox')}>
                   <input

@@ -8,7 +8,7 @@ const cx = cn.bind(styles);
 
 interface LabelProps {
   name: string;
-  className: string;
+  className?: string;
   onClose?: () => void;
   isDarkTheme?: boolean;
 }
