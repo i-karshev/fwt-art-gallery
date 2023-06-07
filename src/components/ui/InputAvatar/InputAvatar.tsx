@@ -36,6 +36,14 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState(currentImage ? `${API_BASE_URL}${currentImage}` : '');
 
+    const uploadImage = async (file: File | undefined) => {
+      if (file) {
+        const base64 = await getBase64(file);
+        setImage(base64);
+        field.onChange(file);
+      }
+    };
+
     const handleDeleteImage = () => setImage('');
     const handleLoadImage = () => inputRef.current?.click();
     const handleDragImage = (event: DragEvent<HTMLElement>) => event.preventDefault();
@@ -43,13 +51,7 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
     const handleDropImage = useCallback(async (event: DragEvent<HTMLInputElement>) => {
       event.preventDefault();
       const file = event.dataTransfer.files?.[0];
-
-      if (file) {
-        await Promise.resolve();
-        const base64 = await getBase64(file);
-        setImage(base64);
-        field.onChange(file);
-      }
+      await uploadImage(file);
 
       if (onDragLeave) {
         onDragLeave(event);
@@ -58,13 +60,7 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
 
     const handleChangeImage = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
-
-      if (file) {
-        await Promise.resolve();
-        const base64 = await getBase64(file);
-        setImage(base64);
-        field.onChange(file);
-      }
+      await uploadImage(file);
     }, []);
 
     return (
