@@ -25,7 +25,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     setIsAuth(false);
   }, []);
 
-  const authContextProviderValue = useMemo(
+  const contextValue = useMemo(
     () => ({
       isAuth,
       onLogin,
@@ -34,5 +34,5 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     [isAuth, onLogin, onLogout]
   );
 
-  return <AuthContext.Provider value={authContextProviderValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
