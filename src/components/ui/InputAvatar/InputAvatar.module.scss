@@ -1,0 +1,115 @@
+.input-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  // delete
+  margin-bottom: 100px;
+
+  &_dark & {
+    &__input-wrapper {
+      border-color: $color-primary-dark-gray;
+
+      &_full {
+        background-color: $color-secondary-black;
+      }
+    }
+
+    &__profile-svg {
+      opacity: 0.1;
+    }
+
+    &__text {
+      color: $color-primary-light-gray;
+    }
+
+    &__format-text {
+      color: $color-primary-dark-gray;
+    }
+  }
+
+  &__image-wrapper {
+    position: absolute;
+    z-index: 10;
+    width: 200px;
+    height: 200px;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+  }
+
+  &__delete-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 300;
+    border-radius: 10px;
+    border: 1px dashed $color-secondary-gray;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+
+    &_full {
+      position: absolute;
+      border-radius: 2px;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: $color-primary-white;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__profile-svg {
+    color: $color-secondary-gray;
+    opacity: 0.2;
+  }
+
+  &__upload-btn {
+    margin-top: 20px;
+  }
+
+  &__text {
+    display: none;
+    margin: 16px 32px 0 32px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 22px;
+    color: $color-primary-dark-gray;
+
+    @include lg {
+      display: block;
+    }
+  }
+
+  &__format-text {
+    display: none;
+    font-size: 12px;
+    line-height: 17px;
+    margin-top: 20px;
+    color: $color-secondary-gray;
+
+    &_show {
+      display: block;
+    }
+  }
+}
