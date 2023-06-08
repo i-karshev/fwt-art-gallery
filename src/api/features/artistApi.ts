@@ -16,5 +16,11 @@ export const artistApi = apiService.injectEndpoints({
     fetchArtists: build.query<IArtistResponse, IArtistParams>({
       query: (params) => ({ method: 'GET', url: '/artists', params }),
     }),
+    createArtist: build.mutation<null, FormData>({
+      query: (data) => ({ method: 'POST', url: '/artists', data }),
+    }),
+    editArtist: build.mutation<null, { artistId: string; data: FormData }>({
+      query: ({ artistId, data }) => ({ method: 'PUT', url: `/artists/${artistId}`, data }),
+    }),
   }),
 });
