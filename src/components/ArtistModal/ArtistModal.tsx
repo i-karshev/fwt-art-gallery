@@ -23,7 +23,6 @@ const cx = cn.bind(styles);
 const schema = yup.object({
   name: yup.string().required('This field is required.'),
   yearsOfLife: yup.string().required('This field is required.'),
-  location: yup.string().required(),
   description: yup.string().required(),
   genres: yup
     .array()
@@ -40,7 +39,6 @@ const schema = yup.object({
 type TDefaultValues = {
   name: string;
   yearsOfLife: string;
-  location: string;
   description: string;
   genres: IGenre[];
   avatar: string;
@@ -95,28 +93,25 @@ export const ArtistModal: FC<ArtistModalProps> = ({
     formState: { errors, isValid },
   } = methods;
 
-  const onSubmit = handleSubmit(
-    async ({ name, yearsOfLife, location, description, genres, avatar }) => {
-      const curAvatar = avatar as File;
+  const onSubmit = handleSubmit(async ({ name, yearsOfLife, description, genres, avatar }) => {
+    const curAvatar = avatar as File;
 
-      const data = new FormData();
-      data.append('name', name);
-      data.append('yearsOfLife', yearsOfLife);
-      data.append('description', description);
-      data.append('location', location);
-      data.append('genres', genres.map((genre) => genre.id).join());
+    const data = new FormData();
+    data.append('name', name);
+    data.append('yearsOfLife', yearsOfLife);
+    data.append('description', description);
+    data.append('genres', genres.map((genre) => genre.id).join());
 
-      if (curAvatar?.name) {
-        data.append('avatar', curAvatar);
-      }
-
-      if (defaultValues) {
-        await editArtist({ artistId, data });
-      } else {
-        await createArtist(data);
-      }
+    if (curAvatar?.name) {
+      data.append('avatar', curAvatar);
     }
-  );
+
+    if (defaultValues) {
+      await editArtist({ artistId, data });
+    } else {
+      await createArtist(data);
+    }
+  });
 
   const handleDragOver = useCallback(() => setIsDraggable(true), []);
   const handleDragLeave = useCallback(() => setIsDraggable(false), []);
@@ -153,13 +148,6 @@ export const ArtistModal: FC<ArtistModalProps> = ({
                   label="Years of life"
                   {...register('yearsOfLife')}
                   error={errors.yearsOfLife?.message?.toString()}
-                />
-
-                <Input
-                  isDarkTheme={isDarkTheme}
-                  label="Location"
-                  {...register('location')}
-                  error={errors.location?.message?.toString()}
                 />
 
                 <TextArea
