@@ -1,0 +1,107 @@
+.toast {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+
+  display: flex;
+  gap: 8px;
+  padding: 12px 34px 12px 12px;
+
+  border-radius: 4px;
+  border: 1px solid $color-primary-light-gray;
+  background-color: $color-secondary-white;
+  color: $color-primary-dark-gray;
+
+
+  &_dark {
+    background-color: $color-secondary-black;
+    border-color: transparent;
+    color: $color-primary-light-gray;
+  }
+
+  &_dark & {
+    &__close-btn {
+      color: $color-secondary-gray;
+    }
+  }
+
+  @include md {
+    position: relative;
+    padding: 24px;
+    flex-direction: column;
+    max-width: 440px;
+  }
+
+  &::before {
+    content: '';
+    display: none;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    height: calc(100% + 2px);
+    border-left: 8px solid;
+    border-color: $color-accent-error;
+    border-radius: 4px 0 0 4px;
+
+    @include md {
+      display: block;
+    }
+  }
+
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: $color-accent-error;
+  }
+
+  &__title-text {
+    display: none;
+
+    @include md {
+      display: block;
+    }
+  }
+
+  &__message {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 17px;
+
+    @include md {
+      margin: 0 24px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+
+    top: calc(50% - 6px);
+    right: 16px;
+
+    @include md {
+      top: 16px;
+    }
+  }
+
+  &__close-icon {
+    scale: 0.5;
+
+    @include md {
+      scale: 1;
+    }
+  }
+}
