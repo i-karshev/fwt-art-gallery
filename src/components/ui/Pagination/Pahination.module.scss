@@ -1,0 +1,61 @@
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  &_dark & {
+    &__btn {
+      color: $color-primary-light-gray;
+    }
+    &__page-btn_active {
+      background-color: $color-secondary-black;
+    }
+  }
+
+  &__pages-numbers {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 22px;
+
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    width: 24px;
+    height: 24px;
+    color: $color-primary-dark-gray;
+  }
+
+  &__page-btn {
+    border-radius: 4px;
+
+    &:hover {
+      font-weight: 500;
+    }
+
+    &_active {
+      background-color: rgba(18, 18, 18, 0.05);
+      pointer-events: none;
+    }
+  }
+
+  &__dots {
+    pointer-events: none;
+  }
+
+  &__arrow-icon-left {
+    rotate: -90deg;
+  }
+
+  &__arrow-icon-right{
+    rotate: 90deg;
+  }
+}
