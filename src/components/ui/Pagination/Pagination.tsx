@@ -4,7 +4,7 @@ import cn from 'classnames/bind';
 import { usePagination, DOTS } from '@/hooks/usePagination';
 
 import { ReactComponent as ArrowIcon } from '@/assets/svg/arrow_icon_small.svg';
-import styles from './Pahination.module.scss';
+import styles from './Pagination.module.scss';
 
 const cx = cn.bind(styles);
 

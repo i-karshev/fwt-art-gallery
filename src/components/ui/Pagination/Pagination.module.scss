@@ -42,7 +42,7 @@
     }
 
     &_active {
-      background-color: rgba(18, 18, 18, 0.05);
+      background-color: $color-scroll-bg-light;
       pointer-events: none;
     }
   }
