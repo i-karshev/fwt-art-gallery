@@ -1,0 +1,120 @@
+.filter-sidebar {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-color: $color-secondary-white;
+
+  transform: translateX(100%);
+  transition: all 0.15s ease-in;
+
+  width: 252px;
+
+  @include md {
+    width: 372px;
+  }
+
+  @include lg {
+    width: 492px;
+  }
+
+  &_show {
+    transform: translateX(0);
+    box-shadow: 0 0 1000px 3000px rgba(3, 3, 3, 0.3);
+  }
+
+  &_dark {
+    background-color: $color-primary-black;
+  }
+
+  &_dark & {
+    &__close-btn {
+      color: $color-primary-light-gray;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin: 100px 20px;
+    gap: 32px;
+
+    @include md {
+      max-width: 320px;
+      margin-top: 180px;
+      margin-left: 32px;
+    }
+
+    @include lg {
+      margin-left: 40px;
+    }
+  }
+
+  &__genres {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 17px;
+  }
+
+  &__genre {
+    color: #DEDEDE;
+    cursor: pointer;
+  }
+
+  &__genre-input {
+    display: none;
+
+    &:checked + .filter-sidebar__genre {
+      color: #AB8956;
+    }
+  }
+
+  &__buttons {
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 136px;
+    width: 100%;
+
+    @include md {
+      padding-left: 32px;
+      height: 116px;
+      top: 669px;
+      bottom: unset;
+    }
+
+    @include lg {
+      padding-right: 140px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+
+    top: 24px;
+    right: 24px;
+
+    @include md {
+      top: 36px;
+    }
+
+    @include lg {
+      top: 64px;
+      right: 104px;
+    }
+  }
+}

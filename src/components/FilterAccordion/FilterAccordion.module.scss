@@ -1,0 +1,48 @@
+.filter-accordion {
+  width: 100%;
+
+  &_dark & {
+    &__title {
+      color: $color-primary-white;
+    }
+
+    &__icon {
+      color: $color-primary-light-gray;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__title {
+    font-family: 'Cormorant SC', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: $color-primary-black;
+  }
+
+  &__icon {
+    height: 16px;
+    color: $color-primary-dark-gray;
+  }
+
+  &__content {
+    height: 0;
+    opacity: 0;
+    overflow-y: hidden;
+    transition: all 0.2s ease-in;
+
+    &_show {
+      padding-top: 16px;
+      height: auto;
+      opacity: 1;
+    }
+  }
+}

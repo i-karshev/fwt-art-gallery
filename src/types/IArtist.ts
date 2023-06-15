@@ -14,9 +14,9 @@ export interface IArtistParams {
   sortBy?: string;
   name?: string;
   orderBy?: 'asc' | 'desc';
-  perPage?: number;
-  genres?: string[];
-  pageNumber?: number;
+  perPage?: string;
+  genres?: string;
+  pageNumber?: string;
 }
 
 export interface IArtistResponse {
