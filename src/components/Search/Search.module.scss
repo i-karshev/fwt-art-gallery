@@ -1,0 +1,29 @@
+.input-search {
+  position: relative;
+
+  & input {
+    padding: 4px 52px;
+    height: 32px;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 17px;
+    text-overflow: ellipsis;
+  }
+
+  &__search-icon {
+    position: absolute;
+    left: 16px;
+    top: 4px;
+  }
+
+  &__clear-btn {
+    position: absolute;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+
+    right: 16px;
+    top: 10px;
+  }
+}
