@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { setupStore } from '@/store/store';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import { FilterProvider } from '@/context/FilterProvider';
 import { App } from '@/components/App';
 
 import '@/assets/scss/main.scss';
@@ -18,7 +19,9 @@ root.render(
     <ThemeProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <FilterProvider>
+            <App />
+          </FilterProvider>
         </BrowserRouter>
       </Provider>
     </ThemeProvider>

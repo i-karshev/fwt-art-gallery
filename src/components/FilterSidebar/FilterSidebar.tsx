@@ -1,11 +1,10 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import cn from 'classnames/bind';
 
 import { IGenre } from '@/types/IGenre';
-import { IArtistParams } from '@/types/IArtist';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { setStyleIsToggleModal } from '@/utils/setStyleIsToggleModal';
+import { defaultFilters, FilterContext } from '@/context/FilterProvider';
 
 import { FilterSort, TSort } from '@/components/FilterSort';
 import { FilterGenres } from '@/components/FilterGenres';
@@ -49,13 +48,6 @@ const artistsGenres = [
   },
 ];
 
-export type TFilter = IArtistParams & Record<string, string | string[]>;
-
-export const defaultFilterValues: TFilter = {
-  perPage: '6',
-  pageNumber: '1',
-};
-
 interface FilterSidebarProps {
   isDarkTheme: boolean;
   isShowSidebar: boolean;
@@ -71,10 +63,10 @@ export const FilterSidebar: FC<FilterSidebarProps> = ({
 }) => {
   const bodyRef = useRef(document.body);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const [params, setParams] = useSearchParams({});
+  const { filters, changeFilters, clearFilters } = useContext(FilterContext);
 
-  const [selectedGenres, setSelectedGenres] = useState(params.get('genres')?.split(',') || []);
-  const [selectedSort, setSelectedSort] = useState(params.get('orderBy') as TSort);
+  const [selectedGenres, setSelectedGenres] = useState(filters.genres?.split(',') || []);
+  const [selectedSort, setSelectedSort] = useState(filters.orderBy as TSort);
 
   const handleChangeGenres = useCallback((items: string[]) => setSelectedGenres(items), []);
   const handleChangeSort = useCallback((sort: TSort) => setSelectedSort(sort), []);
@@ -82,14 +74,12 @@ export const FilterSidebar: FC<FilterSidebarProps> = ({
   const handleShowFilterResults = useCallback(() => {
     const filterGenres = selectedGenres.length && { genres: selectedGenres.toString() };
     const filterSort = selectedSort && { sortBy: 'name', orderBy: selectedSort };
-    const filterValues = { ...defaultFilterValues, ...filterGenres, ...filterSort };
-
-    setParams(filterValues);
+    changeFilters({ ...defaultFilters, ...filterGenres, ...filterSort });
     onCloseSidebar();
   }, [selectedGenres, selectedSort]);
 
   const handleClearFilter = useCallback(() => {
-    setParams(defaultFilterValues);
+    clearFilters();
     setSelectedGenres([]);
     setSelectedSort(null);
   }, []);
