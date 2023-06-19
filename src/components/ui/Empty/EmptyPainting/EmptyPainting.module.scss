@@ -1,0 +1,26 @@
+.empty-painting {
+  width: 100%;
+  height: 100%;
+  background-color: $color-secondary-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 8 / 5;
+
+  &_dark {
+    background-color: $color-secondary-black;
+  }
+
+  &_dark & {
+    &__icon {
+      opacity: 0.1;
+    }
+  }
+
+  &__icon {
+    width: 175px;
+    height: 152px;
+    opacity: 0.2;
+    color: $color-primary-light-gray;
+  }
+}

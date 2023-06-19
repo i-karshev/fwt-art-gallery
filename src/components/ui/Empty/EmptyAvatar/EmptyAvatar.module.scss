@@ -1,0 +1,44 @@
+.empty-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $color-secondary-white;
+
+  @include md {
+    justify-content: center;
+  }
+
+  &_dark {
+    background-color: $color-secondary-black;
+  }
+
+  &_dark & {
+    &__icon {
+      opacity: 0.1;
+    }
+  }
+
+  &__icon {
+    opacity: 0.2;
+    margin-top: 40px;
+
+    @include md {
+      margin-top: -30px;
+    }
+
+    @include lg {
+      margin-top: unset;
+    }
+  }
+
+  &__text {
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $color-secondary-gray;
+    opacity: 0.5;
+    margin-top: 32px;
+  }
+}
