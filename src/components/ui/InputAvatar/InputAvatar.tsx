@@ -19,19 +19,20 @@ import { ReactComponent as ProfileIcon } from '@/assets/svg/profile_icon.svg';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
 
 import styles from './InputAvatar.module.scss';
+import { ArtistFormData } from '@/components/ArtistModal';
 
 const cx = cn.bind(styles);
 
 interface InputAvatarProps extends InputHTMLAttributes<HTMLInputElement> {
   isDarkTheme: boolean;
   name: string;
-  control: Control<FieldValues, unknown>;
+  control: Control<ArtistFormData & FieldValues>;
   isDraggable?: boolean;
   currentImage?: string;
 }
 
 export const InputAvatar: FC<InputAvatarProps> = memo(
-  ({ isDarkTheme, isDraggable, name, control, currentImage, onDragLeave, ...other }) => {
+  ({ isDarkTheme, isDraggable, name, control, currentImage, className, onDragLeave, ...other }) => {
     const { field } = useController({ name, control });
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState(currentImage ? `${API_BASE_URL}${currentImage}` : '');
@@ -64,7 +65,7 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
     }, []);
 
     return (
-      <div className={cx('input-avatar', { 'input-avatar_dark': isDarkTheme })}>
+      <div className={cx('input-avatar', { 'input-avatar_dark': isDarkTheme }, className)}>
         {image && (
           <div className={cx('input-avatar__image-wrapper')}>
             <img className={cx('input-avatar__image')} src={image} alt="avatar" />

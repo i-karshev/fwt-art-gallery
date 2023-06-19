@@ -1,6 +1,8 @@
-import React, { FC, memo, useState, useCallback, useRef } from 'react';
+import React, { FC, memo, useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useController, FieldValues, Control } from 'react-hook-form';
 import cn from 'classnames/bind';
 
+import { ArtistFormData } from '@/components/ArtistModal';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Label } from '@/components/ui/Label';
 import { ReactComponent as ArrowIcon } from '@/assets/svg/expand_icon.svg';
@@ -10,7 +12,7 @@ import styles from './MultiSelect.module.scss';
 
 const cx = cn.bind(styles);
 
-type TOption = {
+export type TOption = {
   id: string;
   name: string;
 };
@@ -21,11 +23,13 @@ interface SelectProps {
   className?: string;
   options?: TOption[];
   selected?: TOption[];
-  onChange?: (selected: TOption[]) => void;
+  name: string;
+  control: Control<ArtistFormData & FieldValues>;
 }
 
 export const MultiSelect: FC<SelectProps> = memo(
-  ({ isDarkTheme, label, options, selected, onChange, className }) => {
+  ({ isDarkTheme, label, options, selected, className, name, control }) => {
+    const { field } = useController({ name, control });
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
     const [selectedItems, setSelectedItems] = useState<TOption[]>(selected || []);
     const multiSelectRef = useRef<HTMLDivElement | null>(null);
@@ -33,22 +37,37 @@ export const MultiSelect: FC<SelectProps> = memo(
     const handleToggleDropdown = () => setIsOpenDropdown((prev) => !prev);
     const handleCloseDropdown = () => setIsOpenDropdown(false);
 
+    const isSelectedItem = useMemo(
+      () => (item: TOption) => {
+        if (selectedItems.length) {
+          const arr = selectedItems?.map((m) => JSON.stringify(m));
+          return arr.includes(JSON.stringify(item));
+        }
+
+        return false;
+      },
+      [selectedItems]
+    );
+
     const handleToggleSelectedItem = useCallback(
       (option: TOption) => {
-        const newSelectedItems = selectedItems.includes(option)
+        const newSelectedItems = isSelectedItem(option)
           ? selectedItems.filter((item) => item.id !== option.id)
           : selectedItems.concat(option);
 
         setSelectedItems(newSelectedItems);
-
-        if (onChange) {
-          onChange(newSelectedItems);
-        }
+        field.onChange(newSelectedItems);
       },
       [setSelectedItems, selectedItems]
     );
 
     useOutsideClick(multiSelectRef, handleCloseDropdown);
+
+    useEffect(() => {
+      if (selected?.length) {
+        field.onChange(selected);
+      }
+    }, []);
 
     return (
       <div
@@ -97,7 +116,7 @@ export const MultiSelect: FC<SelectProps> = memo(
                     className={cx('multi-select__option-checkbox-input')}
                     type="checkbox"
                     id={option.id}
-                    checked={selectedItems.includes(option)}
+                    checked={isSelectedItem(option)}
                     readOnly
                   />
                   <CheckboxIcon className={cx('multi-select__option-checkbox-icon')} />

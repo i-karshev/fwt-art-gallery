@@ -61,4 +61,11 @@ export const artistApi = apiService
         invalidatesTags: ['Artist'],
       }),
     }),
-  });
+    createArtist: build.mutation<null, FormData>({
+      query: (data) => ({ method: 'POST', url: '/artists', data }),
+    }),
+    editArtist: build.mutation<null, { artistId: string; data: FormData }>({
+      query: ({ artistId, data }) => ({ method: 'PUT', url: `/artists/${artistId}`, data }),
+    }),
+  }),
+});
