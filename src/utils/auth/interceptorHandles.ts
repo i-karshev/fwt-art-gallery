@@ -1,10 +1,8 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import instance from '@/api/instance';
-import { store } from '@/index';
-import { authApi, AuthResponse } from '@/api/features/authApi';
+import { AuthResponse } from '@/api/features/authApi';
 import { authLocalStorage } from '@/utils/auth/authLocalStorage';
-import { authActions } from '@/store/reducers/AuthSlice';
 import { getFingerprint } from '@/utils/auth/getFingerprint';
 import { isExpiredToken } from '@/utils/auth/isExpiredToken';
 
@@ -31,9 +29,10 @@ const onRefreshToken = async () => {
   const fingerprint = await getFingerprint();
 
   if (refreshToken && !isExpiredToken(refreshToken)) {
-    refreshTokenPromise = store.dispatch(
-      authApi.endpoints.refresh.initiate({ refreshToken, fingerprint })
-    );
+    refreshTokenPromise = instance('/auth/refresh', {
+      method: 'POST',
+      data: { refreshToken, fingerprint },
+    });
 
     await refreshTokenPromise;
     refreshTokenPromise = null;
@@ -42,8 +41,6 @@ const onRefreshToken = async () => {
   }
 
   authLocalStorage.remove();
-  store.dispatch(authActions.logout());
-
   redirectToLogin();
 
   return Promise.reject();

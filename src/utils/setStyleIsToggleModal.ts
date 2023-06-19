@@ -1,12 +1,10 @@
-import { RefObject } from 'react';
-
 export const setStyleIsToggleModal = (
-  modalRef: RefObject<HTMLElement>,
+  body: HTMLElement,
   overflowY: string,
   paddingRight: string,
   isDarkTheme: boolean
 ) => {
-  modalRef.current?.style?.setProperty('overflow-y', overflowY);
-  modalRef.current?.style?.setProperty('padding-right', paddingRight);
-  modalRef.current?.style?.setProperty('background-color', isDarkTheme ? '#121212' : '#ffffff');
+  body?.style?.setProperty('overflow-y', overflowY);
+  body?.style?.setProperty('padding-right', paddingRight);
+  body?.style?.setProperty('background-color', isDarkTheme ? '#121212' : '#ffffff');
 };
