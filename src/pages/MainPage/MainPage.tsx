@@ -3,7 +3,7 @@ import cn from 'classnames/bind';
 
 import { artistApi } from '@/api/features/artistApi';
 import { ThemeContext } from '@/context/ThemeProvider';
-import { useAppSelector } from '@/hooks/redux';
+import { AuthContext } from '@/context/AuthProvider';
 
 import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
 import { ArtistCard } from '@/components/ArtistCard';
@@ -16,11 +16,9 @@ const cx = cn.bind(styles);
 
 export const MainPage = () => {
   const { isDarkTheme } = useContext(ThemeContext);
-  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const { isAuth } = useContext(AuthContext);
 
-  const fetchArtists = artistApi.useFetchArtistsQuery({}, { skip: !isAuth });
-  const fetchArtistsStatic = artistApi.useFetchArtistsStaticQuery(null, { skip: isAuth });
-  const { data: { data: artists } = {} } = isAuth ? fetchArtists : fetchArtistsStatic;
+  const { data: { data: artists } = {} } = artistApi.useFetchArtistsQuery({ isAuth, params: {} });
 
   if (!artists) {
     return <Preloader isDarkTheme={isDarkTheme} />;

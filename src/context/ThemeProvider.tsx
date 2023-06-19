@@ -18,7 +18,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
     setIsDarkTheme((prev) => !prev);
   }, []);
 
-  const themeContextProviderValue = useMemo(
+  const contextValue = useMemo(
     () => ({
       isDarkTheme,
       toggleTheme,
@@ -26,7 +26,5 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
     [isDarkTheme, toggleTheme]
   );
 
-  return (
-    <ThemeContext.Provider value={themeContextProviderValue}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };

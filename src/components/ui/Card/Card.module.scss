@@ -26,17 +26,17 @@
     position: absolute;
     bottom: 0;
     width: 260px;
-    padding: 8px 0 8px 12px;
+    padding: 8px 24px 8px 12px;
     background-color: $color-primary-white;
     pointer-events: none;
 
     @include md {
-      padding: 12px 0 12px 12px;
+      padding: 12px 24px 12px 12px;
       width: 324px;
     }
 
     @include lg {
-      padding: 20px 0 20px 20px;
+      padding: 20px;
       width: 300px;
 
       &:before {
@@ -87,6 +87,7 @@
     width: 24px;
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: $color-accent-red;
     color: $color-primary-light-gray;
 

@@ -1,0 +1,54 @@
+.artist-card {
+  position: relative;
+
+  &:hover {
+    & .artist-card__control {
+      opacity: 1;
+    }
+  }
+
+  &_dark & {
+    &__popover-menu-item{
+      color: $color-primary-light-gray;
+
+      &:hover {
+        background-color: $color-primary-black;
+        color: $color-accent-gold;
+      }
+    }
+  }
+
+  &__control {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    top: 12px;
+    left: 12px;
+  }
+
+  &__popover-menu {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;
+
+    padding: 16px 0;
+    list-style: none;
+  }
+
+  &__popover-menu-item {
+    padding: 6px 16px;
+    transition: all 0.3s ease-out;
+    color: $color-primary-dark-gray;
+    white-space: nowrap;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $color-primary-white;
+      color: $color-primary-black;
+    }
+  }
+}

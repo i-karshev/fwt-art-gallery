@@ -15,11 +15,12 @@ export interface CardProps {
   image: IImage;
   isDarkTheme: boolean;
   isScaleImageOnHover?: boolean;
+  onClick?: () => void;
 }
 
 export const Card: FC<CardProps> = memo(
-  ({ title, subtitle, image, isDarkTheme, isScaleImageOnHover }) => (
-    <div className={cx('card', { card_dark: isDarkTheme })}>
+  ({ title, subtitle, image, isDarkTheme, isScaleImageOnHover, onClick }) => (
+    <div className={cx('card', { card_dark: isDarkTheme })}  onClick={onClick} role="presentation">
       <Image
         className={cx('card__img', { card__img_scale: isScaleImageOnHover })}
         src={image.src}
