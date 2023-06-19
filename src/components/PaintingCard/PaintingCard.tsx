@@ -42,9 +42,8 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
     const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
     const [deletePainting] = artistApi.useDeleteArtistPaintingMutation();
 
-    const handleEditMainPainting = (artistId: string, paintingId: string) => () => {
+    const handleEditMainPainting = (artistId: string, paintingId: string) => () =>
       editMainPainting({ artistId, paintingId });
-    };
 
     const handleTogglePopover = useCallback(() => setIsShowPopover((prev) => !prev), []);
     const handleClosePopover = useCallback(() => setIsShowPopover(false), []);
@@ -56,12 +55,8 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
       [isShowPaintingModal]
     );
 
-    const handleDeletePainting = useCallback(
-      (artistId: string, paintingId: string) => async () => {
-        await deletePainting({ artistId, paintingId });
-      },
-      []
-    );
+    const handleDeletePainting = (artistId: string, paintingId: string) => () =>
+      deletePainting({ artistId, paintingId });
 
     return (
       <li

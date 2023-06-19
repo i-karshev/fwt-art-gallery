@@ -70,14 +70,14 @@ export const PaintingModal: FC<IPaintingModalState> = ({
   } = methods;
 
   const onSubmit = handleSubmit(async ({ name, yearOfCreation, image }) => {
-    const curImage = image as File;
+    const currentImg = image as File;
 
     const data = new FormData();
     data.append('name', name);
     data.append('yearOfCreation', yearOfCreation);
 
-    if (curImage?.name) {
-      data.append('image', curImage);
+    if (currentImg?.name) {
+      data.append('image', currentImg);
     }
 
     if (paintingId) {

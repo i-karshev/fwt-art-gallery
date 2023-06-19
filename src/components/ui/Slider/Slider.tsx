@@ -60,9 +60,8 @@ export const Slider: FC<SliderProps> = ({
     }
   }, [isShowSlider]);
 
-  const handleEditMainPainting = (artistId: string, paintingId: string) => () => {
+  const handleEditMainPainting = (artistId: string, paintingId: string) => () =>
     editMainPainting({ artistId, paintingId });
-  };
 
   const handleScrollSlide = (offset: 1 | -1) => {
     const slides = sliderRef.current;

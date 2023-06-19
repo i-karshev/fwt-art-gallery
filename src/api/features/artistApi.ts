@@ -17,8 +17,7 @@ export const artistApi = apiService
           response: IArtist[] | IArtistResponse,
           meta,
           { isAuth }
-        ): IArtistResponse =>
-          isAuth ? (response as IArtistResponse) : ({ data: response } as IArtistResponse),
+        ): IArtistResponse => (isAuth ? response : { data: response }) as IArtistResponse,
       }),
       fetchArtistById: build.query<IArtistDetail, { id: string; isAuth: boolean }>({
         query: ({ id, isAuth }) => ({

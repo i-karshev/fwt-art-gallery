@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import cn from 'classnames/bind';
 
@@ -25,7 +25,6 @@ export const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
-  const handleLogout = useCallback(() => onLogout(), []);
 
   return (
     <header className={cx('header', { header_dark: isDarkTheme })}>
@@ -52,7 +51,7 @@ export const Header = () => {
 
               <ul className={cx('header__list')}>
                 {isAuth ? (
-                  <li role="presentation" className={cx('header__item')} onClick={handleLogout}>
+                  <li role="presentation" className={cx('header__item')} onClick={() => onLogout()}>
                     Log Out
                   </li>
                 ) : (
