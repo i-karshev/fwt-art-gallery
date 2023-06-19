@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
 import cn from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 
@@ -50,7 +50,7 @@ export const Slider: FC<SliderProps> = ({
   const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
   const { isAuth } = useContext(AuthContext);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const slides = sliderRef.current;
     const slideWidth = slides?.children[0].clientWidth;
 
