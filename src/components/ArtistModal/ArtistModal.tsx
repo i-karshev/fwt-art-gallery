@@ -94,7 +94,7 @@ export const ArtistModal: FC<ArtistModalProps> = ({
   } = methods;
 
   const onSubmit = handleSubmit(async ({ name, yearsOfLife, description, genres, avatar }) => {
-    const curAvatar = avatar as File;
+    const currentAvatar = avatar as File;
 
     const data = new FormData();
     data.append('name', name);
@@ -102,8 +102,8 @@ export const ArtistModal: FC<ArtistModalProps> = ({
     data.append('description', description);
     data.append('genres', genres.map((genre) => genre.id).join());
 
-    if (curAvatar?.name) {
-      data.append('avatar', curAvatar);
+    if (currentAvatar?.name) {
+      data.append('avatar', currentAvatar);
     }
 
     if (defaultValues) {
