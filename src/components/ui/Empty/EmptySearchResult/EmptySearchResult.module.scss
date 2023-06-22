@@ -1,0 +1,26 @@
+.empty-search-result {
+  margin-top: 60px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 22px;
+  color: $color-primary-dark-gray;
+
+  @include lg {
+    text-align: center;
+    margin-top: 100px;
+  }
+
+  &_dark {
+    color: $color-primary-light-gray;
+  }
+
+  &__value {
+    font-weight: 500;
+  }
+
+  &__description {
+    font-size: 12px;
+    line-height: 17px;
+    color: $color-secondary-gray;
+  }
+}

@@ -13,6 +13,7 @@ import { Card } from '@/components/ui/Card';
 import { Popover } from '@/components/ui/Popover';
 import { Button } from '@/components/ui/Button';
 import { PaintingModal } from '@/components/PaintingModal';
+import { DeletePopup } from '@/components/DeletePopup';
 
 import { ReactComponent as GearIcon } from '@/assets/svg/gear_icon.svg';
 
@@ -37,6 +38,7 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
     const [isShowPopover, setIsShowPopover] = useState(false);
     const popoverRef = useRef<HTMLDivElement | null>(null);
     const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
+    const [isShowDeletePopup, setIsShowDeletePopup] = useState(false);
 
     const { id: artist = '' } = useParams();
     const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
@@ -54,6 +56,8 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
       () => setIsShowPaintingModal((prev) => !prev),
       [isShowPaintingModal]
     );
+
+    const handleCloseDeletePopup = useCallback(() => setIsShowDeletePopup(false), []);
 
     const handleDeletePainting = (artistId: string, paintingId: string) => () =>
       deletePainting({ artistId, paintingId });
@@ -95,7 +99,7 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
                   <li
                     className={cx('artist-card__popover-menu-item')}
                     role="presentation"
-                    onClick={handleDeletePainting(artist, id)}
+                    onClick={() => setIsShowDeletePopup(true)}
                   >
                     Delete
                   </li>
@@ -116,6 +120,14 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
           isDarkTheme={isDarkTheme}
           isShowModal={isShowPaintingModal}
           onCloseModal={handleTogglePaintingModal}
+        />
+
+        <DeletePopup
+          isDarkTheme={isDarkTheme}
+          isShowPopup={isShowDeletePopup}
+          onClose={handleCloseDeletePopup}
+          onConfirm={handleDeletePainting(artist, id)}
+          variant="painting"
         />
       </li>
     );

@@ -1,0 +1,18 @@
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: $color-primary-dark-gray;
+
+  @include lg {
+    display: none;
+  }
+
+  &_dark {
+    color: $color-primary-light-gray;
+  }
+}

@@ -1,0 +1,72 @@
+.menu-sidebar {
+  height: 100%;
+  width: 252px;
+
+  @include md {
+    width: 466px;
+  }
+
+  &_hide {
+    margin-right: -20px;
+
+    @include lg {
+      display: none;
+    }
+  }
+
+  &_dark & {
+    &__close-btn {
+      color: $color-primary-light-gray;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 144px;
+    margin-left: 47px;
+
+    @include md {
+      margin-top: 200px;
+      margin-left: 94px;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    list-style: none;
+  }
+
+  &__menu-item {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 32px;
+
+    @include md {
+      font-weight: 500;
+      font-size: 60px;
+      line-height: 73px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: $color-primary-dark-gray;
+
+    top: 24px;
+    right: 24px;
+
+    @include md {
+      top: 36px;
+      right: 24px;
+    }
+  }
+}

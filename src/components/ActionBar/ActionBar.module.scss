@@ -1,0 +1,19 @@
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__left , &__right {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+  }
+
+  &__left {
+    justify-content: flex-start;
+  }
+
+  &__right {
+    justify-content: flex-end;
+  }
+}

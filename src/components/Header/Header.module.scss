@@ -8,152 +8,88 @@
     background-color: $color-primary-black;
   }
 
-  &_dark & {
-    color: $color-primary-light-gray;
-
-    &__nav_open {
-      background-color: $color-primary-black;
-      box-shadow: 0 0 0 3000px rgba(3, 3, 3, 0.6);
-
-      @include lg {
-        background-color: transparent;
-        box-shadow: none;
-      }
-    }
-  }
-
-  &__container {
+  &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     height: 64px;
+    gap: 20px;
 
     @include md {
       height: 88px;
     }
+
     @include lg {
       height: 80px;
     }
   }
 
-  &__nav-wrapper {
-    position: relative;
-    display: flex;
-  }
-
   &__logo {
+
+    &_hide {
+      display: none;
+    }
+  }
+
+
+  &__search-wrapper {
+    flex: 1;
+    display: inline-flex;
+    flex-direction: row-reverse;
+
+    @include md {
+      display: none;
+    }
+  }
+
+  &__search {
+    display: none !important;
+
+    &_show {
+      display: block !important;
+    }
+  }
+
+  &__search-btn {
+    display: flex;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
     color: inherit;
-  }
 
-  &__nav {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    top: 0;
-    transform: translateX(100%);
-    height: 100%;
-    z-index: 10;
-    padding-left: 47px;
-    padding-top: 144px;
-    visibility: hidden;
-
-    @include md {
-      padding-top: 200px;
-    }
-
-    @include lg {
-      position: static;
-      flex-direction: row-reverse;
-      background-color: transparent;
-      padding: 0;
-      transform: translateX(0%);
-      visibility: visible;
-    }
-
-    &_open {
-      width: 252px;
-      background-color: $color-secondary-white;
-      transform: translateX(0%);
-      transition: all 0.2s ease-in;
-      right: 0;
-      visibility: visible;
-      box-shadow: 0 0 0 3000px rgba(3, 3, 3, 0.3);
-
-      @include md {
-        width: 466px;
-      }
-      @include lg {
-        background-color: transparent;
-        transition: none;
-        box-shadow: none;
-      }
+    &_hide {
+      display: none;
     }
   }
 
-  &__list {
+  &__menu-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 32px;
-    margin-top: 40px;
+    align-items: center;
+    gap: 60px;
+  }
 
-    @include md {
-      gap: 40px;
-      margin-top: 60px;
-    }
+  &__menu {
+    display: none;
+    list-style: none;
+
     @include lg {
-      flex-direction: row;
+      display: flex;
       align-items: center;
       gap: 20px;
-      margin-top: 0;
-      margin-right: 60px;
     }
   }
 
-  &__item {
-    list-style: none;
-    white-space: nowrap;
-    font-family: 'Cormorant SC', sans-serif;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 100%;
-    text-transform: uppercase;
+  &__menu-item {
     text-decoration: none;
-    transition: all 0.2s ease-in;
-    cursor: pointer;
-
-    @include md {
-      font-weight: 500;
-      font-size: 60px;
-      line-height: 73px;
-    }
-    @include lg {
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 128%;
-      transition: none;
-    }
   }
 
-  &__open-btn {
-    cursor: pointer;
+  &__theme {
+    display: none;
 
     @include lg {
-      display: none;
-    }
-  }
-
-  &__close-btn {
-    position: absolute;
-    right: 24px;
-    top: 24px;
-    cursor: pointer;
-
-    @include md {
-      top: 32px;
-    }
-    @include lg {
-      display: none;
+      display: block;
     }
   }
 }

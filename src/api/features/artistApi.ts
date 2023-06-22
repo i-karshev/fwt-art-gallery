@@ -66,5 +66,8 @@ export const artistApi = apiService
       editArtist: build.mutation<null, { artistId: string; data: FormData }>({
         query: ({ artistId, data }) => ({ method: 'PUT', url: `/artists/${artistId}`, data }),
       }),
+      deleteArtist: build.mutation<null, string>({
+        query: (artistId) => ({ method: 'DELETE', url: `/artists/${artistId}` }),
+      }),
     }),
   });

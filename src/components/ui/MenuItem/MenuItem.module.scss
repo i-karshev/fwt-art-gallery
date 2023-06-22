@@ -1,0 +1,22 @@
+.menu-item {
+  font-family: 'Cormorant SC', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: $color-primary-dark-gray;
+  transition: color 0.2s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-primary-black;
+  }
+
+  &_dark {
+    color: $color-primary-light-gray;
+
+    &:hover {
+      color: $color-primary-white;
+    }
+  }
+}

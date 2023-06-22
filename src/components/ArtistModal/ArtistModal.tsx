@@ -47,7 +47,7 @@ type TDefaultValues = {
 export type ArtistFormData = yup.InferType<typeof schema>;
 
 interface ArtistModalProps {
-  artistId: string;
+  artistId?: string;
   defaultValues?: TDefaultValues;
   isDarkTheme: boolean;
   isShowModal: boolean;
@@ -106,7 +106,7 @@ export const ArtistModal: FC<ArtistModalProps> = ({
       data.append('avatar', currentAvatar);
     }
 
-    if (defaultValues) {
+    if (artistId) {
       await editArtist({ artistId, data });
     } else {
       await createArtist(data);
@@ -141,7 +141,12 @@ export const ArtistModal: FC<ArtistModalProps> = ({
               />
 
               <div className={cx('artist-modal__form-inputs')}>
-                <Input isDarkTheme={isDarkTheme} label="Name" {...register('name')} />
+                <Input
+                  isDarkTheme={isDarkTheme}
+                  label="Name"
+                  {...register('name')}
+                  error={errors.name?.message?.toString()}
+                />
 
                 <Input
                   isDarkTheme={isDarkTheme}

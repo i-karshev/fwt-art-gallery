@@ -1,0 +1,33 @@
+.filter-genres {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 17px;
+
+  &_dark & {
+    &__item {
+      color: $color-primary-light-gray;
+    }
+
+    &__input:checked + .filter-genres__text {
+      color: $color-accent-gold;
+    }
+  }
+
+  &__item {
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+  }
+
+  &__input {
+    display: none;
+
+    &:checked + .filter-genres__text {
+      color: $color-primary-black;
+      font-weight: 500;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { IImage } from '@/types/IImage';
 import { IGenre } from '@/types/IGenre';
 import { Image } from '@/components/ui/Image';
 import { Label } from '@/components/ui/Label';
+import { EmptyAvatar } from '@/components/ui/Empty';
 import { ArtistAccordion } from '@/components/ArtistAccordion';
 
 import styles from './ArtistInfo.module.scss';
@@ -32,14 +33,19 @@ export const ArtistInfo: FC<ArtistInfoProps> = ({
     <div className={cx('artist__container')}>
       <div className={cx('artist__content')}>
         <div className={cx('artist__info-wrapper')}>
-          <Image
-            className={cx('artist__img')}
-            src={avatar.src}
-            src2x={avatar.src2x}
-            webp={avatar.webp}
-            webp2x={avatar.webp2x}
-            alt={name}
-          />
+          {avatar ? (
+            <Image
+              className={cx('artist__img')}
+              src={avatar.src}
+              src2x={avatar.src2x}
+              webp={avatar.webp}
+              webp2x={avatar.webp2x}
+              alt={name}
+            />
+          ) : (
+            <EmptyAvatar isDarkTheme={isDarkTheme} className={cx('artist__img')} />
+          )}
+
           <div className={cx('artist__info')}>
             <p className={cx('artist__years')}>{yearsOfLife}</p>
             <p className={cx('artist__name')}>{name}</p>
