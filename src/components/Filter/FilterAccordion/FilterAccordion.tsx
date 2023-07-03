@@ -9,19 +9,19 @@ import styles from './FilterAccordion.module.scss';
 const cx = cn.bind(styles);
 
 interface FilterAccordionProps {
-  isDarkTheme: boolean;
+  theme: string;
   title: string;
   children: ReactNode;
   className?: string;
 }
 
 export const FilterAccordion: FC<FilterAccordionProps> = memo(
-  ({ isDarkTheme, title, children, className }) => {
+  ({ theme, title, children, className }) => {
     const [isShow, setIsShow] = useState(false);
     const handleToggleShow = () => setIsShow((prev) => !prev);
 
     return (
-      <div className={cx('filter-accordion', { 'filter-accordion_dark': isDarkTheme }, className)}>
+      <div className={cx('filter-accordion', `filter-accordion_${theme}`, className)}>
         <div
           className={cx('filter-accordion__header')}
           role="presentation"

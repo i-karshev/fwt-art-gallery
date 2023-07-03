@@ -1,11 +1,11 @@
 .delete-popup {
-  position: relative;
-  width: 100%;
-  margin-top: auto;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
 
   @include md {
-    margin-top: 0;
-    width: auto;
+    position: static;
+    width: unset;
   }
 
   &_dark & {
@@ -17,7 +17,9 @@
       color: $color-primary-light-gray;
     }
 
-    &__description, &__icon, &__close-btn {
+    &__description,
+    &__icon,
+    &__close-btn {
       color: $color-secondary-gray;
     }
   }

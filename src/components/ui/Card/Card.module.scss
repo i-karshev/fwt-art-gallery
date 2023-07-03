@@ -44,9 +44,9 @@
         border-left: 2px solid;
         border-color: $color-accent-red;
         position: absolute;
-        height: 42px;
+        height: calc(100% - 40px);
         left: 0;
-        top: 25%;
+        top: 20px;
       }
     }
   }

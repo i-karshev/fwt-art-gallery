@@ -5,8 +5,10 @@ import cn from 'classnames/bind';
 import { ArtistFormData } from '@/components/ArtistModal';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Label } from '@/components/ui/Label';
+
 import { ReactComponent as ArrowIcon } from '@/assets/svg/expand_icon.svg';
 import { ReactComponent as CheckboxIcon } from '@/assets/svg/success_icon.svg';
+import { ReactComponent as ErrorIcon } from '@/assets/svg/error_icon.svg';
 
 import styles from './MultiSelect.module.scss';
 
@@ -18,17 +20,18 @@ export type TOption = {
 };
 
 interface SelectProps {
-  isDarkTheme: boolean;
+  theme: string;
   label?: string;
   className?: string;
   options?: TOption[];
   selected?: TOption[];
   name: string;
   control: Control<ArtistFormData & FieldValues>;
+  error?: string;
 }
 
 export const MultiSelect: FC<SelectProps> = memo(
-  ({ isDarkTheme, label, options, selected, className, name, control }) => {
+  ({ theme, label, options, selected, className, name, control, error }) => {
     const { field } = useController({ name, control });
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
     const [selectedItems, setSelectedItems] = useState<TOption[]>(selected || []);
@@ -70,10 +73,7 @@ export const MultiSelect: FC<SelectProps> = memo(
     }, []);
 
     return (
-      <div
-        className={cx('multi-select', { 'multi-select_dark': isDarkTheme }, className)}
-        ref={multiSelectRef}
-      >
+      <div className={cx('multi-select', `multi-select_${theme}`, className)} ref={multiSelectRef}>
         {label && <p className={cx('multi-select__label')}>{label}</p>}
         <div
           className={cx('multi-select__select', {
@@ -86,7 +86,7 @@ export const MultiSelect: FC<SelectProps> = memo(
           <div className={cx('multi-select__selected')}>
             {selectedItems?.map((item) => (
               <Label
-                isDarkTheme={isDarkTheme}
+                theme={theme}
                 key={item.id}
                 name={item.name}
                 className={cx('multi-select__selected-label')}
@@ -101,6 +101,13 @@ export const MultiSelect: FC<SelectProps> = memo(
             })}
           />
         </div>
+
+        {error && (
+          <div className={cx('multi-select__error-message')}>
+            <ErrorIcon />
+            <span>{error}</span>
+          </div>
+        )}
 
         {isOpenDropdown && (
           <ul className={cx('multi-select__options')}>

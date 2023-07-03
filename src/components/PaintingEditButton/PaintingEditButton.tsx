@@ -7,7 +7,7 @@ import { PaintingModal } from '@/components/PaintingModal';
 import { ReactComponent as EditIcon } from '@/assets/svg/edit_icon.svg';
 
 interface PaintingEditButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
   artistId: string;
   paintingId: string;
   name: string;
@@ -16,20 +16,21 @@ interface PaintingEditButtonProps {
 }
 
 export const PaintingEditButton: FC<PaintingEditButtonProps> = memo(
-  ({ isDarkTheme, artistId, paintingId, name, yearOfCreation, image }) => {
+  ({ theme, artistId, paintingId, name, yearOfCreation, image }) => {
     const [isShow, setIsShow] = useState(false);
-    const handleToggleIsShow = useCallback(() => setIsShow((prev) => !prev), [setIsShow]);
+    const handleShowModal = useCallback(() => setIsShow(true), []);
+    const handleCloseModal = useCallback(() => setIsShow(false), []);
 
     return (
       <>
-        <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleToggleIsShow}>
+        <Button theme={theme} variant="icon" onClick={handleShowModal}>
           <EditIcon />
         </Button>
 
         <PaintingModal
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowModal={isShow}
-          onCloseModal={handleToggleIsShow}
+          onCloseModal={handleCloseModal}
           artistId={artistId}
           defaultValues={{
             id: paintingId,

@@ -10,10 +10,10 @@ const cx = cn.bind(styles);
 
 interface ArtistAccordionProps {
   description: string;
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkTheme }) => {
+export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, theme }) => {
   const [isShowAccordion] = useState(description.length > 265);
   const [isOpenAccordion, setIsOpenAccordion] = useState(false);
   const isShowFullDescription = !isShowAccordion || isOpenAccordion;
@@ -21,7 +21,7 @@ export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkT
   const handleToggleAccordion = () => setIsOpenAccordion(!isOpenAccordion);
 
   return (
-    <div className={cx('artist-accordion', { 'artist-accordion_dark': isDarkTheme })}>
+    <div className={cx('artist-accordion', `artist-accordion_${theme}`)}>
       <p
         className={cx('artist-accordion__text', {
           'artist-accordion__text_full': isShowFullDescription,
@@ -32,7 +32,7 @@ export const ArtistAccordion: FC<ArtistAccordionProps> = ({ description, isDarkT
 
       {isShowAccordion && (
         <div className={cx('artist-accordion__button')}>
-          <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleToggleAccordion}>
+          <Button theme={theme} variant="text" onClick={handleToggleAccordion}>
             <p>{isOpenAccordion ? 'Read Less' : 'Read More'}</p>
             <ArrowIcon className={cx({ 'artist-accordion__button-icon': isOpenAccordion })} />
           </Button>

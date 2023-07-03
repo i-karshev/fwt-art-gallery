@@ -17,23 +17,25 @@ import { FilterButton } from '@/components/Filter/FilterButton';
 import { Search } from '@/components/Search';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { EmptySearchResult } from '@/components/ui/Empty/EmptySearchResult';
+import { DraggableCardGrid } from '@/components/ui/CardGrid/DraggableCardGrid';
 
 import styles from './MianPage.module.scss';
 
 const cx = cn.bind(styles);
 
 export const MainPage = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const { isAuth } = useContext(AuthContext);
   const { filters, changeFilters } = useContext(FilterContext);
+  const params = { ...filters, genres: filters.genres?.split(',') };
 
   const {
-    data: { data: artists, meta: { perPage, count } = {} as IArtistMetaResponse } = {},
+    data: { data: artists = [], meta: { perPage, count } = {} as IArtistMetaResponse } = {},
     isLoading,
-  } = artistApi.useFetchArtistsQuery({ isAuth, params: filters });
+  } = artistApi.useFetchArtistsQuery({ isAuth, params });
 
   const isLoadMoreArtists = !!perPage && !!count && count > perPage;
-  const isArtistNotFount = filters.name && !artists?.length;
+  const isArtistNotFount = !artists?.length && (filters.genres || filters.name);
 
   const handleLoadMoreArtists = useCallback(
     () => changeFilters({ ...filters, perPage: String(isLoadMoreArtists ? perPage * 2 : perPage) }),
@@ -43,42 +45,48 @@ export const MainPage = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const options = {
-      root: null,
-      threshold: 0.5,
-    };
+    if (!loaderRef.current) return;
+    const element = loaderRef.current;
 
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !isLoading) {
-        handleLoadMoreArtists();
-      }
-    }, options);
+    const observer = new IntersectionObserver(
+      ([entry]) => entry.isIntersecting && !isLoading && handleLoadMoreArtists(),
+      { root: null, threshold: 0.5 }
+    );
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
+    observer.observe(element);
 
-    return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current);
-      }
-    };
-  }, [perPage, count, isLoading]);
+    // eslint-disable-next-line consistent-return
+    return () => observer.unobserve(element);
+  }, [isLoadMoreArtists]);
 
-  const artistList = artists?.map(({ _id: id, name, yearsOfLife, mainPainting }) => (
-    <ArtistCard
-      key={id}
-      id={id}
-      name={name}
-      yearsOfLife={yearsOfLife}
-      image={mainPainting?.image}
+  const artistCardGrid = artists?.length && (
+    <DraggableCardGrid
+      theme={theme}
+      items={artists}
+      renderItem={({ _id: id, name, yearsOfLife, mainPainting }) => (
+        <ArtistCard
+          key={id}
+          id={id}
+          name={name}
+          yearsOfLife={yearsOfLife}
+          image={mainPainting?.image}
+        />
+      )}
     />
-  ));
+  );
 
-  const skeletonList = Array.from({ length: 6 }).map((_, id) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <Skeleton key={id} isDarkTheme={isDarkTheme} />
-  ));
+  const skeletonCardGrid = (
+    <Container>
+      <CardGrid>
+        {Array.from({ length: 6 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Skeleton key={index} theme={theme} />
+        ))}
+      </CardGrid>
+    </Container>
+  );
+
+  const cardGrid = artists?.length ? artistCardGrid : skeletonCardGrid;
 
   return (
     <main className={cx('main-page__content-wrapper')}>
@@ -86,20 +94,20 @@ export const MainPage = () => {
         {isAuth && (
           <ActionBar
             className={cx('main-page__action-bar')}
-            renderLeft={<ArtistAddButton isDarkTheme={isDarkTheme} />}
+            renderLeft={<ArtistAddButton theme={theme} />}
             renderRight={
               <>
-                <Search isDarkTheme={isDarkTheme} className={cx('main-page__search')} />
-                <FilterButton isDarkTheme={isDarkTheme} />
+                <Search theme={theme} className={cx('main-page__search')} />
+                <FilterButton theme={theme} />
               </>
             }
           />
         )}
 
         {isArtistNotFount ? (
-          <EmptySearchResult isDarkTheme={isDarkTheme} value={filters.name as string} />
+          <EmptySearchResult theme={theme} value={filters.name ? filters.name : 'genres'} />
         ) : (
-          <CardGrid>{artists?.length ? artistList : skeletonList}</CardGrid>
+          cardGrid
         )}
 
         {isLoadMoreArtists && <div ref={loaderRef} />}

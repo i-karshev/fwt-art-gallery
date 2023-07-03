@@ -5,15 +5,15 @@ import { Button } from '@/components/ui/Button';
 import { ReactComponent as ArrowIcon } from '@/assets/svg/arrow_icon_v2.svg';
 
 interface BackButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const BackButton: FC<BackButtonProps> = memo(({ isDarkTheme }) => {
+export const BackButton: FC<BackButtonProps> = memo(({ theme }) => {
   const navigate = useNavigate();
   const handleNavigateToBack = useCallback(() => navigate(-1), [navigate]);
 
   return (
-    <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleNavigateToBack}>
+    <Button theme={theme} variant="text" onClick={handleNavigateToBack}>
       <ArrowIcon style={{ rotate: '180deg' }} />
       <p>Back</p>
     </Button>

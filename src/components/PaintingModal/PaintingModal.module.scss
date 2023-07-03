@@ -1,6 +1,6 @@
 .painting-modal {
   background-color: $color-secondary-white;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 
   &_dark {
@@ -28,7 +28,7 @@
     gap: 40px;
     width: 100%;
 
-    @include  md {
+    @include md {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: center;

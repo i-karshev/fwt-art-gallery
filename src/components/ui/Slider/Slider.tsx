@@ -23,14 +23,14 @@ const cx = cn.bind(style);
 interface SliderProps {
   paintings: IPainting[];
   currentIndex?: number;
-  isDarkTheme: boolean;
+  theme: string;
   isShowSlider: boolean;
   mainPainting: string;
   onCloseSlider: () => void;
 }
 
 export const Slider: FC<SliderProps> = memo(
-  ({ paintings, currentIndex = 0, isDarkTheme, isShowSlider, onCloseSlider, mainPainting }) => {
+  ({ paintings, currentIndex = 0, theme, isShowSlider, onCloseSlider, mainPainting }) => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const [currentSlide, setCurrentSlide] = useState(currentIndex);
     const sliderLength = paintings.length;
@@ -63,19 +63,24 @@ export const Slider: FC<SliderProps> = memo(
     };
 
     return (
-      <Modal isDarkTheme={isDarkTheme} isShowModal={isShowSlider}>
-        <div className={cx('slider', { slider_dark: isDarkTheme })}>
+      <Modal theme={theme} isShowModal={isShowSlider} onClose={onCloseSlider} isTransition={false}>
+        <div className={cx('slider', `slider_${theme}`)}>
           <div className={cx('slider__content')}>
             <div ref={sliderRef} className={cx('slider__slides')}>
               {paintings &&
                 paintings.map(({ _id: id, name, yearOfCreation, image }, index) => (
                   <div className={cx('slider__slide')} key={id}>
-                    <Image className={cx('slider__img')} src={image.original} alt={name} />
+                    <Image
+                      className={cx('slider__img')}
+                      theme={theme}
+                      src={image.original}
+                      alt={name}
+                    />
 
                     <div className={cx('slider__container')}>
                       {isAuth && (
                         <Button
-                          isDarkTheme
+                          theme="dark"
                           variant="text"
                           className={cx('slider__cover-btn')}
                           onClick={handleEditMainPainting(artist, id)}
@@ -92,18 +97,14 @@ export const Slider: FC<SliderProps> = memo(
                         {isAuth && (
                           <div className={cx('slider__img-control')}>
                             <PaintingEditButton
-                              isDarkTheme={isDarkTheme}
+                              theme={theme}
                               artistId={artist}
                               paintingId={id}
                               name={name}
                               yearOfCreation={yearOfCreation}
                               image={image}
                             />
-                            <PaintingDeleteButton
-                              isDarkTheme={isDarkTheme}
-                              artistId={artist}
-                              paintingId={id}
-                            />
+                            <PaintingDeleteButton theme={theme} artistId={artist} paintingId={id} />
                           </div>
                         )}
                       </div>

@@ -6,25 +6,22 @@ import { ReactComponent as PlusIcon } from '@/assets/svg/plus_icon.svg';
 import { ArtistModal } from '@/components/ArtistModal';
 
 interface ArtistAddButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const ArtistAddButton: FC<ArtistAddButtonProps> = memo(({ isDarkTheme }) => {
+export const ArtistAddButton: FC<ArtistAddButtonProps> = memo(({ theme }) => {
   const [isShow, setIsShow] = useState(false);
-  const handleToggleIsShow = useCallback(() => setIsShow((prev) => !prev), [setIsShow]);
+  const handleShowModal = useCallback(() => setIsShow(true), []);
+  const handleCloseModal = useCallback(() => setIsShow(false), []);
 
   return (
     <>
-      <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleToggleIsShow}>
+      <Button theme={theme} variant="text" onClick={handleShowModal}>
         <PlusIcon />
         Add artist
       </Button>
 
-      <ArtistModal
-        isDarkTheme={isDarkTheme}
-        isShowModal={isShow}
-        onCloseModal={handleToggleIsShow}
-      />
+      <ArtistModal theme={theme} isShowModal={isShow} onCloseModal={handleCloseModal} />
     </>
   );
 });

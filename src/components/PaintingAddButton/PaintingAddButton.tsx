@@ -6,26 +6,27 @@ import { PaintingModal } from '@/components/PaintingModal';
 import { ReactComponent as PlusIcon } from '@/assets/svg/plus_icon.svg';
 
 interface PaintingAddButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
   artistId: string;
 }
 
-export const PaintingAddButton: FC<PaintingAddButtonProps> = memo(({ isDarkTheme, artistId }) => {
+export const PaintingAddButton: FC<PaintingAddButtonProps> = memo(({ theme, artistId }) => {
   const [isShow, setIsShow] = useState(false);
-  const handleToggleIsShow = useCallback(() => setIsShow((prev) => !prev), [isShow, setIsShow]);
+  const handleShowModal = useCallback(() => setIsShow(true), []);
+  const handleCloseModal = useCallback(() => setIsShow(false), []);
 
   return (
     <>
-      <Button isDarkTheme={isDarkTheme} variant="text" onClick={handleToggleIsShow}>
+      <Button theme={theme} variant="text" aria-label="Add painting" onClick={handleShowModal}>
         <PlusIcon />
         <p>Add picture</p>
       </Button>
 
       <PaintingModal
-        isDarkTheme={isDarkTheme}
+        theme={theme}
         artistId={artistId}
         isShowModal={isShow}
-        onCloseModal={handleToggleIsShow}
+        onCloseModal={handleCloseModal}
       />
     </>
   );

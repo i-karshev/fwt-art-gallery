@@ -7,12 +7,12 @@ import styles from './EmptyPainting.module.scss';
 const cx = cn.bind(styles);
 
 interface EmptyPaintingProps {
-  isDarkTheme: boolean;
+  theme: string;
   className?: string;
 }
 
-export const EmptyPainting: FC<EmptyPaintingProps> = memo(({ isDarkTheme, className }) => (
-  <div className={cx('empty-painting', { 'empty-painting_dark': isDarkTheme }, className)}>
+export const EmptyPainting: FC<EmptyPaintingProps> = memo(({ theme, className }) => (
+  <div className={cx('empty-painting', `empty-painting_${theme}`, className)}>
     <PhotoIcon className={cx('empty-painting__icon')} />
   </div>
 ));

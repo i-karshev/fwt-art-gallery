@@ -8,18 +8,19 @@ import { ArtistModal } from '@/components/ArtistModal';
 import { ReactComponent as EditIcon } from '@/assets/svg/edit_icon.svg';
 
 interface ArtistEditButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
   artist: IArtistDetail;
 }
 
 export const ArtistEditButton: FC<ArtistEditButtonProps> = memo(
-  ({ isDarkTheme, artist: { _id: artistId, name, yearsOfLife, description, avatar, genres } }) => {
+  ({ theme, artist: { _id: artistId, name, yearsOfLife, description, avatar, genres } }) => {
     const [isShow, setIsShow] = useState(false);
-    const handleToggleIsShow = useCallback(() => setIsShow((prev) => !prev), [setIsShow]);
+    const handleShowModal = useCallback(() => setIsShow(true), []);
+    const handleCloseModal = useCallback(() => setIsShow(false), []);
 
     return (
       <>
-        <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleToggleIsShow}>
+        <Button theme={theme} variant="icon" aria-label="Edit artist" onClick={handleShowModal}>
           <EditIcon />
         </Button>
 
@@ -29,12 +30,12 @@ export const ArtistEditButton: FC<ArtistEditButtonProps> = memo(
             name,
             description,
             yearsOfLife,
-            avatar: avatar.webp,
+            avatar: avatar?.webp,
             genres,
           }}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowModal={isShow}
-          onCloseModal={handleToggleIsShow}
+          onCloseModal={handleCloseModal}
         />
       </>
     );

@@ -6,12 +6,12 @@ import styles from './MenuItem.module.scss';
 const cx = cn.bind(styles);
 
 interface MenuItemProps extends HTMLAttributes<HTMLParagraphElement> {
-  isDarkTheme: boolean;
+  theme: string;
   text: string;
 }
 
-export const MenuItem: FC<MenuItemProps> = memo(({ isDarkTheme, text, className, ...other }) => (
-  <p className={cx('menu-item', { 'menu-item_dark': isDarkTheme }, className)} {...other}>
+export const MenuItem: FC<MenuItemProps> = memo(({ theme, text, className, ...other }) => (
+  <p className={cx('menu-item', `menu-item_${theme}`, className)} {...other}>
     {text}
   </p>
 ));

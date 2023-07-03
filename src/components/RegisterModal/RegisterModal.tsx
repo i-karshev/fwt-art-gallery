@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -7,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { authApi } from '@/api/features/authApi';
 import { useFingerprint } from '@/hooks/useFingerprint';
-import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { AuthContext } from '@/context/AuthProvider';
 import { schema } from '@/schemas/authSchema';
 
@@ -27,10 +26,10 @@ const cx = cn.bind(styles);
 type FormData = yup.InferType<typeof schema>;
 
 interface RegisterModalProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
+export const RegisterModal: FC<RegisterModalProps> = ({ theme }) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +37,6 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
-  const registerModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [registerUser, { isSuccess }] = authApi.useRegisterMutation();
   const { isAuth, onLogin } = useContext(AuthContext);
@@ -50,8 +48,6 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
   const onSubmit = handleSubmit(({ username, password }) =>
     registerUser({ username, password, fingerprint })
   );
-
-  useOutsideClick(registerModalRef, handleCloseModal);
 
   useEffect(() => {
     if (isSuccess) {
@@ -65,11 +61,8 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
   }, [isSuccess, isAuth]);
 
   return (
-    <Modal isDarkTheme={isDarkTheme}>
-      <div
-        ref={registerModalRef}
-        className={cx('register-modal', { 'register-modal_dark': isDarkTheme })}
-      >
+    <Modal theme={theme} onClose={handleCloseModal}>
+      <div className={cx('register-modal', `register-modal_${theme}`)}>
         <img
           className={cx('register-modal__img')}
           src={registerImage}
@@ -80,20 +73,20 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
           <p className={cx('register-modal__title')}>Create your profile</p>
           <form className={cx('register-modal__form')} onSubmit={onSubmit}>
             <Input
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               {...register('username')}
               label="Email"
               error={errors.username?.message?.toString()}
             />
             <InputPassword
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               register={register('password')}
               label="Password"
               error={errors.password?.message?.toString()}
             />
             <Button
               className={cx('register-modal__form-btn')}
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               variant="default"
               type="submit"
               disabled={!isValid}
@@ -103,7 +96,7 @@ export const RegisterModal: FC<RegisterModalProps> = ({ isDarkTheme }) => {
           </form>
           <p className={cx('register-modal__log-in')}>
             If you already have an account, please{' '}
-            <Link isDarkTheme={isDarkTheme} to="/login" state={{ background: location }}>
+            <Link theme={theme} to="/login" state={{ background: location }}>
               log in
             </Link>
           </p>

@@ -33,7 +33,7 @@ interface PaintingCardProps {
 
 export const PaintingCard: FC<PaintingCardProps> = memo(
   ({ id, name, yearOfCreation, image, onClick, isMainPainting }) => {
-    const { isDarkTheme } = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
     const { isAuth } = useContext(AuthContext);
     const [isShowPopover, setIsShowPopover] = useState(false);
     const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -52,10 +52,8 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
 
     useOutsideClick(popoverRef, handleClosePopover);
 
-    const handleTogglePaintingModal = useCallback(
-      () => setIsShowPaintingModal((prev) => !prev),
-      [isShowPaintingModal]
-    );
+    const handleShowModal = useCallback(() => setIsShowPaintingModal(true), []);
+    const handleCloseModal = useCallback(() => setIsShowPaintingModal(false), []);
 
     const handleCloseDeletePopup = useCallback(() => setIsShowDeletePopup(false), []);
 
@@ -63,24 +61,26 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
       deletePainting({ artistId, paintingId });
 
     return (
-      <li
-        className={cx('artist-card', { 'artist-card_dark': isDarkTheme })}
-        onMouseLeave={handleClosePopover}
-      >
+      <div className={cx('artist-card', `artist-card_${theme}`)} onMouseLeave={handleClosePopover}>
         <Card
           title={name}
           subtitle={convertDateToYears(yearOfCreation)}
           image={image}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           onClick={onClick}
         />
         {isAuth && (
           <div className={cx('artist-card__control')} ref={popoverRef}>
-            <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleTogglePopover}>
+            <Button
+              theme={theme}
+              variant="icon"
+              aria-label="Painting control"
+              onClick={handleTogglePopover}
+            >
               <GearIcon />
             </Button>
             {isShowPopover && (
-              <Popover isDarkTheme={isDarkTheme}>
+              <Popover theme={theme}>
                 <ul className={cx('artist-card__popover-menu')}>
                   <li
                     className={cx('artist-card__popover-menu-item')}
@@ -92,7 +92,7 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
                   <li
                     className={cx('artist-card__popover-menu-item')}
                     role="presentation"
-                    onClick={handleTogglePaintingModal}
+                    onClick={handleShowModal}
                   >
                     Edit
                   </li>
@@ -117,19 +117,19 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
             yearOfCreation,
             image: image.webp,
           }}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowModal={isShowPaintingModal}
-          onCloseModal={handleTogglePaintingModal}
+          onCloseModal={handleCloseModal}
         />
 
         <DeletePopup
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowPopup={isShowDeletePopup}
           onClose={handleCloseDeletePopup}
           onConfirm={handleDeletePainting(artist, id)}
           variant="painting"
         />
-      </li>
+      </div>
     );
   }
 );

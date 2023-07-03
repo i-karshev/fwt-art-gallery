@@ -8,16 +8,16 @@ const cx = cn.bind(styles);
 export type TSort = 'asc' | 'desc' | null;
 
 interface FilterSortProps {
-  isDarkTheme: boolean;
+  theme: string;
   selected?: TSort;
   onChange: (sort: TSort) => void;
 }
 
-export const FilterSort: FC<FilterSortProps> = memo(({ isDarkTheme, selected, onChange }) => {
+export const FilterSort: FC<FilterSortProps> = memo(({ theme, selected, onChange }) => {
   const handleSelectSort = (type: TSort) => () => onChange(type);
 
   return (
-    <div className={cx('filter-sort', { 'filter-sort_dark': isDarkTheme })}>
+    <div className={cx('filter-sort', `filter-sort_${theme}`)}>
       <p
         className={cx('filter-sort__item', { 'filter-sort__item_selected': selected === null })}
         role="presentation"

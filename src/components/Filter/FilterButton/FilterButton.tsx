@@ -6,25 +6,21 @@ import { FilterSidebar } from '@/components/Filter/FilterSidebar';
 import { ReactComponent as FilterIcon } from '@/assets/svg/filter_icon.svg';
 
 interface FilterButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const FilterButton: FC<FilterButtonProps> = memo(({ isDarkTheme }) => {
+export const FilterButton: FC<FilterButtonProps> = memo(({ theme }) => {
   const [isShow, setIsShow] = useState(false);
   const handleShowSidebar = useCallback(() => setIsShow(true), [setIsShow]);
   const handleCloseSidebar = useCallback(() => setIsShow(false), [setIsShow]);
 
   return (
     <>
-      <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleShowSidebar}>
+      <Button theme={theme} variant="icon" aria-label="Filter" onClick={handleShowSidebar}>
         <FilterIcon />
       </Button>
 
-      <FilterSidebar
-        isDarkTheme={isDarkTheme}
-        isShowSidebar={isShow}
-        onCloseSidebar={handleCloseSidebar}
-      />
+      <FilterSidebar theme={theme} isShowSidebar={isShow} onCloseSidebar={handleCloseSidebar} />
     </>
   );
 });

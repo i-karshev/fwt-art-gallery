@@ -12,21 +12,22 @@ import styles from './Footer.module.scss';
 const cx = cn.bind(styles);
 
 export const Footer = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <footer
-      className={cx('footer', {
-        footer_dark: isDarkTheme,
-      })}
-    >
+    <footer className={cx('footer', `footer_${theme}`)}>
       <Container>
         <div className={cx('footer__content')}>
           <div className={cx('footer__information')}>
             <p>
               Проект реализован в рамках стажировки <br />
               для Frontend-разработчиков от компании{' '}
-              <Link className={cx('footer__link')} to="https://framework.team/" target="_blank">
+              <Link
+                className={cx('footer__link')}
+                to="https://framework.team/"
+                aria-label="Framework company website"
+                target="_blank"
+              >
                 Framework Team
               </Link>
             </p>
@@ -37,16 +38,23 @@ export const Footer = () => {
             <Link
               className={cx('footer__link')}
               to="https://www.facebook.com/framework.team"
+              aria-label="Framework facebook account link"
               target="_blank"
             >
               <FacebookIcon />
             </Link>
-            <Link className={cx('footer__link')} to="https://vk.com/frameworkteam" target="_blank">
+            <Link
+              className={cx('footer__link')}
+              to="https://vk.com/frameworkteam"
+              aria-label="Framework vkontakte account link"
+              target="_blank"
+            >
               <VkIcon />
             </Link>
             <Link
               className={cx('footer__link')}
               to="https://www.instagram.com/framework.team/"
+              aria-label="Framework instagram account link"
               target="_blank"
             >
               <InstagramIcon />

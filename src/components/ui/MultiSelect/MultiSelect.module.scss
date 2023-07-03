@@ -15,9 +15,14 @@
         border-color: $color-primary-dark-gray;
       }
 
-      &_open, &:focus {
-        border-color: $color-primary-light-gray ;
+      &_open,
+      &:focus {
+        border-color: $color-primary-light-gray;
       }
+    }
+
+    &__selected {
+      color: $color-primary-white;
     }
 
     &__options {
@@ -76,7 +81,8 @@
       border-color: $color-secondary-gray;
     }
 
-    &_open, &:focus {
+    &_open,
+    &:focus {
       border-color: $color-primary-dark-gray;
     }
   }
@@ -87,6 +93,8 @@
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: $color-primary-black;
+    padding-right: 5px;
   }
 
   &__selected-label {
@@ -177,6 +185,22 @@
 
     &_open {
       rotate: 180deg;
+    }
+  }
+
+  &__error-message {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 16px;
+
+    color: $color-accent-error;
+
+    & + .multi-select__options {
+      margin-top: -28px;
     }
   }
 }

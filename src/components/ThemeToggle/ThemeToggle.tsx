@@ -8,21 +8,32 @@ import styles from './ThemeToggle.module.scss';
 
 const cx = cn.bind(styles);
 
+const icons = {
+  light: <DarkIcon />,
+  dark: <LightIcon />,
+};
+
+const texts = {
+  light: 'Dark mode',
+  dark: 'Light mode',
+};
+
 interface ThemeToggleProps {
   className?: string;
 }
 
 export const ThemeToggle: FC<ThemeToggleProps> = ({ className }) => {
-  const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <button
       type="button"
-      className={cx('theme-toggle', { 'theme-toggle_dark': isDarkTheme }, className)}
+      className={cx('theme-toggle', `theme-toggle_${theme}`, className)}
+      aria-label="Toggle theme"
       onClick={toggleTheme}
     >
-      <div className={cx('theme-toggle__icon')}>{isDarkTheme ? <LightIcon /> : <DarkIcon />}</div>
-      <span className={cx('theme-toggle__text')}>{isDarkTheme ? 'Light mode' : 'Dark mode'}</span>
+      <div className={cx('theme-toggle__icon')}>{icons[theme]}</div>
+      <span className={cx('theme-toggle__text')}>{texts[theme]}</span>
     </button>
   );
 };

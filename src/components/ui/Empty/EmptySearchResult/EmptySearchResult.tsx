@@ -6,12 +6,12 @@ import styles from './EmptySearchResult.module.scss';
 const cx = cn.bind(styles);
 
 interface EmptySearchResultProps {
-  isDarkTheme: boolean;
+  theme: string;
   value: string;
 }
 
-export const EmptySearchResult: FC<EmptySearchResultProps> = memo(({ isDarkTheme, value }) => (
-  <div className={cx('empty-search-result', { 'empty-search-result_dark': isDarkTheme })}>
+export const EmptySearchResult: FC<EmptySearchResultProps> = memo(({ theme, value }) => (
+  <div className={cx('empty-search-result', `empty-search-result_${theme}`)}>
     <p>
       No matches for <span className={cx('empty-search-result__value')}>{value}</span>
     </p>

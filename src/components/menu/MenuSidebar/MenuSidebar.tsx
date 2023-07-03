@@ -4,7 +4,7 @@ import cn from 'classnames/bind';
 
 import { AuthContext } from '@/context/AuthProvider';
 
-import { Sidebar } from '@/components/ui/Siderbar';
+import { Sidebar } from '@/components/ui/Sidebar';
 import { MenuItem } from '@/components/ui/MenuItem';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -14,23 +14,18 @@ import styles from './MenuSidebar.module.scss';
 const cx = cn.bind(styles);
 
 interface MenuSidebarProps {
-  isDarkTheme: boolean;
+  theme: string;
   isShow: boolean;
   onClose: () => void;
 }
 
-export const MenuSidebar: FC<MenuSidebarProps> = ({ isDarkTheme, isShow, onClose }) => {
+export const MenuSidebar: FC<MenuSidebarProps> = ({ theme, isShow, onClose }) => {
   const { isAuth, onLogout } = useContext(AuthContext);
   const location = useLocation();
 
   return (
-    <Sidebar
-      isDarkTheme={isDarkTheme}
-      isShow={isShow}
-      onClose={onClose}
-      className={cx('menu-sidebar_hide')}
-    >
-      <div className={cx('menu-sidebar', { 'menu-sidebar_dark': isDarkTheme })}>
+    <Sidebar theme={theme} isShow={isShow} onClose={onClose} className={cx('menu-sidebar_hide')}>
+      <div className={cx('menu-sidebar', `menu-sidebar_${theme}`)}>
         <div className={cx('menu-sidebar__wrapper')}>
           <ThemeToggle />
           <ul className={cx('menu-sidebar__menu')}>
@@ -38,7 +33,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isDarkTheme, isShow, onClose
               <li>
                 <MenuItem
                   className={cx('menu-sidebar__menu-item')}
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   text="Logout"
                   onClick={onLogout}
                 />
@@ -53,7 +48,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isDarkTheme, isShow, onClose
                   >
                     <MenuItem
                       className={cx('menu-sidebar__menu-item')}
-                      isDarkTheme={isDarkTheme}
+                      theme={theme}
                       text="Log In"
                     />
                   </Link>
@@ -66,7 +61,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isDarkTheme, isShow, onClose
                   >
                     <MenuItem
                       className={cx('menu-sidebar__menu-item')}
-                      isDarkTheme={isDarkTheme}
+                      theme={theme}
                       text="Sing up"
                     />
                   </Link>

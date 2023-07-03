@@ -26,6 +26,7 @@ const schema = yup.object({
   description: yup.string().required(),
   genres: yup
     .array()
+    .min(1)
     .of(
       yup.object().shape({
         id: yup.string().required(),
@@ -49,7 +50,7 @@ export type ArtistFormData = yup.InferType<typeof schema>;
 interface ArtistModalProps {
   artistId?: string;
   defaultValues?: TDefaultValues;
-  isDarkTheme: boolean;
+  theme: string;
   isShowModal: boolean;
   onCloseModal: () => void;
 }
@@ -57,7 +58,7 @@ interface ArtistModalProps {
 export const ArtistModal: FC<ArtistModalProps> = ({
   artistId,
   defaultValues,
-  isDarkTheme,
+  theme,
   isShowModal = true,
   onCloseModal,
 }) => {
@@ -123,16 +124,13 @@ export const ArtistModal: FC<ArtistModalProps> = ({
   }, [isSuccess]);
 
   return (
-    <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
-      <div
-        className={cx('artist-modal', { 'artist-modal_dark': isDarkTheme })}
-        onDragOver={handleDragOver}
-      >
+    <Modal theme={theme} isShowModal={isShowModal} onClose={onCloseModal}>
+      <div className={cx('artist-modal', `artist-modal_${theme}`)} onDragOver={handleDragOver}>
         <div className={cx('artist-modal__content')}>
           <FormProvider {...methods}>
             <form className={cx('artist-modal__form')} onSubmit={onSubmit}>
               <InputAvatar
-                isDarkTheme={isDarkTheme}
+                theme={theme}
                 name="avatar"
                 control={control}
                 isDraggable={isDraggable}
@@ -142,38 +140,39 @@ export const ArtistModal: FC<ArtistModalProps> = ({
 
               <div className={cx('artist-modal__form-inputs')}>
                 <Input
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   label="Name"
                   {...register('name')}
-                  error={errors.name?.message?.toString()}
+                  error={errors.name?.message}
                 />
 
                 <Input
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   label="Years of life"
                   {...register('yearsOfLife')}
-                  error={errors.yearsOfLife?.message?.toString()}
+                  error={errors.yearsOfLife?.message}
                 />
 
                 <TextArea
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   label="Description"
                   {...register('description')}
-                  error={errors.description?.message?.toString()}
+                  error={errors.description?.message}
                 />
 
                 <MultiSelect
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   name="genres"
                   label="Genres"
                   options={allGenres}
                   selected={artistGenres}
                   control={control}
+                  error={errors.genres?.message}
                 />
 
                 <Button
                   className={cx('artist-modal__save-btn')}
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   variant="default"
                   type="submit"
                   disabled={!isValid}

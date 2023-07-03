@@ -9,7 +9,7 @@ import styles from './Pagination.module.scss';
 const cx = cn.bind(styles);
 
 interface PaginationProps {
-  isDarkTheme: boolean;
+  theme: string;
   currentPage: number;
   totalCount: number;
   onChangePage: (page: number) => void;
@@ -17,7 +17,7 @@ interface PaginationProps {
 }
 
 export const Pagination: FC<PaginationProps> = memo(
-  ({ isDarkTheme, currentPage, totalCount, onChangePage, className }) => {
+  ({ theme, currentPage, totalCount, onChangePage, className }) => {
     const paginationRange = usePagination({
       currentPage,
       totalCount,
@@ -30,7 +30,7 @@ export const Pagination: FC<PaginationProps> = memo(
     const lastPage = paginationRange[paginationRange.length - 1];
 
     return (
-      <div className={cx('pagination', { pagination_dark: isDarkTheme }, className)}>
+      <div className={cx('pagination', `pagination_${theme}`, className)}>
         <button
           className={cx('pagination__btn')}
           type="button"

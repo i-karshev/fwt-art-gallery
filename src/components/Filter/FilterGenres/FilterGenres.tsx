@@ -7,14 +7,14 @@ import styles from './FilterGenres.module.scss';
 const cx = cn.bind(styles);
 
 interface FilterGenresProps {
-  isDarkTheme: boolean;
+  theme: string;
   genres: IGenre[];
   selected: string[];
   onChange: (items: string[]) => void;
 }
 
 export const FilterGenres: FC<FilterGenresProps> = memo(
-  ({ isDarkTheme, genres = [], selected = [], onChange }) => {
+  ({ theme, genres = [], selected = [], onChange }) => {
     const handleToggleSelected = useCallback(
       (id: string) =>
         onChange(
@@ -24,7 +24,7 @@ export const FilterGenres: FC<FilterGenresProps> = memo(
     );
 
     return (
-      <div className={cx('filter-genres', { 'filter-genres_dark': isDarkTheme })}>
+      <div className={cx('filter-genres', `filter-genres_${theme}`)}>
         {genres?.map(({ _id: id, name }) => (
           <label
             key={id}

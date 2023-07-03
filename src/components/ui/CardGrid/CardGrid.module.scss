@@ -4,6 +4,17 @@
   grid-gap: 20px;
   list-style: none;
 
+  &_dark & {
+    &__item_drag {
+      border-color: $color-primary-light-gray;
+    }
+
+    &__drag-handle {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+    }
+  }
+
   @include md {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
     grid-gap: 24px;
@@ -11,5 +22,49 @@
 
   @include lg {
     grid-template-columns: repeat(3, minmax(260px, 1fr));
+  }
+
+  &__item {
+    position: relative;
+    border: 1px dashed transparent;
+
+    &:hover .card-grid__drag-handle {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &_drag {
+      border-color: $color-primary-dark-gray;
+      opacity: 0.5;
+    }
+  }
+
+  &__drag-handle {
+    position: absolute;
+    cursor: grab;
+    height: 28px;
+    width: 28px;
+    right: 10px;
+    top: 10px;
+    z-index: 3;
+    opacity: 0;
+    border-radius: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    visibility: hidden;
+    transition: all 0.3s ease-in;
+
+    background-color: $color-secondary-white;
+    color: $color-primary-dark-gray;
+
+    &::after {
+      content: '⠿';
+      font-size: 20px;
+      font-weight: 300;
+      color: inherit;
+    }
   }
 }

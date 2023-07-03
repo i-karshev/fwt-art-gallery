@@ -7,15 +7,26 @@
   overflow: hidden;
   background-color: rgba($color-modal-bg, 0.3);
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &_transition {
+    transition: all 0.15s ease-in;
+    opacity: 0;
+  }
+
   &_dark {
     background-color: rgba($color-modal-bg, 0.6);
   }
 
   &__content {
     position: static;
-    height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    &_transition {
+      transform: translateY(200%);
+      transition: all 0.15s ease-in;
+    }
   }
 }

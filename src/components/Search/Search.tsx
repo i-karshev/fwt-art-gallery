@@ -13,11 +13,11 @@ import styles from './Search.module.scss';
 const cx = cn.bind(styles);
 
 interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
 export const Search: FC<SearchProps> = memo(
-  ({ isDarkTheme, placeholder = 'Search', className, ...other }) => {
+  ({ theme, placeholder = 'Search', className, ...other }) => {
     const { filters, changeFilters, clearSearch } = useContext(FilterContext);
     const [debouncedValue, value, setValue] = useDebounce(filters.name || '', 500);
 
@@ -41,7 +41,7 @@ export const Search: FC<SearchProps> = memo(
 
     return (
       <Input
-        isDarkTheme={isDarkTheme}
+        theme={theme}
         className={cx('input-search', className)}
         placeholder={placeholder}
         type="text"

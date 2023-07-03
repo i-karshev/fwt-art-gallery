@@ -3,7 +3,7 @@ import { apiService } from '@/api';
 
 export const artistApi = apiService
   .enhanceEndpoints({
-    addTagTypes: ['Artist'],
+    addTagTypes: ['Artists', 'ArtistsDetail'],
   })
   .injectEndpoints({
     endpoints: (build) => ({
@@ -18,13 +18,14 @@ export const artistApi = apiService
           meta,
           { isAuth }
         ): IArtistResponse => (isAuth ? response : { data: response }) as IArtistResponse,
+        providesTags: ['Artists'],
       }),
       fetchArtistById: build.query<IArtistDetail, { id: string; isAuth: boolean }>({
         query: ({ id, isAuth }) => ({
           method: 'GET',
           url: isAuth ? `/artists/${id}` : `/artists/static/${id}`,
         }),
-        providesTags: ['Artist'],
+        providesTags: ['ArtistsDetail'],
       }),
       editArtistMainPainting: build.mutation<null, { artistId: string; paintingId: string }>({
         query: ({ artistId, paintingId }) => ({
@@ -32,7 +33,7 @@ export const artistApi = apiService
           url: `/artists/${artistId}/main-painting`,
           data: { mainPainting: paintingId },
         }),
-        invalidatesTags: ['Artist'],
+        invalidatesTags: ['ArtistsDetail', 'Artists'],
       }),
       createArtistPainting: build.mutation<null, { artistId: string; data: FormData }>({
         query: ({ artistId, data }) => ({
@@ -40,7 +41,7 @@ export const artistApi = apiService
           url: `/artists/${artistId}/paintings`,
           data,
         }),
-        invalidatesTags: ['Artist'],
+        invalidatesTags: ['ArtistsDetail', 'Artists'],
       }),
       editArtistPainting: build.mutation<
         null,
@@ -51,23 +52,26 @@ export const artistApi = apiService
           url: `/artists/${artistId}/paintings/${paintingId}`,
           data,
         }),
-        invalidatesTags: ['Artist'],
+        invalidatesTags: ['ArtistsDetail'],
       }),
       deleteArtistPainting: build.mutation<null, { artistId: string; paintingId: string }>({
         query: ({ artistId, paintingId }) => ({
           method: 'DELETE',
           url: `/artists/${artistId}/paintings/${paintingId}`,
         }),
-        invalidatesTags: ['Artist'],
+        invalidatesTags: ['ArtistsDetail'],
       }),
       createArtist: build.mutation<null, FormData>({
         query: (data) => ({ method: 'POST', url: '/artists', data }),
+        invalidatesTags: ['Artists'],
       }),
       editArtist: build.mutation<null, { artistId: string; data: FormData }>({
         query: ({ artistId, data }) => ({ method: 'PUT', url: `/artists/${artistId}`, data }),
+        invalidatesTags: ['ArtistsDetail', 'Artists'],
       }),
       deleteArtist: build.mutation<null, string>({
         query: (artistId) => ({ method: 'DELETE', url: `/artists/${artistId}` }),
+        invalidatesTags: ['Artists'],
       }),
     }),
   });

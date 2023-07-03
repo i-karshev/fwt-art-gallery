@@ -10,7 +10,7 @@ import { Container } from '@/components/Container';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Search } from '@/components/Search';
 import { MenuItem } from '@/components/ui/MenuItem';
-import { MenuButton } from '@/components/menu/MenuButton';
+import { MenuButton } from '@/components/Menu/MenuButton';
 
 import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
 import { ReactComponent as SearchIcon } from '@/assets/svg/search_icon.svg';
@@ -20,7 +20,7 @@ import styles from './Header.module.scss';
 const cx = cn.bind(styles);
 
 export const Header = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const { isAuth, onLogout } = useContext(AuthContext);
   const location = useLocation();
 
@@ -29,11 +29,11 @@ export const Header = () => {
   useOutsideClick(searchRef, () => setIsShowSearch(false));
 
   return (
-    <header className={cx('header', { header_dark: isDarkTheme })}>
+    <header className={cx('header', `header_${theme}`)}>
       <Container>
         <div className={cx('header__wrapper')}>
           <div className={cx('header__logo', { header__logo_hide: isShowSearch })}>
-            <Link to="/" style={{ color: 'inherit' }}>
+            <Link to="/" style={{ color: 'inherit' }} aria-label="Go to homepage">
               <LogoIcon />
             </Link>
           </div>
@@ -42,13 +42,14 @@ export const Header = () => {
             <button
               type="button"
               className={cx('header__search-btn', { 'header__search-btn_hide': isShowSearch })}
+              aria-label="Search"
               onClick={() => setIsShowSearch(true)}
             >
               <SearchIcon />
             </button>
 
             <Search
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               className={cx('header__search', { header__search_show: isShowSearch })}
             />
           </div>
@@ -57,7 +58,7 @@ export const Header = () => {
             <ul className={cx('header__menu')}>
               {isAuth ? (
                 <li>
-                  <MenuItem isDarkTheme={isDarkTheme} text="Logout" onClick={onLogout} />
+                  <MenuItem theme={theme} text="Logout" onClick={onLogout} />
                 </li>
               ) : (
                 <>
@@ -67,7 +68,7 @@ export const Header = () => {
                       state={{ background: location }}
                       style={{ textDecoration: 'none' }}
                     >
-                      <MenuItem isDarkTheme={isDarkTheme} text="Log In" />
+                      <MenuItem theme={theme} text="Log In" />
                     </Link>
                   </li>
 
@@ -77,14 +78,14 @@ export const Header = () => {
                       state={{ background: location }}
                       style={{ textDecoration: 'none' }}
                     >
-                      <MenuItem isDarkTheme={isDarkTheme} text="Sing up" />
+                      <MenuItem theme={theme} text="Sing up" />
                     </Link>
                   </li>
                 </>
               )}
             </ul>
 
-            <MenuButton isDarkTheme={isDarkTheme} />
+            <MenuButton theme={theme} />
             <ThemeToggle className={cx('header__theme')} />
           </div>
         </div>

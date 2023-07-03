@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useContext } from 'react';
+import React, { FC, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames/bind';
 import { useForm } from 'react-hook-form';
@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { authApi } from '@/api/features/authApi';
-import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useFingerprint } from '@/hooks/useFingerprint';
 import { AuthContext } from '@/context/AuthProvider';
 import { schema } from '@/schemas/authSchema';
@@ -27,10 +26,10 @@ const cx = cn.bind(styles);
 type FormData = yup.InferType<typeof schema>;
 
 interface LoginModalProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
+export const LoginModal: FC<LoginModalProps> = ({ theme }) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +37,6 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
     formState: { errors, isValid },
   } = useForm<FormData>({ criteriaMode: 'all', mode: 'onBlur', resolver: yupResolver(schema) });
 
-  const loginModalRef = useRef(null);
   const fingerprint = useFingerprint();
   const [login, { isSuccess }] = authApi.useLoginMutation();
   const { isAuth, onLogin } = useContext(AuthContext);
@@ -50,8 +48,6 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
   const onSubmit = handleSubmit(({ username, password }) => {
     login({ username, password, fingerprint });
   });
-
-  useOutsideClick(loginModalRef, handleCloseModal);
 
   useEffect(() => {
     if (isSuccess) {
@@ -65,27 +61,27 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
   }, [isSuccess, isAuth]);
 
   return (
-    <Modal isDarkTheme={isDarkTheme}>
-      <div ref={loginModalRef} className={cx('login-modal', { 'login-modal_dark': isDarkTheme })}>
+    <Modal theme={theme} onClose={handleCloseModal}>
+      <div className={cx('login-modal', `login-modal_${theme}`)}>
         <img className={cx('login-modal__img')} src={loginImage} alt="login" loading="lazy" />
         <div className={cx('login-modal__content')}>
           <p className={cx('login-modal__title')}>Welcome back</p>
           <form className={cx('login-modal__form')} onSubmit={onSubmit}>
             <Input
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               {...register('username')}
               label="Email"
               error={errors.username?.message?.toString()}
             />
             <InputPassword
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               register={register('password')}
               label="Password"
               error={errors.password?.message?.toString()}
             />
             <Button
               className={cx('login-modal__form-btn')}
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               variant="default"
               type="submit"
               disabled={!isValid}
@@ -95,7 +91,7 @@ export const LoginModal: FC<LoginModalProps> = ({ isDarkTheme }) => {
           </form>
           <p className={cx('login-modal__sing-up')}>
             If you don&apos;t have an account yet, please{' '}
-            <Link isDarkTheme={isDarkTheme} to="/register" state={{ background: location }}>
+            <Link theme={theme} to="/register" state={{ background: location }}>
               sign up
             </Link>
           </p>

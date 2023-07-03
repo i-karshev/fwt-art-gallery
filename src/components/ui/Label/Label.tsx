@@ -10,11 +10,11 @@ interface LabelProps {
   name: string;
   className?: string;
   onClose?: () => void;
-  isDarkTheme?: boolean;
+  theme: string;
 }
 
-export const Label: FC<LabelProps> = memo(({ name, onClose, className, isDarkTheme }) => (
-  <div className={cx('label', { label_dark: isDarkTheme }, className)}>
+export const Label: FC<LabelProps> = memo(({ name, onClose, className, theme }) => (
+  <div className={cx('label', `label_${theme}`, className)}>
     <span className={cx('label__text')}>{name}</span>
     {onClose && (
       <span role="presentation" className={cx('label__icon')} onClick={onClose}>

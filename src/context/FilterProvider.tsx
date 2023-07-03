@@ -11,8 +11,10 @@ import { useSearchParams } from 'react-router-dom';
 
 import { IArtistParams } from '@/types/IArtist';
 import { AuthContext } from '@/context/AuthProvider';
+import { removeEmpty } from '@/utils/removeEmpty';
 
-export type Filters = IArtistParams & Record<string, string | string[]>;
+export type Filters = { genres?: string } & Omit<IArtistParams, 'genres'> &
+  Record<string, string | string[]>;
 
 export const defaultFilters: Filters = {
   perPage: '6',
@@ -43,7 +45,10 @@ export const FilterProvider: FC<IFilterProvider> = ({ children }) => {
     }
   });
 
-  const changeFilters = useCallback((newFilters: Filters) => setParams(newFilters), [setParams]);
+  const changeFilters = useCallback(
+    (newFilters: Filters) => setParams(removeEmpty(newFilters)),
+    [setParams]
+  );
   const clearFilters = useCallback(() => setParams(defaultFilters), [setParams]);
   const clearSearch = useCallback(() => {
     params.delete('name');

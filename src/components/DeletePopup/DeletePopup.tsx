@@ -23,7 +23,7 @@ const textOption = {
 };
 
 interface DeletePopupProps {
-  isDarkTheme: boolean;
+  theme: string;
   isShowPopup: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -31,9 +31,9 @@ interface DeletePopupProps {
 }
 
 export const DeletePopup: FC<DeletePopupProps> = memo(
-  ({ isDarkTheme, isShowPopup, variant, onClose, onConfirm }) => (
-    <Modal isDarkTheme={isDarkTheme} isShowModal={isShowPopup}>
-      <div className={cx('delete-popup', { 'delete-popup_dark': isDarkTheme })}>
+  ({ theme, isShowPopup, variant, onClose, onConfirm }) => (
+    <Modal theme={theme} isShowModal={isShowPopup} onClose={onClose}>
+      <div className={cx('delete-popup', `delete-popup_${theme}`)}>
         <div className={cx('delete-popup__content')}>
           <DeleteIcon className={cx('delete-popup__icon')} />
 
@@ -41,10 +41,10 @@ export const DeletePopup: FC<DeletePopupProps> = memo(
           <p className={cx('delete-popup__description')}>{textOption[variant].description}</p>
 
           <div className={cx('delete-popup__btn-wrapper')}>
-            <Button isDarkTheme={isDarkTheme} variant="default" onClick={onConfirm}>
+            <Button theme={theme} variant="default" onClick={onConfirm}>
               Delete
             </Button>
-            <Button isDarkTheme={isDarkTheme} variant="text" onClick={onClose}>
+            <Button theme={theme} variant="text" onClick={onClose}>
               Cancel
             </Button>
           </div>

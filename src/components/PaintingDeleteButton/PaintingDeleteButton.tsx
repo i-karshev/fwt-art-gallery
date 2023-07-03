@@ -6,17 +6,18 @@ import { DeletePopup } from '@/components/DeletePopup';
 import { ReactComponent as DeleteIcon } from '@/assets/svg/delete_icon.svg';
 
 interface PaintingDeleteButtonProps {
-  isDarkTheme: boolean;
+  theme: string;
   artistId: string;
   paintingId: string;
 }
 
 export const PaintingDeleteButton: FC<PaintingDeleteButtonProps> = memo(
-  ({ isDarkTheme, artistId, paintingId }) => {
+  ({ theme, artistId, paintingId }) => {
     const [isShow, setIsShow] = useState(false);
     const [deletePainting, { isSuccess }] = artistApi.useDeleteArtistPaintingMutation();
 
-    const handleToggleIsShow = useCallback(() => setIsShow((prev) => !prev), [setIsShow]);
+    const handleShowPopup = useCallback(() => setIsShow(true), []);
+    const handleClosePopup = useCallback(() => setIsShow(false), []);
     const handleConfirmDelete = useCallback(
       () => deletePainting({ artistId, paintingId }),
       [artistId, paintingId]
@@ -28,14 +29,14 @@ export const PaintingDeleteButton: FC<PaintingDeleteButtonProps> = memo(
 
     return (
       <>
-        <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleToggleIsShow}>
+        <Button theme={theme} variant="icon" onClick={handleShowPopup}>
           <DeleteIcon />
         </Button>
 
         <DeletePopup
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowPopup={isShow}
-          onClose={handleToggleIsShow}
+          onClose={handleClosePopup}
           onConfirm={handleConfirmDelete}
           variant="painting"
         />

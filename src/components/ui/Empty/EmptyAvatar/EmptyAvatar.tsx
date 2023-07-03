@@ -7,12 +7,12 @@ import styles from './EmptyAvatar.module.scss';
 const cx = cn.bind(styles);
 
 interface EmptyAvatarProps {
-  isDarkTheme: boolean;
+  theme: string;
   className?: string;
 }
 
-export const EmptyAvatar: FC<EmptyAvatarProps> = memo(({ isDarkTheme, className }) => (
-  <div className={cx('empty-avatar', { 'empty-avatar_dark': isDarkTheme }, className)}>
+export const EmptyAvatar: FC<EmptyAvatarProps> = memo(({ theme, className }) => (
+  <div className={cx('empty-avatar', `empty-avatar_${theme}`, className)}>
     <PhotoIcon className={cx('empty-avatar__icon')} />
     <p className={cx('empty-avatar__text')}>No Image uploaded</p>
   </div>

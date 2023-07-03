@@ -15,14 +15,14 @@ import styles from './InputImage.module.scss';
 const cx = cn.bind(styles);
 
 interface InputImageProps extends InputHTMLAttributes<HTMLInputElement> {
-  isDarkTheme: boolean;
+  theme: string;
   currentImage: string;
   name: string;
   control: Control<PaintingFormData & FieldValues>;
 }
 
 export const InputImage: FC<InputImageProps> = memo(
-  ({ isDarkTheme, className, onChange, currentImage, name, control, ...other }) => {
+  ({ theme, className, onChange, currentImage, name, control, ...other }) => {
     const [isDraggable, setIsDraggable] = useState(false);
     const { field } = useController({ name, control });
     const [image, setImage] = useState(currentImage ? `${API_BASE_URL}${currentImage}` : '');
@@ -43,12 +43,12 @@ export const InputImage: FC<InputImageProps> = memo(
     const handleDragLeave = useCallback(() => setIsDraggable(false), []);
 
     return (
-      <div className={cx('input-image', { 'input-image_dark': isDarkTheme }, className)}>
+      <div className={cx('input-image', `input-image_${theme}`, className)}>
         {image && (
           <div className={cx('input-image__image-wrapper')}>
             <img className={cx('input-image__image')} src={image} alt="uploaded-img" />
             <Button
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               className={cx('input-image__delete-btn')}
               variant="icon"
               onClick={handleDeleteImage}

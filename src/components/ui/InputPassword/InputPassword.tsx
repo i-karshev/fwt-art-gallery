@@ -15,7 +15,7 @@ interface InputPasswordProps extends InputProps {
 }
 
 export const InputPassword: FC<InputPasswordProps> = ({
-  isDarkTheme,
+  theme,
   label,
   error,
   className,
@@ -37,7 +37,7 @@ export const InputPassword: FC<InputPasswordProps> = ({
 
   return (
     <Input
-      isDarkTheme={isDarkTheme}
+      theme={theme}
       label={label}
       {...register}
       style={{ paddingRight: '50px' }}

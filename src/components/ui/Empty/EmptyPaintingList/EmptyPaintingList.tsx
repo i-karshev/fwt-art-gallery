@@ -13,11 +13,11 @@ import styles from './EmptyPaintingList.module.scss';
 const cx = cn.bind(styles);
 
 interface EmptyPaintingListProps {
-  isDarkTheme: boolean;
+  theme: string;
   className?: string;
 }
 
-export const EmptyPaintingList: FC<EmptyPaintingListProps> = memo(({ isDarkTheme, className }) => {
+export const EmptyPaintingList: FC<EmptyPaintingListProps> = memo(({ theme, className }) => {
   const { id = '' } = useParams();
   const [isShow, setIsShow] = useState(false);
 
@@ -25,14 +25,12 @@ export const EmptyPaintingList: FC<EmptyPaintingListProps> = memo(({ isDarkTheme
   const handleCloseModal = useCallback(() => setIsShow(false), []);
 
   return (
-    <div
-      className={cx('empty-painting-list', { 'empty-painting-list_dark': isDarkTheme }, className)}
-    >
+    <div className={cx('empty-painting-list', `empty-painting-list_${theme}`, className)}>
       <CardGrid>
         <div className={cx('empty-painting-list__card')}>
-          <EmptyPainting isDarkTheme={isDarkTheme} />
+          <EmptyPainting theme={theme} />
           <Button
-            isDarkTheme={isDarkTheme}
+            theme={theme}
             variant="default"
             className={cx('empty-painting-list__button')}
             onClick={handleShowModal}
@@ -47,7 +45,7 @@ export const EmptyPaintingList: FC<EmptyPaintingListProps> = memo(({ isDarkTheme
 
       <PaintingModal
         artistId={id}
-        isDarkTheme={isDarkTheme}
+        theme={theme}
         isShowModal={isShow}
         onCloseModal={handleCloseModal}
       />

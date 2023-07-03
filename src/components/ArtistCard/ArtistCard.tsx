@@ -14,19 +14,17 @@ interface ArtistCardProps {
 }
 
 export const ArtistCard: FC<ArtistCardProps> = ({ id, name, yearsOfLife, image }) => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <li>
-      <Link to={`/artists/${id}`}>
-        <Card
-          title={name}
-          subtitle={convertDateToYears(yearsOfLife)}
-          image={image}
-          isDarkTheme={isDarkTheme}
-          isScaleImageOnHover
-        />
-      </Link>
-    </li>
+    <Link to={`/artists/${id}`}>
+      <Card
+        title={name}
+        subtitle={convertDateToYears(yearsOfLife)}
+        image={image}
+        theme={theme}
+        isScaleImageOnHover
+      />
+    </Link>
   );
 };

@@ -6,11 +6,11 @@ import styles from './Skeleton.module.scss';
 const cx = cn.bind(styles);
 
 interface SkeletonProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const Skeleton: FC<SkeletonProps> = memo(({ isDarkTheme }) => (
-  <div className={cx('skeleton', { skeleton_dark: isDarkTheme })}>
+export const Skeleton: FC<SkeletonProps> = memo(({ theme }) => (
+  <div className={cx('skeleton', `skeleton_${theme}`)}>
     <div className={cx('skeleton__info')}>
       <div className={cx('skeleton__title')} />
       <div className={cx('skeleton__subtitle')} />

@@ -7,7 +7,7 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import { AuthContext } from '@/context/AuthProvider';
 import { usePaginationPageSize } from '@/hooks/usePaginationPageSize';
 
-import { CardGrid } from '@/components/ui/CardGrid/CardGrid';
+import { DraggableCardGrid } from '@/components/ui/CardGrid/DraggableCardGrid';
 import { PaintingCard } from '@/components/PaintingCard';
 import { Container } from '@/components/Container';
 import { ArtistInfo } from '@/components/ArtistInfo/ArtistInfo';
@@ -26,7 +26,7 @@ import styles from './ArtistPage.module.scss';
 const cx = cn.bind(styles);
 
 export const ArtistPage = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const { isAuth } = useContext(AuthContext);
   const { id = '' } = useParams();
 
@@ -61,7 +61,7 @@ export const ArtistPage = () => {
   );
 
   if (!artist) {
-    return <Preloader isDarkTheme={isDarkTheme} />;
+    return <Preloader theme={theme} />;
   }
 
   const paintingList = (
@@ -69,13 +69,18 @@ export const ArtistPage = () => {
       {isAuth && (
         <ActionBar
           className={cx('artist-page__artworks-action-bar')}
-          renderRight={<PaintingAddButton isDarkTheme={isDarkTheme} artistId={id} />}
+          renderRight={<PaintingAddButton theme={theme} artistId={id} />}
         />
       )}
 
-      <CardGrid>
-        {paintings?.map(
-          ({ _id: paintingId, name, yearOfCreation, image, artist: paintingArtist }, index) => (
+      {paintings?.length && (
+        <DraggableCardGrid
+          theme={theme}
+          items={paintings}
+          renderItem={(
+            { _id: paintingId, name, yearOfCreation, image, artist: paintingArtist },
+            index
+          ) => (
             <PaintingCard
               key={paintingId}
               id={paintingId}
@@ -83,17 +88,17 @@ export const ArtistPage = () => {
               yearOfCreation={yearOfCreation}
               image={image}
               artist={paintingArtist}
-              onClick={handleShowSlider(index)}
+              onClick={handleShowSlider(index as number)}
               isMainPainting={artist.mainPainting?._id === paintingId}
             />
-          )
-        )}
-      </CardGrid>
+          )}
+        />
+      )}
 
       {isAuth && (
         <Pagination
           className={cx('artist-page__pagination')}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           currentPage={currentPage}
           totalCount={totalCount}
           onChangePage={handleChangePage}
@@ -103,16 +108,16 @@ export const ArtistPage = () => {
   );
 
   return (
-    <main className={cx('artist-page', { 'artist-page_dark': isDarkTheme })}>
+    <main className={cx('artist-page', `artist-page_${theme}`)}>
       <Container>
         <ActionBar
           className={cx('artist-page__action-bar')}
-          renderLeft={<BackButton isDarkTheme={isDarkTheme} />}
+          renderLeft={<BackButton theme={theme} />}
           renderRight={
             isAuth && (
               <>
-                <ArtistEditButton isDarkTheme={isDarkTheme} artist={artist} />
-                <ArtistDeleteButton isDarkTheme={isDarkTheme} artistId={id} />
+                <ArtistEditButton theme={theme} artist={artist} />
+                <ArtistDeleteButton theme={theme} artistId={id} />
               </>
             )
           }
@@ -125,20 +130,20 @@ export const ArtistPage = () => {
         yearsOfLife={artist.yearsOfLife}
         genres={artist.genres}
         avatar={artist.avatar}
-        isDarkTheme={isDarkTheme}
+        theme={theme}
       />
 
       <Container>
         <div className={cx('artist-page__artworks')}>
           <p className={cx('artist-page__artworks-heading')}>Artworks</p>
-          {paintings?.length ? paintingList : <EmptyPaintingList isDarkTheme={isDarkTheme} />}
+          {paintings?.length ? paintingList : <EmptyPaintingList theme={theme} />}
         </div>
       </Container>
 
       <Slider
         paintings={artist.paintings}
         currentIndex={currentIndex}
-        isDarkTheme={isDarkTheme}
+        theme={theme}
         isShowSlider={isShowSlider}
         onCloseSlider={handleCloseSlider}
         mainPainting={artist.mainPainting?._id}

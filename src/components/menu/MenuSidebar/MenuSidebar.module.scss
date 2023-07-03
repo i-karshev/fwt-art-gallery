@@ -7,8 +7,6 @@
   }
 
   &_hide {
-    margin-right: -20px;
-
     @include lg {
       display: none;
     }

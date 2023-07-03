@@ -8,7 +8,7 @@
   }
 
   &_dark & {
-    &__popover-menu-item{
+    &__popover-menu-item {
       color: $color-primary-light-gray;
 
       &:hover {
@@ -31,7 +31,7 @@
     font-size: 12px;
     line-height: 15px;
 
-    padding: 16px 0;
+    padding: 14px 0;
     list-style: none;
   }
 
@@ -40,10 +40,6 @@
     transition: all 0.3s ease-out;
     color: $color-primary-dark-gray;
     white-space: nowrap;
-
-    &:last-child {
-      padding-bottom: 0;
-    }
 
     &:hover {
       cursor: pointer;

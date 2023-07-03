@@ -1,6 +1,6 @@
 .artist-modal {
   background-color: $color-secondary-white;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow-y: auto;
 
@@ -16,7 +16,6 @@
   &__content {
     position: relative;
     padding: 80px 20px;
-
 
     @include lg {
       padding: 80px 100px;
