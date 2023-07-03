@@ -11,7 +11,6 @@ import React, {
 import { useController, FieldValues, Control } from 'react-hook-form';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
 import { getBase64 } from '@/utils/getBase64';
 
 import { Button } from '@/components/ui/Button';
@@ -22,6 +21,8 @@ import styles from './InputAvatar.module.scss';
 import { ArtistFormData } from '@/components/ArtistModal';
 
 const cx = cn.bind(styles);
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
 
 interface InputAvatarProps extends InputHTMLAttributes<HTMLInputElement> {
   theme: string;

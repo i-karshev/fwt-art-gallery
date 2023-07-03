@@ -1,7 +1,6 @@
 import React, { FC, HTMLAttributes, memo, useRef } from 'react';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
 import { useOnScreen } from '@/hooks/useOnScreen';
 
 import { Preloader } from '@/components/ui/Preloader';
@@ -9,6 +8,8 @@ import { Preloader } from '@/components/ui/Preloader';
 import styles from './Image.module.scss';
 
 const cx = cn.bind(styles);
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
 
 interface ImageProps extends HTMLAttributes<HTMLPictureElement> {
   src: string;

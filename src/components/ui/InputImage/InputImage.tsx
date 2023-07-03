@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC, InputHTMLAttributes, memo, useCallback, useStat
 import { useController, FieldValues, Control } from 'react-hook-form';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
 import { getBase64 } from '@/utils/getBase64';
 
 import { PaintingFormData } from '@/components/PaintingModal';
@@ -13,6 +12,8 @@ import { ReactComponent as NoImageIcon } from '@/assets/svg/no-image_icon.svg';
 import styles from './InputImage.module.scss';
 
 const cx = cn.bind(styles);
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
 
 interface InputImageProps extends InputHTMLAttributes<HTMLInputElement> {
   theme: string;
