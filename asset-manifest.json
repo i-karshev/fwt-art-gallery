@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/fwt-art-gallery/static/css/main.f8b72b95.css",
-    "main.js": "/fwt-art-gallery/static/js/main.cf56f92e.js",
+    "main.js": "/fwt-art-gallery/static/js/main.9b89fe86.js",
     "static/media/register-img.jpg": "/fwt-art-gallery/static/media/register-img.51a40519c808918464a7.jpg",
     "static/media/login-img.jpg": "/fwt-art-gallery/static/media/login-img.39a7659f54f81358a434.jpg",
     "static/media/Inter-Bold.woff2": "/fwt-art-gallery/static/media/Inter-Bold.eac83911831c0fc799e1.woff2",
@@ -41,10 +41,10 @@
     "static/media/arrow_icon.svg": "/fwt-art-gallery/static/media/arrow_icon.c7e73aa3281bf68f2ccba8a5c646d53c.svg",
     "static/media/expand_icon.svg": "/fwt-art-gallery/static/media/expand_icon.d0cec2f4cc5d2cdb4c80ca9a5fc73446.svg",
     "main.f8b72b95.css.map": "/fwt-art-gallery/static/css/main.f8b72b95.css.map",
-    "main.cf56f92e.js.map": "/fwt-art-gallery/static/js/main.cf56f92e.js.map"
+    "main.9b89fe86.js.map": "/fwt-art-gallery/static/js/main.9b89fe86.js.map"
   },
   "entrypoints": [
     "static/css/main.f8b72b95.css",
-    "static/js/main.cf56f92e.js"
+    "static/js/main.9b89fe86.js"
   ]
 }
