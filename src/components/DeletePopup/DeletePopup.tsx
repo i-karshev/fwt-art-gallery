@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC, memo } from 'react';
 import cn from 'classnames/bind';
 
 import { Modal } from '@/components/ui/Modal/Modal';
@@ -23,41 +23,37 @@ const textOption = {
 };
 
 interface DeletePopupProps {
-  isDarkTheme: boolean;
+  theme: string;
   isShowPopup: boolean;
   onClose: () => void;
   onConfirm: () => void;
   variant: 'artist' | 'painting';
 }
 
-export const DeletePopup: FC<DeletePopupProps> = ({
-  isDarkTheme,
-  isShowPopup,
-  variant,
-  onClose,
-  onConfirm,
-}) => (
-  <Modal isDarkTheme={isDarkTheme} isShowModal={isShowPopup}>
-    <div className={cx('delete-popup', { 'delete-popup_dark': isDarkTheme })}>
-      <div className={cx('delete-popup__content')}>
-        <DeleteIcon className={cx('delete-popup__icon')} />
+export const DeletePopup: FC<DeletePopupProps> = memo(
+  ({ theme, isShowPopup, variant, onClose, onConfirm }) => (
+    <Modal theme={theme} isShowModal={isShowPopup} onClose={onClose}>
+      <div className={cx('delete-popup', `delete-popup_${theme}`)}>
+        <div className={cx('delete-popup__content')}>
+          <DeleteIcon className={cx('delete-popup__icon')} />
 
-        <p className={cx('delete-popup__title')}>{textOption[variant].title}</p>
-        <p className={cx('delete-popup__description')}>{textOption[variant].description}</p>
+          <p className={cx('delete-popup__title')}>{textOption[variant].title}</p>
+          <p className={cx('delete-popup__description')}>{textOption[variant].description}</p>
 
-        <div className={cx('delete-popup__btn-wrapper')}>
-          <Button isDarkTheme={isDarkTheme} variant="default" onClick={onConfirm}>
-            Delete
-          </Button>
-          <Button isDarkTheme={isDarkTheme} variant="text" onClick={onClose}>
-            Cancel
-          </Button>
+          <div className={cx('delete-popup__btn-wrapper')}>
+            <Button theme={theme} variant="default" onClick={onConfirm}>
+              Delete
+            </Button>
+            <Button theme={theme} variant="text" onClick={onClose}>
+              Cancel
+            </Button>
+          </div>
         </div>
-      </div>
 
-      <button type="button" className={cx('delete-popup__close-btn')} onClick={onClose}>
-        <CloseIcon />
-      </button>
-    </div>
-  </Modal>
+        <button type="button" className={cx('delete-popup__close-btn')} onClick={onClose}>
+          <CloseIcon />
+        </button>
+      </div>
+    </Modal>
+  )
 );

@@ -45,22 +45,19 @@
   }
 
   &__action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 20px 0;
   }
 
-  &__action-bar-right {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-  }
-
   &__artworks-action-bar {
-    display: flex;
-    justify-content: flex-end;
     margin-top: -45px;
     margin-bottom: 25px;
+  }
+
+  &__pagination {
+    margin-top: 32px;
+
+    @include md {
+      margin-top: 40px;
+    }
   }
 }

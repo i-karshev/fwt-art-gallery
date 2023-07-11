@@ -7,15 +7,15 @@ import styles from './Input.module.scss';
 const cx = cn.bind(styles);
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  isDarkTheme: boolean;
+  theme: string;
   label?: string;
   error?: string;
   renderAddon?: JSX.Element;
 }
 
 export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
-  ({ isDarkTheme, label, error, className, name = 'input', renderAddon, ...other }, ref) => (
-    <div className={cx('input', { input_dark: isDarkTheme }, className)}>
+  ({ theme, label, error, className, name = 'input', renderAddon, ...other }, ref) => (
+    <div className={cx('input', `input_${theme}`, className)}>
       {label && (
         <label htmlFor={name} className={cx('input__label')}>
           {label}
@@ -23,6 +23,7 @@ export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       )}
       <input
         ref={ref}
+        id={name}
         name={name}
         className={cx('input__area', { input__area_error: error })}
         type="text"

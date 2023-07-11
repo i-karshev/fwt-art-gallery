@@ -5,10 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { setupStore } from '@/store/store';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import { AuthProvider } from '@/context/AuthProvider';
+import { FilterProvider } from '@/context/FilterProvider';
 import { App } from '@/components/App';
 
 import '@/assets/scss/main.scss';
-import { AuthProvider } from '@/context/AuthProvider';
 
 const rootElement = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(rootElement);
@@ -20,7 +21,9 @@ root.render(
       <Provider store={store}>
         <AuthProvider>
           <BrowserRouter>
-            <App />
+            <FilterProvider>
+              <App />
+            </FilterProvider>
           </BrowserRouter>
         </AuthProvider>
       </Provider>

@@ -1,0 +1,31 @@
+.filter-sort {
+  width: 100%;
+
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 17px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &_dark & {
+    &__item {
+      color: $color-primary-light-gray;
+
+      &_selected {
+        color: $color-accent-gold;
+      }
+    }
+  }
+
+  &__item {
+    cursor: pointer;
+    color: $color-primary-dark-gray;
+
+    &_selected {
+      color: $color-primary-black;
+      font-weight: 500;
+    }
+  }
+}

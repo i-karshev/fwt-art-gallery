@@ -7,11 +7,11 @@ import styles from './Link.module.scss';
 const cx = cn.bind(styles);
 
 interface LinkUIProps extends LinkProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const Link: FC<LinkUIProps> = ({ isDarkTheme, className, children, ...other }) => (
-  <RouterLink className={cx('link', { link_dark: isDarkTheme }, className)} {...other}>
+export const Link: FC<LinkUIProps> = ({ theme, className, children, ...other }) => (
+  <RouterLink className={cx('link', `link_${theme}`, className)} {...other}>
     {children}
   </RouterLink>
 );

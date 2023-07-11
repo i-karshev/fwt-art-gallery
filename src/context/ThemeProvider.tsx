@@ -1,7 +1,9 @@
 import { createContext, FC, ReactNode, useCallback, useMemo, useState } from 'react';
 
+type Theme = 'light' | 'dark';
+
 interface IThemeContext {
-  isDarkTheme: boolean;
+  theme: Theme;
   toggleTheme: () => void;
 }
 
@@ -12,18 +14,21 @@ interface ThemeProviderProps {
 export const ThemeContext = createContext<IThemeContext>({} as IThemeContext);
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const localTheme = localStorage.getItem('theme') || 'light';
+  const [theme, setIsDarkTheme] = useState(localTheme as Theme);
 
   const toggleTheme = useCallback(() => {
-    setIsDarkTheme((prev) => !prev);
-  }, []);
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setIsDarkTheme(newTheme as Theme);
+    localStorage.setItem('theme', newTheme);
+  }, [setIsDarkTheme, theme]);
 
   const contextValue = useMemo(
     () => ({
-      isDarkTheme,
+      theme,
       toggleTheme,
     }),
-    [isDarkTheme, toggleTheme]
+    [theme, toggleTheme]
   );
 
   return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;

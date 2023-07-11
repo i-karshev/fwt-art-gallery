@@ -7,20 +7,21 @@ import styles from './TextArea.module.scss';
 const cx = cn.bind(styles);
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  isDarkTheme: boolean;
+  theme: string;
   label?: string;
   error?: string;
 }
 
 const forwardTextArea: FC<TextAreaProps> = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ isDarkTheme, label, error, name = 'textarea', className, ...other }, ref) => (
-    <div className={cx('textarea', { textarea_dark: isDarkTheme }, className)}>
+  ({ theme, label, error, name = 'textarea', className, ...other }, ref) => (
+    <div className={cx('textarea', `textarea_${theme}`, className)}>
       {label && (
         <label className={cx('textarea__label')} htmlFor={name}>
           {label}
         </label>
       )}
       <textarea
+        id={name}
         name={name}
         className={cx('textarea__area', { textarea__area_error: !!error })}
         {...other}

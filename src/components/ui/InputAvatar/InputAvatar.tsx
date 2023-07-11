@@ -11,7 +11,6 @@ import React, {
 import { useController, FieldValues, Control } from 'react-hook-form';
 import cn from 'classnames/bind';
 
-import { API_BASE_URL } from '@/constans';
 import { getBase64 } from '@/utils/getBase64';
 
 import { Button } from '@/components/ui/Button';
@@ -23,8 +22,10 @@ import { ArtistFormData } from '@/components/ArtistModal';
 
 const cx = cn.bind(styles);
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
+
 interface InputAvatarProps extends InputHTMLAttributes<HTMLInputElement> {
-  isDarkTheme: boolean;
+  theme: string;
   name: string;
   control: Control<ArtistFormData & FieldValues>;
   isDraggable?: boolean;
@@ -32,7 +33,7 @@ interface InputAvatarProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const InputAvatar: FC<InputAvatarProps> = memo(
-  ({ isDarkTheme, isDraggable, name, control, currentImage, className, onDragLeave, ...other }) => {
+  ({ theme, isDraggable, name, control, currentImage, className, onDragLeave, ...other }) => {
     const { field } = useController({ name, control });
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState(currentImage ? `${API_BASE_URL}${currentImage}` : '');
@@ -65,13 +66,13 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
     }, []);
 
     return (
-      <div className={cx('input-avatar', { 'input-avatar_dark': isDarkTheme }, className)}>
+      <div className={cx('input-avatar', `input-avatar_${theme}`, className)}>
         {image && (
           <div className={cx('input-avatar__image-wrapper')}>
             <img className={cx('input-avatar__image')} src={image} alt="avatar" />
             <Button
               className={cx('input-avatar__delete-btn')}
-              isDarkTheme={isDarkTheme}
+              theme={theme}
               variant="icon"
               onClick={handleDeleteImage}
             >
@@ -109,7 +110,7 @@ export const InputAvatar: FC<InputAvatarProps> = memo(
         </div>
 
         <Button
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           variant="text"
           className={cx('input-avatar__upload-btn')}
           onClick={handleLoadImage}

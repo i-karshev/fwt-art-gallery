@@ -6,12 +6,12 @@ import styles from './Popover.module.scss';
 const cx = cn.bind(styles);
 
 interface PopoverProps {
-  isDarkTheme: boolean;
+  theme: string;
   children: ReactNode;
 }
 
-export const Popover: FC<PopoverProps> = memo(({ isDarkTheme, children }) => (
-  <div className={cx('popover', { popover_dark: isDarkTheme })}>
+export const Popover: FC<PopoverProps> = memo(({ theme, children }) => (
+  <div className={cx('popover', `popover_${theme}`)}>
     <div className={cx('popover__arrow')} />
     <div className={cx('popover__content')}>{children}</div>
   </div>

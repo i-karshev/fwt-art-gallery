@@ -8,7 +8,7 @@
       color: $color-primary-light-gray;
 
       &_drag {
-         background-color: $color-secondary-black;
+        background-color: $color-secondary-black;
       }
     }
 
@@ -38,7 +38,7 @@
 
     aspect-ratio: 280 / 177;
 
-    @include  md {
+    @include md {
       aspect-ratio: 493 / 327;
       padding: 52px 0;
     }

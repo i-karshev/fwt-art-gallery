@@ -8,7 +8,7 @@ import styles from './ScrollToTop.module.scss';
 const cx = cn.bind(styles);
 
 export const ScrollToTop = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,8 @@ export const ScrollToTop = () => {
   return (
     <button
       type="button"
-      className={cx('button', { button_dark: isDarkTheme })}
+      className={cx('button', `button_${theme}`)}
+      aria-label="Scroll to up"
       onClick={handleScrollToTop}
     >
       <ArrowIcon />

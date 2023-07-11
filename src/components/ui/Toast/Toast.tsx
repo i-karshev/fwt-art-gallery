@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import cn from 'classnames/bind';
 
 import { ReactComponent as ErrorIcon } from '@/assets/svg/error_icon.svg';
@@ -9,21 +9,28 @@ import styles from './Toast.module.scss';
 const cx = cn.bind(styles);
 
 interface ToastProps {
-  isDarkTheme: boolean;
+  theme: string;
   message: string;
-  onClose?: () => void;
+  onClose: () => void;
+  duration?: number;
 }
 
-export const Toast: FC<ToastProps> = ({ isDarkTheme, message, onClose }) => (
-  <div className={cx('toast', { toast_dark: isDarkTheme })}>
-    <div className={cx('toast__title')}>
-      <ErrorIcon className={cx('toast__title-icon')} />
-      <p className={cx('toast__title-text')}>Error!</p>
-    </div>
-    <p className={cx('toast__message')}>{message}</p>
+export const Toast: FC<ToastProps> = ({ theme, message, onClose, duration }) => {
+  useEffect(() => {
+    setTimeout(() => onClose(), duration);
+  }, []);
 
-    <button type="button" className={cx('toast__close-btn')} onClick={onClose}>
-      <CloseIcon className={cx('toast__close-icon')} />
-    </button>
-  </div>
-);
+  return (
+    <div className={cx('toast', `toast_${theme}`)}>
+      <div className={cx('toast__title')}>
+        <ErrorIcon className={cx('toast__title-icon')} />
+        <p className={cx('toast__title-text')}>Error!</p>
+      </div>
+      <p className={cx('toast__message')}>{message}</p>
+
+      <button type="button" className={cx('toast__close-btn')} onClick={onClose}>
+        <CloseIcon className={cx('toast__close-icon')} />
+      </button>
+    </div>
+  );
+};

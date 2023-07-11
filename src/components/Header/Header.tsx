@@ -1,82 +1,92 @@
-import React, { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useRef, useState } from 'react';
 import cn from 'classnames/bind';
 
+import { Link, useLocation } from 'react-router-dom';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { AuthContext } from '@/context/AuthProvider';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { Container } from '@/components/Container';
-import { Link } from '@/components/ui/Link';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { Search } from '@/components/Search';
+import { MenuItem } from '@/components/ui/MenuItem';
+import { MenuButton } from '@/components/Menu/MenuButton';
 
 import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg';
-import { ReactComponent as BurgerIcon } from '@/assets/svg/buger_icon.svg';
-import { ReactComponent as CloseIcon } from '@/assets/svg/close_icon.svg';
+import { ReactComponent as SearchIcon } from '@/assets/svg/search_icon.svg';
 
 import styles from './Header.module.scss';
 
 const cx = cn.bind(styles);
 
 export const Header = () => {
-  const location = useLocation();
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const { isAuth, onLogout } = useContext(AuthContext);
+  const location = useLocation();
 
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
-
-  const handleToggleMenu = () => setIsOpenMenu((prev) => !prev);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const [isShowSearch, setIsShowSearch] = useState(false);
+  useOutsideClick(searchRef, () => setIsShowSearch(false));
 
   return (
-    <header className={cx('header', { header_dark: isDarkTheme })}>
+    <header className={cx('header', `header_${theme}`)}>
       <Container>
-        <div className={cx('header__container')}>
-          <div className="header__logo">
-            <Link to="/" className={cx('header__logo')} isDarkTheme={isDarkTheme}>
+        <div className={cx('header__wrapper')}>
+          <div className={cx('header__logo', { header__logo_hide: isShowSearch })}>
+            <Link to="/" style={{ color: 'inherit' }} aria-label="Go to homepage">
               <LogoIcon />
             </Link>
           </div>
-          <div className={cx('header__nav-wrapper')}>
-            <div role="presentation" onClick={handleToggleMenu} className={cx('header__open-btn')}>
-              <BurgerIcon />
-            </div>
-            <nav className={cx('header__nav', { header__nav_open: isOpenMenu })}>
-              <div
-                role="presentation"
-                onClick={handleToggleMenu}
-                className={cx('header__close-btn')}
-              >
-                <CloseIcon />
-              </div>
-              <ThemeToggle />
 
-              <ul className={cx('header__list')}>
-                {isAuth ? (
-                  <li role="presentation" className={cx('header__item')} onClick={() => onLogout()}>
-                    Log Out
-                  </li>
-                ) : (
-                  <>
+          <div className={cx('header__search-wrapper')} ref={searchRef}>
+            <button
+              type="button"
+              className={cx('header__search-btn', { 'header__search-btn_hide': isShowSearch })}
+              aria-label="Search"
+              onClick={() => setIsShowSearch(true)}
+            >
+              <SearchIcon />
+            </button>
+
+            <Search
+              theme={theme}
+              className={cx('header__search', { header__search_show: isShowSearch })}
+            />
+          </div>
+
+          <div className={cx('header__menu-wrapper')}>
+            <ul className={cx('header__menu')}>
+              {isAuth ? (
+                <li>
+                  <MenuItem theme={theme} text="Logout" onClick={onLogout} />
+                </li>
+              ) : (
+                <>
+                  <li>
                     <Link
-                      className={cx('header__item')}
-                      isDarkTheme={isDarkTheme}
                       to="/login"
                       state={{ background: location }}
+                      style={{ textDecoration: 'none' }}
                     >
-                      Log In
+                      <MenuItem theme={theme} text="Log In" />
                     </Link>
+                  </li>
 
+                  <li>
                     <Link
-                      className={cx('header__item')}
-                      isDarkTheme={isDarkTheme}
                       to="/register"
                       state={{ background: location }}
+                      style={{ textDecoration: 'none' }}
                     >
-                      Sing Up
+                      <MenuItem theme={theme} text="Sing up" />
                     </Link>
-                  </>
-                )}
-              </ul>
-            </nav>
+                  </li>
+                </>
+              )}
+            </ul>
+
+            <MenuButton theme={theme} />
+            <ThemeToggle className={cx('header__theme')} />
           </div>
         </div>
       </Container>

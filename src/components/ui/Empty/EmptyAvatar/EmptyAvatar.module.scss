@@ -3,9 +3,27 @@
   flex-direction: column;
   align-items: center;
   background-color: $color-secondary-white;
+  height: 452px;
+  aspect-ratio: 80 / 113;
+  width: 100%;
 
   @include md {
     justify-content: center;
+    height: 100%;
+    min-height: 500px;
+    aspect-ratio: 192 / 125;
+  }
+
+  @include lg {
+    position: absolute;
+    left: 278px;
+    top: -60px;
+    min-height: 1000px;
+    width: 1000px;
+  }
+
+  @include xl {
+    left: 340px;
   }
 
   &_dark {

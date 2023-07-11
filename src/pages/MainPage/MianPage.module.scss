@@ -1,8 +1,37 @@
-.content-wrapper {
-  flex: 1;
-  margin: 80px 0;
+.main-page {
+  &__content-wrapper {
+    flex: 1;
+    margin: 80px 0;
 
-  @include md {
-    margin: 100px 0;
+    @include md {
+      margin: 100px 0;
+    }
+  }
+
+  &__action-bar {
+    margin-top: -28px;
+    margin-bottom: 20px;
+  }
+
+  &__search {
+    display: none;
+
+    @include md {
+      display: block;
+      max-width: 304px;
+    }
+
+    @include lg {
+      max-width: 344px;
+    }
+  }
+
+  &__load-more-btn {
+    margin-inline: auto;
+    margin-top: 32px;
+
+    @include md {
+      margin-top: 40px;
+    }
   }
 }

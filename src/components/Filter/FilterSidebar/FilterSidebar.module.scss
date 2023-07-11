@@ -1,0 +1,79 @@
+.filter-sidebar {
+  height: 100%;
+  width: 252px;
+
+  @include md {
+    width: 372px;
+  }
+
+  @include lg {
+    width: 492px;
+  }
+
+  &_dark & {
+    &__close-btn {
+      color: $color-primary-light-gray;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin: 100px 20px;
+    gap: 32px;
+
+    @include md {
+      max-width: 320px;
+      margin-top: 180px;
+      margin-left: 32px;
+    }
+
+    @include lg {
+      margin-left: 40px;
+    }
+  }
+
+  &__buttons {
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 136px;
+    width: 100%;
+
+    @include md {
+      padding-left: 32px;
+      height: 116px;
+      top: 669px;
+      bottom: unset;
+    }
+
+    @include lg {
+      padding-right: 140px;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    display: flex;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: $color-primary-dark-gray;
+
+    top: 24px;
+    right: 24px;
+
+    @include md {
+      top: 36px;
+    }
+
+    @include lg {
+      top: 64px;
+      right: 104px;
+    }
+  }
+}

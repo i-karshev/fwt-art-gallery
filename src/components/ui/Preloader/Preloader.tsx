@@ -6,11 +6,11 @@ import styles from './Preloader.module.scss';
 const cx = cn.bind(styles);
 
 interface PreloaderProps {
-  isDarkTheme: boolean;
+  theme: string;
 }
 
-export const Preloader: FC<PreloaderProps> = memo(({ isDarkTheme }) => (
-  <div className={cx('preloader', { preloader_dark: isDarkTheme })}>
+export const Preloader: FC<PreloaderProps> = memo(({ theme }) => (
+  <div className={cx('preloader', `preloader_${theme}`)}>
     <svg
       className={cx('preloader__spinner')}
       viewBox="0 0 66 66"

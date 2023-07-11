@@ -5,18 +5,16 @@ import styles from './Button.module.scss';
 const cx = cn.bind(styles);
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isDarkTheme: boolean;
+  theme: string;
   variant: 'default' | 'text' | 'icon';
 }
 
-export const Button: FC<ButtonProps> = memo(
-  ({ variant, isDarkTheme, className, children, ...other }) => (
-    <button
-      className={cx('button', `button_${variant}`, { button_dark: isDarkTheme }, className)}
-      type="button"
-      {...other}
-    >
-      {children}
-    </button>
-  )
-);
+export const Button: FC<ButtonProps> = memo(({ variant, theme, className, children, ...other }) => (
+  <button
+    className={cx('button', `button_${variant}`, `button_${theme}`, className)}
+    type="button"
+    {...other}
+  >
+    {children}
+  </button>
+));

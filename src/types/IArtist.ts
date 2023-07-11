@@ -3,7 +3,7 @@ import { IPainting } from '@/types/IPainting';
 import { IGenre } from '@/types/IGenre';
 
 export interface IArtist {
-  genres: IGenre[];
+  genres: string[];
   _id: string;
   name: string;
   description: string;
@@ -14,9 +14,9 @@ export interface IArtistParams {
   sortBy?: string;
   name?: string;
   orderBy?: 'asc' | 'desc';
-  perPage?: number;
+  perPage?: string;
   genres?: string[];
-  pageNumber?: number;
+  pageNumber?: string;
 }
 
 export interface IArtistResponse {

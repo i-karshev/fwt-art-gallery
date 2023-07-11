@@ -89,7 +89,7 @@ export const onResponseError = async (error: AxiosError): Promise<AxiosError> =>
     }
   }
 
-  return Promise.reject(error);
+  return Promise.reject();
 };
 
 export const onResponse = (response: AxiosResponse): AxiosResponse => {

@@ -34,7 +34,7 @@ export type TDefaultValues = {
 export interface IPaintingModalState {
   artistId: string;
   defaultValues?: TDefaultValues;
-  isDarkTheme: boolean;
+  theme: string;
   isShowModal: boolean;
   onCloseModal: () => void;
 }
@@ -42,7 +42,7 @@ export interface IPaintingModalState {
 export const PaintingModal: FC<IPaintingModalState> = ({
   artistId,
   defaultValues,
-  isDarkTheme,
+  theme,
   isShowModal,
   onCloseModal,
 }) => {
@@ -102,14 +102,14 @@ export const PaintingModal: FC<IPaintingModalState> = ({
   }, [defaultValues]);
 
   return (
-    <Modal isDarkTheme={isDarkTheme} isShowModal={isShowModal}>
-      <div className={cx('painting-modal', { 'painting-modal_dark': isDarkTheme })}>
+    <Modal theme={theme} isShowModal={isShowModal} onClose={onCloseModal}>
+      <div className={cx('painting-modal', `painting-modal_${theme}`)}>
         <div className={cx('painting-modal__content')}>
           <FormProvider {...methods}>
             <form className={cx('painting-modal__from')} onSubmit={onSubmit}>
               <div className={cx('painting-modal__input-wrapper')}>
                 <Input
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   className={cx('painting-modal__input-name')}
                   label="The name of the picture"
                   {...register('name')}
@@ -117,7 +117,7 @@ export const PaintingModal: FC<IPaintingModalState> = ({
                 />
 
                 <Input
-                  isDarkTheme={isDarkTheme}
+                  theme={theme}
                   className={cx('painting-modal__input-age')}
                   label="Year of creation"
                   type="number"
@@ -128,7 +128,7 @@ export const PaintingModal: FC<IPaintingModalState> = ({
               </div>
 
               <InputImage
-                isDarkTheme={isDarkTheme}
+                theme={theme}
                 className={cx('painting-modal__input-image')}
                 accept=".jpg,.png"
                 name="image"
@@ -136,7 +136,7 @@ export const PaintingModal: FC<IPaintingModalState> = ({
                 currentImage={currentImage}
               />
 
-              <Button isDarkTheme={isDarkTheme} variant="default" type="submit" disabled={!isValid}>
+              <Button theme={theme} variant="default" type="submit" disabled={!isValid}>
                 Save
               </Button>
             </form>

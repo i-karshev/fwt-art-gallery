@@ -13,6 +13,7 @@ import { Card } from '@/components/ui/Card';
 import { Popover } from '@/components/ui/Popover';
 import { Button } from '@/components/ui/Button';
 import { PaintingModal } from '@/components/PaintingModal';
+import { DeletePopup } from '@/components/DeletePopup';
 
 import { ReactComponent as GearIcon } from '@/assets/svg/gear_icon.svg';
 
@@ -32,11 +33,12 @@ interface PaintingCardProps {
 
 export const PaintingCard: FC<PaintingCardProps> = memo(
   ({ id, name, yearOfCreation, image, onClick, isMainPainting }) => {
-    const { isDarkTheme } = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
     const { isAuth } = useContext(AuthContext);
     const [isShowPopover, setIsShowPopover] = useState(false);
     const popoverRef = useRef<HTMLDivElement | null>(null);
     const [isShowPaintingModal, setIsShowPaintingModal] = useState(false);
+    const [isShowDeletePopup, setIsShowDeletePopup] = useState(false);
 
     const { id: artist = '' } = useParams();
     const [editMainPainting] = artistApi.useEditArtistMainPaintingMutation();
@@ -50,33 +52,35 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
 
     useOutsideClick(popoverRef, handleClosePopover);
 
-    const handleTogglePaintingModal = useCallback(
-      () => setIsShowPaintingModal((prev) => !prev),
-      [isShowPaintingModal]
-    );
+    const handleShowModal = useCallback(() => setIsShowPaintingModal(true), []);
+    const handleCloseModal = useCallback(() => setIsShowPaintingModal(false), []);
+
+    const handleCloseDeletePopup = useCallback(() => setIsShowDeletePopup(false), []);
 
     const handleDeletePainting = (artistId: string, paintingId: string) => () =>
       deletePainting({ artistId, paintingId });
 
     return (
-      <li
-        className={cx('artist-card', { 'artist-card_dark': isDarkTheme })}
-        onMouseLeave={handleClosePopover}
-      >
+      <div className={cx('artist-card', `artist-card_${theme}`)} onMouseLeave={handleClosePopover}>
         <Card
           title={name}
           subtitle={convertDateToYears(yearOfCreation)}
           image={image}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           onClick={onClick}
         />
         {isAuth && (
           <div className={cx('artist-card__control')} ref={popoverRef}>
-            <Button isDarkTheme={isDarkTheme} variant="icon" onClick={handleTogglePopover}>
+            <Button
+              theme={theme}
+              variant="icon"
+              aria-label="Painting control"
+              onClick={handleTogglePopover}
+            >
               <GearIcon />
             </Button>
             {isShowPopover && (
-              <Popover isDarkTheme={isDarkTheme}>
+              <Popover theme={theme}>
                 <ul className={cx('artist-card__popover-menu')}>
                   <li
                     className={cx('artist-card__popover-menu-item')}
@@ -88,14 +92,14 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
                   <li
                     className={cx('artist-card__popover-menu-item')}
                     role="presentation"
-                    onClick={handleTogglePaintingModal}
+                    onClick={handleShowModal}
                   >
                     Edit
                   </li>
                   <li
                     className={cx('artist-card__popover-menu-item')}
                     role="presentation"
-                    onClick={handleDeletePainting(artist, id)}
+                    onClick={() => setIsShowDeletePopup(true)}
                   >
                     Delete
                   </li>
@@ -113,11 +117,19 @@ export const PaintingCard: FC<PaintingCardProps> = memo(
             yearOfCreation,
             image: image.webp,
           }}
-          isDarkTheme={isDarkTheme}
+          theme={theme}
           isShowModal={isShowPaintingModal}
-          onCloseModal={handleTogglePaintingModal}
+          onCloseModal={handleCloseModal}
         />
-      </li>
+
+        <DeletePopup
+          theme={theme}
+          isShowPopup={isShowDeletePopup}
+          onClose={handleCloseDeletePopup}
+          onConfirm={handleDeletePainting(artist, id)}
+          variant="painting"
+        />
+      </div>
     );
   }
 );

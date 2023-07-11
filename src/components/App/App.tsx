@@ -14,27 +14,27 @@ import styles from './App.module.scss';
 const cx = cn.bind(styles);
 
 export const App = () => {
-  const { isDarkTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   const location = useLocation();
   const state = location.state as { background?: Location };
 
   return (
-    <div className={cx('app-wrapper', { 'app-wrapper_dark': isDarkTheme })}>
+    <div className={cx('app-wrapper', `app-wrapper_${theme}`)}>
       <Routes location={state?.background || location}>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainPage />} />
           <Route path="/artists/:id" element={<ArtistPage />} />
-          <Route path="/login" element={<LoginModal isDarkTheme={isDarkTheme} />} />
-          <Route path="/register" element={<RegisterModal isDarkTheme={isDarkTheme} />} />
+          <Route path="/login" element={<LoginModal theme={theme} />} />
+          <Route path="/register" element={<RegisterModal theme={theme} />} />
           <Route path="*" element={<p>Not Found</p>} />
         </Route>
       </Routes>
 
       {state?.background && (
         <Routes>
-          <Route path="/login" element={<LoginModal isDarkTheme={isDarkTheme} />} />
-          <Route path="/register" element={<RegisterModal isDarkTheme={isDarkTheme} />} />
+          <Route path="/login" element={<LoginModal theme={theme} />} />
+          <Route path="/register" element={<RegisterModal theme={theme} />} />
         </Routes>
       )}
     </div>
